@@ -108,6 +108,13 @@ html {
   scroll-padding-top: 5rem; /* clears the sticky header */
 }
 
+/* Everything is sized in rem, so this one value scales the whole site. Phones keep the 16px default. */
+@media (min-width: 768px) {
+  html {
+    font-size: 112.5%;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

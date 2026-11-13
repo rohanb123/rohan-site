@@ -65,7 +65,7 @@ export default function Header() {
         <nav
           aria-label="Sections"
           inert={!docked}
-          className={`min-w-0 font-mono text-[11px] uppercase tracking-[0.16em] transition-opacity duration-300 ${
+          className={`min-w-0 font-mono text-[0.6875rem] uppercase tracking-[0.16em] transition-opacity duration-300 ${
             docked ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >

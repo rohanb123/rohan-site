@@ -9,7 +9,7 @@ export default function Hero() {
         {/* One entrance for the whole text block, not a fade per element */}
         <div className="hero-rise">
           {/* Structure layer: a thin rule with a small mono label */}
-          <div className="mb-10 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-fg-subtle">
+          <div className="mb-10 flex items-center gap-4 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-fg-subtle">
             <span>00 / Index</span>
             <span className="h-px flex-1 bg-line" />
           </div>
@@ -27,7 +27,7 @@ export default function Hero() {
           {/* Hidden until there's a line to show, so it leaves no gap */}
           {site.currentlyBuilding && (
             <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent-2">
+              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-accent-2">
                 Currently building
               </span>
               <span className="text-fg-muted">
@@ -49,7 +49,7 @@ export default function Hero() {
         aria-label="Section index"
         className="hero-rise border-t border-line pt-5"
       >
-        <ol className="grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-[11px] uppercase tracking-[0.16em] sm:flex sm:gap-10">
+        <ol className="grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-[0.6875rem] uppercase tracking-[0.16em] sm:flex sm:gap-10">
           {sections.map((s) => (
             <li key={s.id} style={sectionColor(s.id)}>
               {/* data-section: the tissue map listens here, and sets data-lit when its cluster is hovered */}
