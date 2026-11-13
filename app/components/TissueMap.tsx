@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { sections } from "../content/site";
+import { SECTION_INDEX_ID, sections } from "../content/site";
 
 /**
  * Hero signature visual: a synthetic "tissue map" in the style of spatial transcriptomics.
  * Each colored cluster is a site section; hover highlights it and its connections, click scrolls to it.
- * Synthetic data only. aria-hidden: the hero's section index nav is the accessible navigation.
+ * The hero's section index is the map's legend: hovering or focusing a link there lights its cluster,
+ * and hovering a cluster lights its link (via a `data-lit` attribute). No labels are drawn on the canvas.
+ * Synthetic data only. aria-hidden: the section index nav is the accessible navigation.
  */
 
 type ClusterDef = {
@@ -154,17 +156,14 @@ export default function TissueMap() {
 
     const css = getComputedStyle(document.documentElement);
     const token = (name: string) => css.getPropertyValue(name).trim();
-    const monoFamily = getComputedStyle(document.body).getPropertyValue("--font-mono-face").trim() || "monospace";
 
     const clusters: ClusterDef[] = MAP_SECTIONS.map((id) => {
       const s = sections.find((x) => x.id === id)!;
-      return { id, label: `${s.index} ${s.title}`, ...LAYOUT[id] };
+      return { id, label: s.title, ...LAYOUT[id] };
     });
     // Palette: dominant colors first (same order as clusters), then minor cell types.
     const palette = [...clusters.map((c) => token(c.color)), ...MINOR.map(token)];
     const background = token("--fg-subtle");
-    const fg = token("--fg");
-    const subtle = token("--fg-subtle");
 
     const cells = buildTissue(clusters, palette.length, clusters.length);
     const links = buildLinks(cells, clusters.length);
@@ -184,15 +183,17 @@ export default function TissueMap() {
     let raf = 0;
     let introStart = 0;
     let introDone = staticMode();
-    let hovered = -1;
+    let mapHover = -1; // cluster under the pointer on the canvas
+    let barHover = -1; // cluster whose link is hovered or focused in the section index
+    let hovered = -1; // what's actually lit: the canvas wins, then the index
     // Per-cluster highlight amount, eased toward its target on hover changes.
     const focus = clusters.map(() => 0);
     let anyFocus = 0;
     let lastFrame = 0;
 
-    // Square plot area centered in the canvas, inset so cluster labels never clip.
+    // Square plot area centered in the canvas, with a little room so enlarged cells never clip.
     const plot = () => {
-      const size = Math.min(w, h) * 0.8;
+      const size = Math.min(w, h) * 0.9;
       return { ox: (w - size) / 2, oy: (h - size) / 2, size };
     };
 
@@ -259,19 +260,6 @@ export default function TissueMap() {
         }
       }
 
-      // Cluster labels (structure layer): small mono, brighter when hovered.
-      ctx!.font = `10px ${monoFamily}`;
-      ctx!.textBaseline = "middle";
-      clusters.forEach((c, ci) => {
-        const f = focus[ci];
-        const a = centroids[ci];
-        const lx = ox + a.x * size + (a.x < 0.5 ? -1 : 1) * size * 0.11;
-        const ly = oy + a.y * size + (a.y < 0.5 ? -1 : 1) * size * 0.13;
-        ctx!.textAlign = a.x < 0.5 ? "right" : "left";
-        ctx!.globalAlpha = (0.85 + 0.15 * f) * Math.min(1, progress * 1.4);
-        ctx!.fillStyle = f > 0.5 ? fg : subtle;
-        ctx!.fillText(c.label.toUpperCase().split("").join(" "), lx, ly);
-      });
       ctx!.globalAlpha = 1;
     }
 
@@ -326,23 +314,53 @@ export default function TissueMap() {
       return best;
     }
 
+    // Legend links in the hero's section index, keyed by section id.
+    const legend = new Map<string, HTMLElement>();
+    document
+      .getElementById(SECTION_INDEX_ID)
+      ?.querySelectorAll<HTMLElement>("[data-section]")
+      .forEach((el) => legend.set(el.dataset.section!, el));
+
+    function update() {
+      const next = mapHover >= 0 ? mapHover : barHover;
+      if (next === hovered) return;
+      hovered = next;
+      // Only light the legend from the canvas side; when the pointer is on a link, it has its own hover style.
+      legend.forEach((el, id) => el.toggleAttribute("data-lit", mapHover >= 0 && clusters[mapHover].id === id));
+      kick();
+    }
+
     function onMove(e: PointerEvent) {
       if (e.pointerType === "touch") return;
       const hit = hitTest(e);
-      if (hit !== hovered) {
-        hovered = hit;
+      if (hit !== mapHover) {
+        mapHover = hit;
         canvas!.style.cursor = hit >= 0 ? "pointer" : "default";
-        kick();
+        update();
       }
     }
 
     function onLeave() {
-      if (hovered !== -1) {
-        hovered = -1;
-        canvas!.style.cursor = "default";
-        kick();
-      }
+      mapHover = -1;
+      canvas!.style.cursor = "default";
+      update();
     }
+
+    const legendOn = (e: Event) => {
+      const id = (e.currentTarget as HTMLElement).dataset.section;
+      barHover = clusters.findIndex((c) => c.id === id);
+      update();
+    };
+    const legendOff = () => {
+      barHover = -1;
+      update();
+    };
+    const legendEvents = ["pointerenter", "focus"] as const;
+    const legendOffEvents = ["pointerleave", "blur"] as const;
+    legend.forEach((el) => {
+      legendEvents.forEach((t) => el.addEventListener(t, legendOn));
+      legendOffEvents.forEach((t) => el.addEventListener(t, legendOff));
+    });
 
     function onClick(e: PointerEvent) {
       const hit = hitTest(e);
@@ -365,6 +383,11 @@ export default function TissueMap() {
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
       canvas.removeEventListener("click", onClick as EventListener);
+      legend.forEach((el) => {
+        legendEvents.forEach((t) => el.removeEventListener(t, legendOn));
+        legendOffEvents.forEach((t) => el.removeEventListener(t, legendOff));
+        el.removeAttribute("data-lit");
+      });
     };
   }, []);
 
