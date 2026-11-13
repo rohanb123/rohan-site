@@ -41,9 +41,9 @@ function cells() {
   return out;
 }
 
-export default async function Image() {
-  const serif = await readFile(join(process.cwd(), "assets/fonts/InstrumentSerif-Regular.ttf"));
+const serif = await readFile(join(process.cwd(), "assets/fonts/InstrumentSerif-Regular.ttf"));
 
+export default async function Image() {
   return new ImageResponse(
     (
       <div
