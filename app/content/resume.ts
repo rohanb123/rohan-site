@@ -170,8 +170,7 @@ export const projects: Project[] = [
   },
 ];
 
-/** Interests, as listed on the resume. */
-export const interests = ["Assistive BCIs", "Propulsion systems", "Bionic limbs & robotics", "Photography"];
+export const interests = ["AI agents", "Neurotech", "Space & aviation", "Photography"];
 
 export const education = {
   school: "University of California, Irvine",

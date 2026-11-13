@@ -4,13 +4,11 @@
 export const site = {
   name: "Rohan Bharti",
   tagline: "Ex-IBM watsonx SDE | CS @ UC Irvine",
-  /** What I build, in one line. Drafted from resume facts only. */
-  whatIBuild: "I build data pipelines and ML systems, from agentic ETL at IBM to 2M+ brain cells at the Xu Lab.",
+  /** One line under the tagline. */
+  whatIBuild: "I have experience in AI, ML, embedded systems, backend and systems engineering.",
   /** Hidden while empty. One line on what you're building right now. */
   currentlyBuilding: "",
-  about: {
-    note: "[NEEDED: a short personal note, 2 to 4 sentences, in your own voice]",
-  },
+  location: "Irvine, CA",
 };
 
 /**
