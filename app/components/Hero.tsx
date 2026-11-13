@@ -1,10 +1,10 @@
-import { sections, site } from "../content/site";
+import { SECTION_INDEX_ID, sections, site } from "../content/site";
 import Copy from "./Copy";
 import TissueMap from "./TissueMap";
 
 export default function Hero() {
   return (
-    <section className="relative mx-auto flex min-h-[86svh] w-full max-w-6xl flex-col overflow-x-clip px-gutter pb-10">
+    <section id="top" className="relative mx-auto flex min-h-[86svh] w-full max-w-6xl flex-col overflow-x-clip px-gutter pb-10">
       <div className="flex flex-1 flex-col justify-center gap-10 pt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-center lg:gap-12">
         {/* One entrance for the whole text block, not a fade per element */}
         <div className="hero-rise">
@@ -45,7 +45,8 @@ export default function Hero() {
 
       {/* The index itself: real navigation that also signals there is more below */}
       <nav
-        aria-label="Sections"
+        id={SECTION_INDEX_ID}
+        aria-label="Section index"
         className="hero-rise border-t border-line pt-5"
       >
         <ol className="grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-[11px] uppercase tracking-[0.16em] sm:flex sm:gap-10">

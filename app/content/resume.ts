@@ -17,17 +17,13 @@ export type Project = {
   name: string;
   year: string;
   context: string;
-  /** Each tool is tagged with the layer of the stack it lives in; the layer sets its dot color. */
-  stack: { name: string; layer: Layer }[];
+  stack: string[];
   summary: string;
   points: string[];
   /** Public link (repo, demo, devpost). Only add real URLs supplied by Rohan. */
   url?: string;
 };
 
-/** Bottom of the stack first: the order of the Projects legend. */
-export const LAYERS = ["Hardware", "Data & Infra", "ML", "Product"] as const;
-export type Layer = (typeof LAYERS)[number];
 
 export const work: Job[] = [
   {
@@ -99,10 +95,10 @@ export const projects: Project[] = [
     year: "2026",
     context: "Cal Hacks · SpaceXAI Track",
     stack: [
-      { name: "SigLIP", layer: "ML" },
-      { name: "Logistic Regression", layer: "ML" },
-      { name: "Linux/ARM", layer: "Hardware" },
-      { name: "SpacetimeDB", layer: "Data & Infra" },
+      "SigLIP",
+      "Logistic Regression",
+      "Linux/ARM",
+      "SpacetimeDB",
     ],
     summary:
       "A voice-tasked Mars rover built with Grok, SigLIP and SpacetimeDB on a Raspberry Pi 5 and NVIDIA GX10.",
@@ -118,10 +114,10 @@ export const projects: Project[] = [
     year: "2024",
     context: "Harvard",
     stack: [
-      { name: "Keras", layer: "ML" },
-      { name: "TensorFlow", layer: "ML" },
-      { name: "CNN", layer: "ML" },
-      { name: "Computer Vision", layer: "ML" },
+      "Keras",
+      "TensorFlow",
+      "CNN",
+      "Computer Vision",
     ],
     summary:
       "Detecting galaxy mergers at z = 2 across 15.4K simulated Hubble images from Illustris-1, labeled via merger trees.",
@@ -135,11 +131,11 @@ export const projects: Project[] = [
     year: "2026",
     context: "Y Combinator",
     stack: [
-      { name: "Semantic Search", layer: "Product" },
-      { name: "Voyage AI", layer: "ML" },
-      { name: "pgvector", layer: "Data & Infra" },
-      { name: "Claude API", layer: "ML" },
-      { name: "Zero Entropy", layer: "ML" },
+      "Semantic Search",
+      "Voyage AI",
+      "pgvector",
+      "Claude API",
+      "Zero Entropy",
     ],
     summary:
       "A team knowledge base that unifies members' notes into one semantic search system with Voyage AI and Claude.",
@@ -153,12 +149,12 @@ export const projects: Project[] = [
     year: "2026",
     context: "UC San Diego",
     stack: [
-      { name: "Python", layer: "Data & Infra" },
-      { name: "FastAPI", layer: "Data & Infra" },
-      { name: "Next.js", layer: "Product" },
-      { name: "RAG", layer: "ML" },
-      { name: "ChromaDB", layer: "Data & Infra" },
-      { name: "Browser Use", layer: "ML" },
+      "Python",
+      "FastAPI",
+      "Next.js",
+      "RAG",
+      "ChromaDB",
+      "Browser Use",
     ],
     summary:
       "A supply chain compliance platform: Trade.gov sanctions screening with parallel RAG and LLM checks.",
@@ -174,7 +170,7 @@ export const education = {
   degree: "B.S. Computer Science",
   /** Concentrations */
   focus: ["AI & Machine Learning", "Embedded Systems"],
-  dates: "Expected Jun 2028",
+  graduation: "Jun 2028",
   gpa: "3.9",
   awards: [
     "2× Samsung Solve for Tomorrow State Finalist ($5,000)",

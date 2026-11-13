@@ -25,3 +25,6 @@ export const sections = [
 export function isNeeded(text: string) {
   return text.startsWith("[NEEDED");
 }
+
+/** The hero's section index carries this id; once it scrolls out of view, the sticky header takes over its job. */
+export const SECTION_INDEX_ID = "section-index";
