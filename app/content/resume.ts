@@ -8,29 +8,25 @@ export type Job = {
   location: string;
   /** One line for the compact timeline, drawn from the bullets below. */
   summary: string;
-  /** Slug of a case study in case-studies.ts, if one exists. */
-  caseStudy?: string;
-  /** Full resume bullets; the source facts for summaries and case studies (not shown on the home page). */
+  /** Full resume bullets; the source facts for the summary (not shown on the home page). */
   points: string[];
 };
 
 export type Project = {
   id: string;
   name: string;
+  year: string;
   context: string;
-  stack: string[];
+  /** Each tool is tagged with the layer of the stack it lives in; the layer sets its dot color. */
+  stack: { name: string; layer: Layer }[];
   summary: string;
   points: string[];
-  /** Slug of a case study in case-studies.ts, if one exists. */
-  caseStudy?: string;
   /** Public link (repo, demo, devpost). Only add real URLs supplied by Rohan. */
   url?: string;
-  /** Layers of the stack this project touched, each with the evidence for it. */
-  layers: Partial<Record<Layer, string>>;
 };
 
-/** Top to bottom, as drawn on the stack spectrum. */
-export const LAYERS = ["Product", "ML", "Data & Infra", "Hardware"] as const;
+/** Bottom of the stack first: the order of the Projects legend. */
+export const LAYERS = ["Hardware", "Data & Infra", "ML", "Product"] as const;
 export type Layer = (typeof LAYERS)[number];
 
 export const work: Job[] = [
@@ -41,7 +37,6 @@ export const work: Job[] = [
     dates: "Jun 2026 – Sep 2026",
     location: "San Jose, CA",
     summary: "Built an agentic ETL pipeline that raised ingestion throughput 5×.",
-    caseStudy: "ibm-agentic-etl",
     points: [
       "Increased ingestion throughput 5× by building an MCP-integrated agentic ETL pipeline with LLM batching.",
       "Cut LLM output 40% and per-call cost with a tiktoken budget, 3-tier field stripping and empty-response retries.",
@@ -55,7 +50,6 @@ export const work: Job[] = [
     dates: "Mar 2026 – Present",
     location: "Irvine, CA",
     summary: "Imaging pipeline and cell classification across 2M+ brain cells.",
-    caseStudy: "xu-lab-spatial-pipeline",
     points: [
       "Classified 2M+ brain cells (MapMyCell, UMAP) and found 72% of 15.9K circuit-connected neurons were excitatory.",
       "Automated a 15-step conda and Linux imaging pipeline across 40K+ fields of view, cutting processing time by 35%.",
@@ -101,10 +95,15 @@ export const work: Job[] = [
 export const projects: Project[] = [
   {
     id: "rover",
-    caseStudy: "autonomous-rover",
     name: "Autonomous Rover",
+    year: "2026",
     context: "Cal Hacks · SpaceXAI Track",
-    stack: ["SigLIP", "Logistic Regression", "Linux/ARM", "SpacetimeDB"],
+    stack: [
+      { name: "SigLIP", layer: "ML" },
+      { name: "Logistic Regression", layer: "ML" },
+      { name: "Linux/ARM", layer: "Hardware" },
+      { name: "SpacetimeDB", layer: "Data & Infra" },
+    ],
     summary:
       "A voice-tasked Mars rover built with Grok, SigLIP and SpacetimeDB on a Raspberry Pi 5 and NVIDIA GX10.",
     points: [
@@ -112,57 +111,58 @@ export const projects: Project[] = [
       "Delay-tolerant downlink: a persistent store-and-forward queue that drains its backlog on reconnect with no data loss.",
       "5 Hz telemetry pipeline (IMU, sonar, link health) with a sub-500 ms live dashboard and run replay.",
     ],
-    layers: {
-      Product: "Voice tasking, live dashboard and run replay",
-      ML: "SigLIP + logistic regression target scoring",
-      "Data & Infra": "SpacetimeDB, store-and-forward downlink, 5 Hz telemetry",
-      Hardware: "Raspberry Pi 5, NVIDIA GX10, IMU and sonar",
-    },
   },
   {
     id: "galaxy",
     name: "Galaxy Merger Prediction",
+    year: "2024",
     context: "Harvard",
-    stack: ["Keras", "TensorFlow", "CNN", "Computer Vision"],
+    stack: [
+      { name: "Keras", layer: "ML" },
+      { name: "TensorFlow", layer: "ML" },
+      { name: "CNN", layer: "ML" },
+      { name: "Computer Vision", layer: "ML" },
+    ],
     summary:
       "Detecting galaxy mergers at z = 2 across 15.4K simulated Hubble images from Illustris-1, labeled via merger trees.",
     points: [
       "Trained a Keras network on dual-band optical and near-IR 75×75 cutouts, reaching 72.7% test accuracy.",
     ],
-    layers: {
-      ML: "Keras CNN on dual-band cutouts",
-      "Data & Infra": "15.4K Illustris-1 images labeled via merger trees",
-    },
   },
   {
     id: "gteam",
     name: "GTeam",
+    year: "2026",
     context: "Y Combinator",
-    stack: ["Semantic Search", "Voyage AI", "pgvector", "Claude API", "Zero Entropy"],
+    stack: [
+      { name: "Semantic Search", layer: "Product" },
+      { name: "Voyage AI", layer: "ML" },
+      { name: "pgvector", layer: "Data & Infra" },
+      { name: "Claude API", layer: "ML" },
+      { name: "Zero Entropy", layer: "ML" },
+    ],
     summary:
       "A team knowledge base that unifies members' notes into one semantic search system with Voyage AI and Claude.",
     points: [
       "Cut search noise with pgvector HNSW indexing and Zero Entropy ranking, plus Claude paper-to-project matching.",
     ],
-    layers: {
-      Product: "Team knowledge base with paper-to-project matching",
-      ML: "Voyage AI embeddings, Zero Entropy ranking, Claude",
-      "Data & Infra": "pgvector with HNSW indexing",
-    },
   },
   {
     id: "clearpath",
     name: "ClearPath",
+    year: "2026",
     context: "UC San Diego",
-    stack: ["Python", "FastAPI", "Next.js", "RAG", "ChromaDB", "Browser Use"],
+    stack: [
+      { name: "Python", layer: "Data & Infra" },
+      { name: "FastAPI", layer: "Data & Infra" },
+      { name: "Next.js", layer: "Product" },
+      { name: "RAG", layer: "ML" },
+      { name: "ChromaDB", layer: "Data & Infra" },
+      { name: "Browser Use", layer: "ML" },
+    ],
     summary:
       "A supply chain compliance platform: Trade.gov sanctions screening with parallel RAG and LLM checks.",
     points: [],
-    layers: {
-      Product: "Next.js compliance platform",
-      ML: "Parallel RAG and LLM sanctions checks",
-      "Data & Infra": "FastAPI, ChromaDB, Trade.gov screening data",
-    },
   },
 ];
 
@@ -172,7 +172,8 @@ export const interests = ["Assistive BCIs", "Propulsion systems", "Bionic limbs 
 export const education = {
   school: "University of California, Irvine",
   degree: "B.S. Computer Science",
-  focus: "Concentrations in AI & Machine Learning and Embedded Systems",
+  /** Concentrations */
+  focus: ["AI & Machine Learning", "Embedded Systems"],
   dates: "Expected Jun 2028",
   gpa: "3.9",
   awards: [
@@ -185,8 +186,8 @@ export const education = {
   ],
 };
 
-export const contact = [
+export const contact: { label: string; value: string; href: string; icon?: "github" | "linkedin" }[] = [
   { label: "Email", value: "rohan17bharti@gmail.com", href: "mailto:rohan17bharti@gmail.com" },
-  { label: "GitHub", value: "github.com/rohanb123", href: "https://github.com/rohanb123" },
-  { label: "LinkedIn", value: "linkedin.com/in/robharti", href: "https://www.linkedin.com/in/robharti/" },
+  { label: "GitHub", value: "github.com/rohanb123", href: "https://github.com/rohanb123", icon: "github" },
+  { label: "LinkedIn", value: "linkedin.com/in/robharti", href: "https://www.linkedin.com/in/robharti/", icon: "linkedin" },
 ];

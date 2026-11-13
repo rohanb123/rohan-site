@@ -24,14 +24,17 @@ export default function Hero() {
           <p className="mt-3 max-w-measure leading-relaxed text-fg">
             {site.whatIBuild}
           </p>
-          <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent-2">
-              Currently building
-            </span>
-            <span className="text-fg-muted">
-              <Copy text={site.currentlyBuilding} />
-            </span>
-          </p>
+          {/* Hidden until there's a line to show, so it leaves no gap */}
+          {site.currentlyBuilding && (
+            <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent-2">
+                Currently building
+              </span>
+              <span className="text-fg-muted">
+                <Copy text={site.currentlyBuilding} />
+              </span>
+            </p>
+          )}
         </div>
 
         {/* Signature visual: synthetic tissue map, one cluster per section (has its own intro) */}

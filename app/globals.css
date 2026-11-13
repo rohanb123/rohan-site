@@ -10,7 +10,7 @@
   /* Secondary accent: secondary emphasis and the warmth in titles. Sodium-lamp amber, 9.8:1. */
   --accent-2: #f0a35e;
 
-  /* Data palette: categorical marks only (stack ticks, tissue-map clusters), never body text.
+  /* Data palette: categorical marks only (project stack dots, tissue-map clusters), never body text.
      Slightly desaturated; anchored on the red and amber, plus muted blues and one violet.
      No teal or cyan. All >= 5:1 on --bg. */
   --data-1: #e5685d; /* coral */
@@ -22,7 +22,7 @@
   --data-7: #9da9cc; /* periwinkle */
   --data-8: #a68bd4; /* violet */
 
-  /* Stack layers -> data palette (used by the stack ticks) */
+  /* Stack layers -> data palette (used by the project stack dots) */
   --layer-hw: var(--data-2);
   --layer-data: var(--data-5);
   --layer-ml: var(--data-8);

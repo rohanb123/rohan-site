@@ -6,7 +6,8 @@ export const site = {
   tagline: "Ex-IBM watsonx SDE | CS @ UC Irvine",
   /** What I build, in one line. Drafted from resume facts only. */
   whatIBuild: "I build data pipelines and ML systems, from agentic ETL at IBM to 2M+ brain cells at the Xu Lab.",
-  currentlyBuilding: "[NEEDED: one line on what you're building right now]",
+  /** Hidden while empty. One line on what you're building right now. */
+  currentlyBuilding: "",
   about: {
     note: "[NEEDED: a short personal note, 2 to 4 sentences, in your own voice]",
   },

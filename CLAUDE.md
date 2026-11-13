@@ -21,7 +21,7 @@ The site should feel dark, spacey and high-end, and must never distract from the
 - Primary accent + secondary accent + a defined data palette, each with a semantic role. No other colors.
   - Primary accent `--color-accent` (coral red #FF5B4F): links, CTAs, active states, hover, key highlights.
   - Secondary accent `--color-accent-2` (amber #F0A35E): secondary emphasis; also warms titles.
-  - Data palette `--data-1` … `--data-8`: categorical marks only (stack ticks, tissue-map clusters), never body text.
+  - Data palette `--data-1` … `--data-8`: categorical marks only (project stack dots, tissue-map clusters), never body text.
     Stack layers map to it via `--layer-hw` / `--layer-data` / `--layer-ml` / `--layer-product`.
 - No teal or cyan, anywhere. No neon, no glow.
 - Titles (orgs, projects, school) use `--color-fg-heading`: off-white with ~22% of the secondary accent, so they stay warm, not pink.
