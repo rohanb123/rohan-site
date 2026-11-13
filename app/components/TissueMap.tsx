@@ -33,18 +33,19 @@ type Cell = {
   delay: number; // intro stagger, 0..1
 };
 
-const MAP_SECTIONS = ["work", "projects", "education", "contact"];
+const MAP_SECTIONS = ["work", "projects", "education", "photography", "contact"];
 function color(id: string) {
   return sections.find((s) => s.id === id)!.color;
 }
 const LAYOUT: Record<string, Omit<ClusterDef, "id" | "label">> = {
-  work: { cx: 0.32, cy: 0.33, count: 760, color: color("work") },
-  projects: { cx: 0.7, cy: 0.31, count: 720, color: color("projects") },
-  education: { cx: 0.33, cy: 0.71, count: 460, color: color("education") },
-  contact: { cx: 0.71, cy: 0.7, count: 380, color: color("contact") },
+  work: { cx: 0.3, cy: 0.3, count: 720, color: color("work") },
+  projects: { cx: 0.71, cy: 0.28, count: 680, color: color("projects") },
+  photography: { cx: 0.52, cy: 0.54, count: 420, color: color("photography") },
+  education: { cx: 0.28, cy: 0.74, count: 420, color: color("education") },
+  contact: { cx: 0.73, cy: 0.74, count: 340, color: color("contact") },
 };
 // Minor cell types mixed into every cluster, as in real tissue. Not section colors, so they don't compete.
-const MINOR = ["--data-3", "--data-6", "--data-7"];
+const MINOR = ["--data-6", "--data-7"];
 const BACKGROUND = 680;
 const INTRO_MS = 2400;
 const HOVER_MS = 220;

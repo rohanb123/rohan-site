@@ -2,6 +2,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Education from "./components/Education";
 import Hero from "./components/Hero";
+import Photography from "./components/Photography";
 import Projects from "./components/Projects";
 import WorkLog from "./components/WorkLog";
 
@@ -14,6 +15,7 @@ export default function Home() {
         <WorkLog />
         <Projects />
         <Education />
+        <Photography />
       </main>
       <Contact />
     </>
