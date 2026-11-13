@@ -57,7 +57,7 @@ export const work: Job[] = [
     role: "Director of Technology, Consultant",
     dates: "Sep 2026 – Present",
     location: "Irvine, CA",
-    summary: "Consulting engagements with SanDisk, Mastercard and BeReal.",
+    summary: "Working with SanDisk, Mastercard and BeReal.",
     points: [],
   },
   {
