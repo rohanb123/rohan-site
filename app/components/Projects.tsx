@@ -9,6 +9,13 @@ const SHORT: Record<(typeof LAYERS)[number], string> = {
   ML: "ML",
   Product: "Product",
 };
+// Each layer has its own data-palette color (see --layer-* tokens). Full class names so Tailwind finds them.
+const DOT: Record<(typeof LAYERS)[number], string> = {
+  Hardware: "border-layer-hw bg-layer-hw",
+  "Data & Infra": "border-layer-data bg-layer-data",
+  ML: "border-layer-ml bg-layer-ml",
+  Product: "border-layer-product bg-layer-product",
+};
 
 export default function Projects() {
   return (
@@ -70,8 +77,8 @@ function StackTicks({ project }: { project: Project }) {
           >
             {SHORT[l]}
             <span
-              className={`size-[6px] rounded-full border ${
-                evidence ? "border-fg-muted bg-fg-muted" : "border-fg-subtle"
+              className={`size-[7px] rounded-full border ${
+                evidence ? DOT[l] : "border-fg-subtle"
               }`}
             />
           </span>

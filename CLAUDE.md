@@ -11,16 +11,22 @@ The site should feel dark, spacey and high-end, and must never distract from the
    because they stay under the atmosphere cap they are not a second accent. It sits behind everything and is purely ambient.
 2. **Structure.** Low-contrast scaffolding: thin 1px lines (`--color-line`), small mono uppercase labels
    (`--color-fg-subtle`). Organizes the page without asking for attention.
-3. **Content.** High-contrast off-white text (`--color-fg`) and the accent. This is the only layer that
+3. **Content.** High-contrast off-white text (`--color-fg`), the accents and data colors. This is the only layer that
    should draw the eye.
 
 ## Color
 - Base is near-black with a slight blue cast: `#05060A` (`--color-bg`).
 - Text is off-white, never pure `#fff`.
 - All text must meet WCAG AA: 4.5:1 for small text. `--color-fg-subtle` is the dimmest allowed text color (5.5:1); never lower its opacity.
-- Exactly ONE accent color (`--color-accent`, currently warm amber #F0A35E). Use it sparingly: a link, a focus ring, a real status.
-- Titles (orgs, projects, school) use `--color-fg-heading`, off-white with a faint accent tint. Body copy never takes the accent.
-  Changing it is a one-line edit in `app/globals.css`. Derive tints with `color-mix()`, never add a second hue.
+- Primary accent + secondary accent + a defined data palette, each with a semantic role. No other colors.
+  - Primary accent `--color-accent` (coral red #FF5B4F): links, CTAs, active states, hover, key highlights.
+  - Secondary accent `--color-accent-2` (amber #F0A35E): secondary emphasis; also warms titles.
+  - Data palette `--data-1` … `--data-8`: categorical marks only (stack ticks, tissue-map clusters), never body text.
+    Stack layers map to it via `--layer-hw` / `--layer-data` / `--layer-ml` / `--layer-product`.
+- No teal or cyan, anywhere. No neon, no glow.
+- Titles (orgs, projects, school) use `--color-fg-heading`: off-white with ~22% of the secondary accent, so they stay warm, not pink.
+  Body copy never takes an accent.
+- Each color is a one-line edit in `app/globals.css`. Derive tints with `color-mix()`; never introduce an undefined hue.
 
 ## Type
 - Instrument Serif for display: name and headings only (`font-display`), weight 400, large.
@@ -52,7 +58,7 @@ Typography
 
 Color & background
 - No purple/indigo/violet-blue gradients. No gradient-clipped text. No aurora or mesh-blob backgrounds.
-- One accent color, defined as a token with a semantic name (not gradient-start/end). No neon glow unless I request it.
+- Primary + secondary accent and a data palette, each a token with a semantic name (not gradient-start/end). No teal/cyan. No neon glow unless I request it.
 - Background atmosphere must be tied to my work (star chart, atlas, telemetry), never generic blur or glow.
 
 Layout & components

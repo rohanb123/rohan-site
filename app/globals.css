@@ -5,9 +5,28 @@
    spacing and glow. See CLAUDE.md for the rules behind them.
    ------------------------------------------------------------------ */
 :root {
-  /* Accent — the ONE accent color. Change this line to re-theme.
-     Warm sodium-lamp amber, like old observatory lighting. 9.8:1 on --bg. */
-  --accent: #f0a35e;
+  /* Primary accent: links, CTAs, active states, hover, key highlights. Coral red, 6.6:1 on --bg. */
+  --accent: #ff5b4f;
+  /* Secondary accent: secondary emphasis and the warmth in titles. Sodium-lamp amber, 9.8:1. */
+  --accent-2: #f0a35e;
+
+  /* Data palette: categorical marks only (stack ticks, tissue-map clusters), never body text.
+     Slightly desaturated; anchored on the red and amber, plus muted blues and one violet.
+     No teal or cyan. All >= 5:1 on --bg. */
+  --data-1: #e5685d; /* coral */
+  --data-2: #e0a05f; /* amber */
+  --data-3: #ccb86b; /* ochre */
+  --data-4: #94ad78; /* sage */
+  --data-5: #7ea4d6; /* sky blue */
+  --data-6: #5f80b8; /* steel blue */
+  --data-7: #9da9cc; /* periwinkle */
+  --data-8: #a68bd4; /* violet */
+
+  /* Stack layers -> data palette (used by the stack ticks) */
+  --layer-hw: var(--data-2);
+  --layer-data: var(--data-5);
+  --layer-ml: var(--data-8);
+  --layer-product: var(--data-4);
 
   /* Base */
   --bg: #05060a;
@@ -16,8 +35,8 @@
   /* Content layer (high contrast) */
   --fg: #e8eaf0;
   --fg-muted: #9aa0ad;
-  /* Titles (orgs, projects, school): off-white with a faint accent tint */
-  --fg-heading: color-mix(in oklab, var(--accent) 22%, var(--fg));
+  /* Titles (orgs, projects, school): off-white warmed by the secondary accent (not the red) */
+  --fg-heading: color-mix(in oklab, var(--accent-2) 22%, var(--fg));
 
   /* Structure layer (low contrast) */
   --fg-subtle: #7e8595; /* 5.5:1 on --bg, passes WCAG AA for small text */
@@ -30,14 +49,15 @@
   --atmosphere-peak: 0.35;
   /* Star colors by spectral class (real stellar temperatures, hot to cool).
      Atmosphere only, always rendered at <= --atmosphere-max, so not a second accent. */
-  --star-b: #aabfff;
-  --star-a: #cad8ff;
-  --star-f: #f4f5ff;
-  --star-g: #fff2e0;
-  --star-k: #ffd6a8;
-  --star-m: #ffbe85;
+  /* Saturation raised, lightness kept; opacity still capped by --atmosphere-max. */
+  --star-b: #8fa9ff;
+  --star-a: #b9caff;
+  --star-f: #eef0ff;
+  --star-g: #ffe9c7;
+  --star-k: #ffc78a;
+  --star-m: #ffa766;
 
-  /* Glow (derived from the accent, never a second hue) */
+  /* Derived from the primary accent. Glow tokens are defined but unused: no glow on the site. */
   --accent-soft: color-mix(in oklab, var(--accent) 16%, transparent);
   --glow-sm: 0 0 8px color-mix(in oklab, var(--accent) 55%, transparent);
   --glow-md: 0 0 24px color-mix(in oklab, var(--accent) 25%, transparent);
@@ -63,6 +83,19 @@
   --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-2: var(--accent-2);
+  --color-data-1: var(--data-1);
+  --color-data-2: var(--data-2);
+  --color-data-3: var(--data-3);
+  --color-data-4: var(--data-4);
+  --color-data-5: var(--data-5);
+  --color-data-6: var(--data-6);
+  --color-data-7: var(--data-7);
+  --color-data-8: var(--data-8);
+  --color-layer-hw: var(--layer-hw);
+  --color-layer-data: var(--layer-data);
+  --color-layer-ml: var(--layer-ml);
+  --color-layer-product: var(--layer-product);
 
   --font-display: var(--font-display-face);
   --font-sans: var(--font-sans-face);
