@@ -1,5 +1,5 @@
-// Photography shown on the home page. Images live in assets/photography (resized from the originals to
-// 2400px on the long edge) and are statically imported, so Next knows their size and makes blur placeholders.
+// Photography shown on the home page. Images live in assets/photography: centered 4:5 crops of the originals,
+// zoomed just enough to drop the watermark, at 1920×2400 and are statically imported, so Next knows their size and makes blur placeholders.
 // A full gallery comes back once higher-resolution exports are ready.
 
 import type { StaticImageData } from "next/image";

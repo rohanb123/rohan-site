@@ -20,8 +20,7 @@ export default function Photography() {
                 alt={p.alt}
                 placeholder="blur"
                 sizes="(max-width: 768px) 33vw, 260px"
-                // Zoomed from the right edge just enough to crop out the bottom-left watermark.
-                className="aspect-[4/5] w-full origin-right scale-110 object-cover"
+                className="aspect-[4/5] w-full object-cover"
               />
             </li>
           ))}

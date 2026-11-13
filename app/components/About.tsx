@@ -27,7 +27,7 @@ export default function About() {
           <div>
             <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-fg-subtle">Interests</dt>
             <dd className="mt-4">
-              <ul className="space-y-2 text-lg leading-snug text-fg">
+              <ul className="space-y-2 font-display text-2xl leading-tight text-fg-heading">
                 {interests.map((i) => (
                   <li key={i}>{i}</li>
                 ))}
