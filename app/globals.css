@@ -140,6 +140,16 @@ body {
   color: var(--fg);
 }
 
+/* Dim the starfield behind the tissue map so the two don't compete.
+   A soft patch of the base color, not a glow. */
+.tissue-map::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--bg) 88%, transparent) 60%, transparent);
+  pointer-events: none;
+}
+
 /* Hero entrance — the only ambient motion outside of interactions */
 @keyframes hero-rise {
   from {
