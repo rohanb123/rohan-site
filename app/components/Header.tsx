@@ -82,11 +82,15 @@ export default function Header() {
                   <a
                     href={`#${s.id}`}
                     aria-current={on ? "location" : undefined}
-                    className={`inline-flex gap-3 border-b py-2 transition-colors duration-200 hover:text-fg ${
-                      on ? "border-(--section) text-fg" : "border-transparent text-fg-muted"
+                    className={`group inline-flex gap-3 py-2 transition-colors duration-200 hover:text-fg ${
+                      on ? "text-fg" : "text-fg-muted"
                     }`}
                   >
-                    <span className="text-(--section)">
+                    <span
+                      className={`transition-colors duration-200 group-hover:text-(--section) ${
+                        on ? "text-(--section)" : "text-fg-subtle"
+                      }`}
+                    >
                       {s.index}
                     </span>
                     {s.title}

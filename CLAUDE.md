@@ -23,8 +23,8 @@ The site should feel dark, spacey and high-end, and must never distract from the
   - Secondary accent `--color-accent-2` (amber #F0A35E): secondary emphasis; also warms titles.
   - Data palette `--data-1` … `--data-8`: categorical marks only, never body text.
     Each home section has one identity color (`sections[].color` in `app/content/site.ts`): its tissue-map cluster,
-    its index number (hero index, sticky header, section label) and small metadata marks inside it (e.g. project years).
-    Links and hover stay on the primary accent.
+    the hover/active color of its index number (hero index, sticky header), and small metadata marks inside it
+    (e.g. project years). At rest, index numbers stay `--color-fg-subtle`. Links stay on the primary accent.
 - No teal or cyan, anywhere. No neon, no glow.
 - Titles (orgs, projects, school) use `--color-fg-heading`: off-white with ~22% of the secondary accent, so they stay warm, not pink.
   Body copy never takes an accent.

@@ -56,7 +56,7 @@ export default function Hero() {
                 href={`#${s.id}`}
                 className="group inline-flex gap-3 py-1 text-fg-muted transition-colors duration-200 hover:text-fg"
               >
-                <span className="text-(--section)">
+                <span className="text-fg-subtle transition-colors duration-200 group-hover:text-(--section)">
                   {s.index}
                 </span>
                 {s.title}

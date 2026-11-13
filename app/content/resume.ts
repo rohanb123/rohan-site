@@ -53,6 +53,14 @@ export const work: Job[] = [
     ],
   },
   {
+    org: "Irvine Consulting Group",
+    role: "Director of Technology, Consultant",
+    dates: "Sep 2026 – Present",
+    location: "Irvine, CA",
+    summary: "Consulting engagements with SanDisk, Mastercard and BeReal.",
+    points: [],
+  },
+  {
     org: "7 Leaves Cafe",
     role: "Software Consultant",
     dates: "Jan 2026 – Mar 2026",
@@ -176,7 +184,6 @@ export const education = {
     "2025 Perplexity Case Competition Finalist",
   ],
   involvement: [
-    "Irvine Consulting Group: Director of Technology, Consultant",
     "Anthropic Claude Builder Club",
   ],
 };
