@@ -1,39 +1,38 @@
+import Link from "next/link";
 import { work } from "../content/resume";
 import SectionLabel from "./SectionLabel";
 
+/** Compact timeline: one line per role. Depth lives in the case studies. */
 export default function WorkLog() {
   return (
     <section aria-labelledby="work" className="mx-auto w-full max-w-6xl px-gutter pt-section">
-      <SectionLabel index="01" title="Work" id="work" />
+      <SectionLabel index="02" title="Work" id="work" />
       <ol>
         {work.map((job) => (
           <li
             key={job.org}
-            className="grid gap-x-12 gap-y-3 border-b border-line py-10 first:pt-0 md:grid-cols-[13rem_1fr]"
+            className="grid gap-x-12 gap-y-1 border-b border-line py-6 first:pt-0 md:grid-cols-[13rem_1fr_auto] md:items-baseline"
           >
-            {/* Meta column */}
-            <div className="font-mono text-[11px] uppercase leading-6 tracking-[0.14em] text-fg-subtle">
-              <p>{job.dates}</p>
-              <p>{job.location}</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-fg-subtle">{job.dates}</p>
+
+            <div>
+              <h3 className="font-display text-2xl leading-tight text-fg-heading">
+                {job.org}
+                <span className="font-sans text-base text-fg-muted"> · {job.role}</span>
+              </h3>
+              <p className="mt-1 max-w-measure text-[15px] leading-relaxed text-fg-muted">{job.summary}</p>
             </div>
 
-            {/* Content column */}
-            <div>
-              <h3 className="font-display text-3xl leading-tight text-fg-heading sm:text-4xl">
-                {job.org}
-                {job.team && <span className="text-fg-muted"> · {job.team}</span>}
-              </h3>
-              <p className="mt-1 text-fg-muted">{job.role}</p>
-              <ul className="mt-5 max-w-measure space-y-2 text-[15px] leading-relaxed text-fg-muted">
-                {job.points.map((p) => (
-                  <li key={p} className="grid grid-cols-[1rem_1fr]">
-                    <span aria-hidden="true" className="text-fg-subtle">
-                      –
-                    </span>
-                    <span>{p}</span>
-                  </li>
-                ))}
-              </ul>
+            <div className="flex items-baseline gap-6 pt-2 font-mono text-[11px] uppercase tracking-[0.14em] md:justify-end md:pt-0">
+              <span className="text-fg-subtle">{job.location}</span>
+              {job.caseStudy && (
+                <Link
+                  href={`/case-studies/${job.caseStudy}`}
+                  className="whitespace-nowrap text-accent underline decoration-accent/40 underline-offset-4 transition-colors duration-200 hover:decoration-accent"
+                >
+                  Case study →
+                </Link>
+              )}
             </div>
           </li>
         ))}

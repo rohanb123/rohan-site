@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LAYERS, projects, type Project } from "../content/resume";
 import SectionLabel from "./SectionLabel";
 
@@ -20,7 +21,7 @@ const DOT: Record<(typeof LAYERS)[number], string> = {
 export default function Projects() {
   return (
     <section aria-labelledby="projects" className="mx-auto w-full max-w-6xl px-gutter pt-section">
-      <SectionLabel index="02" title="Projects" id="projects" />
+      <SectionLabel index="03" title="Projects" id="projects" />
       <ol>
         {projects.map((p) => (
           <li
@@ -37,21 +38,31 @@ export default function Projects() {
               <h3 className="font-display text-3xl leading-tight text-fg-heading sm:text-4xl">{p.name}</h3>
               <StackTicks project={p} />
               <p className="mt-5 max-w-measure leading-relaxed text-fg-muted">{p.summary}</p>
-              {p.points.length > 0 && (
-                <ul className="mt-4 max-w-measure space-y-2 text-[15px] leading-relaxed text-fg-muted">
-                  {p.points.map((pt) => (
-                    <li key={pt} className="grid grid-cols-[1rem_1fr]">
-                      <span aria-hidden="true" className="text-fg-subtle">
-                        –
-                      </span>
-                      <span>{pt}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
               <p className="mt-5 font-mono text-[11px] uppercase leading-6 tracking-[0.12em] text-fg-subtle">
                 {p.stack.join(" · ")}
               </p>
+              {(p.caseStudy || p.url) && (
+                <p className="mt-4 flex gap-6 font-mono text-[11px] uppercase tracking-[0.14em]">
+                  {p.caseStudy && (
+                    <Link
+                      href={`/case-studies/${p.caseStudy}`}
+                      className="text-accent underline decoration-accent/40 underline-offset-4 transition-colors duration-200 hover:decoration-accent"
+                    >
+                      Case study →
+                    </Link>
+                  )}
+                  {p.url && (
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent underline decoration-accent/40 underline-offset-4 transition-colors duration-200 hover:decoration-accent"
+                    >
+                      Link ↗
+                    </a>
+                  )}
+                </p>
+              )}
             </div>
           </li>
         ))}

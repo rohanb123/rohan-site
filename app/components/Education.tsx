@@ -4,7 +4,7 @@ import SectionLabel from "./SectionLabel";
 export default function Education() {
   return (
     <section aria-labelledby="education" className="mx-auto w-full max-w-6xl px-gutter pt-section">
-      <SectionLabel index="03" title="Education" id="education" />
+      <SectionLabel index="04" title="Education" id="education" />
       <div className="grid gap-x-12 gap-y-3 md:grid-cols-[13rem_1fr]">
         <div className="font-mono text-[11px] uppercase leading-6 tracking-[0.14em] text-fg-subtle">
           <p>{education.dates}</p>

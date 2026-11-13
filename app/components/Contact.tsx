@@ -4,7 +4,7 @@ import SectionLabel from "./SectionLabel";
 export default function Contact() {
   return (
     <footer aria-labelledby="contact" className="mx-auto w-full max-w-6xl px-gutter pt-section pb-16">
-      <SectionLabel index="04" title="Contact" id="contact" />
+      <SectionLabel index="05" title="Contact" id="contact" />
       <ul>
         {contact.map((c) => (
           <li key={c.label} className="border-b border-line">

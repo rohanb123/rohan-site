@@ -1,9 +1,5 @@
-const sections = [
-  { index: "01", title: "Work", href: "#work" },
-  { index: "02", title: "Projects", href: "#projects" },
-  { index: "03", title: "Education", href: "#education" },
-  { index: "04", title: "Contact", href: "#contact" },
-];
+import { sections, site } from "../content/site";
+import Copy from "./Copy";
 
 export default function Hero() {
   return (
@@ -18,10 +14,15 @@ export default function Hero() {
 
         {/* Content layer */}
         <h1 className="font-display text-6xl leading-[0.95] tracking-[-0.01em] text-fg sm:text-8xl lg:text-[7rem]">
-          Rohan Bharti
+          {site.name}
         </h1>
-        <p className="mt-5 max-w-measure text-lg leading-relaxed text-fg-muted sm:text-xl">
-          Ex-IBM watsonx SDE | CS @ UC Irvine
+        <p className="mt-5 max-w-measure text-lg leading-relaxed text-fg-muted sm:text-xl">{site.tagline}</p>
+        <p className="mt-3 max-w-measure leading-relaxed text-fg">{site.whatIBuild}</p>
+        <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent-2">Currently building</span>
+          <span className="text-fg-muted">
+            <Copy text={site.currentlyBuilding} />
+          </span>
         </p>
       </div>
 
@@ -29,8 +30,11 @@ export default function Hero() {
       <nav aria-label="Sections" className="hero-rise border-t border-line pt-5">
         <ol className="grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-[11px] uppercase tracking-[0.16em] sm:flex sm:gap-10">
           {sections.map((s) => (
-            <li key={s.href}>
-              <a href={s.href} className="group inline-flex gap-3 py-1 text-fg-muted transition-colors duration-200 hover:text-fg">
+            <li key={s.id}>
+              <a
+                href={`#${s.id}`}
+                className="group inline-flex gap-3 py-1 text-fg-muted transition-colors duration-200 hover:text-fg"
+              >
                 <span className="text-fg-subtle transition-colors duration-200 group-hover:text-accent">{s.index}</span>
                 {s.title}
               </a>

@@ -6,6 +6,11 @@ export type Job = {
   role: string;
   dates: string;
   location: string;
+  /** One line for the compact timeline, drawn from the bullets below. */
+  summary: string;
+  /** Slug of a case study in case-studies.ts, if one exists. */
+  caseStudy?: string;
+  /** Full resume bullets; the source facts for summaries and case studies (not shown on the home page). */
   points: string[];
 };
 
@@ -16,6 +21,10 @@ export type Project = {
   stack: string[];
   summary: string;
   points: string[];
+  /** Slug of a case study in case-studies.ts, if one exists. */
+  caseStudy?: string;
+  /** Public link (repo, demo, devpost). Only add real URLs supplied by Rohan. */
+  url?: string;
   /** Layers of the stack this project touched, each with the evidence for it. */
   layers: Partial<Record<Layer, string>>;
 };
@@ -31,6 +40,8 @@ export const work: Job[] = [
     role: "Software Developer Intern",
     dates: "Jun 2026 – Sep 2026",
     location: "San Jose, CA",
+    summary: "Built an agentic ETL pipeline that raised ingestion throughput 5×.",
+    caseStudy: "ibm-agentic-etl",
     points: [
       "Increased ingestion throughput 5× by building an MCP-integrated agentic ETL pipeline with LLM batching.",
       "Cut LLM output 40% and per-call cost with a tiktoken budget, 3-tier field stripping and empty-response retries.",
@@ -43,6 +54,8 @@ export const work: Job[] = [
     role: "Research Engineer",
     dates: "Mar 2026 – Present",
     location: "Irvine, CA",
+    summary: "Imaging pipeline and cell classification across 2M+ brain cells.",
+    caseStudy: "xu-lab-spatial-pipeline",
     points: [
       "Classified 2M+ brain cells (MapMyCell, UMAP) and found 72% of 15.9K circuit-connected neurons were excitatory.",
       "Automated a 15-step conda and Linux imaging pipeline across 40K+ fields of view, cutting processing time by 35%.",
@@ -54,6 +67,7 @@ export const work: Job[] = [
     role: "Software Consultant",
     dates: "Jan 2026 – Mar 2026",
     location: "Irvine, CA",
+    summary: "Customer warehouse and segmentation across 30 SoCal sites.",
     points: [
       "Built a PostgreSQL warehouse and k-means segments for ~830K Gen Z and ~600K Millennial customers across 30 SoCal sites.",
       "Sized a $7.8B café market (12.7% CAGR) in Plotly dashboards, ranking drivers (81% pricing, 71% taste).",
@@ -64,6 +78,7 @@ export const work: Job[] = [
     role: "Machine Learning Engineer",
     dates: "Oct 2025 – Mar 2026",
     location: "Irvine, CA",
+    summary: "Meal-scanning vision model; precision and recall from 63% to 95%.",
     points: [
       "Built a cognitively accessible diet tracker that scans meals with YOLOv8 (300 classes) served via FastAPI.",
       "Curated 28K+ images with HSV, scale and mosaic augmentation; ran ablations guided by confusion-matrix errors.",
@@ -75,6 +90,7 @@ export const work: Job[] = [
     role: "Software Engineer Intern",
     dates: "Jun 2023 – Oct 2023",
     location: "San Francisco, CA",
+    summary: "Sensor pipeline ingesting 5M+ readings from embedded devices.",
     points: [
       "Deployed a Node.js pipeline on Azure Data Explorer ingesting 5M+ sensor readings from embedded devices.",
       "Clustered machine-state data into 4 operational states, linking transitions to 60% of hardware breakdowns.",
@@ -85,6 +101,7 @@ export const work: Job[] = [
 export const projects: Project[] = [
   {
     id: "rover",
+    caseStudy: "autonomous-rover",
     name: "Autonomous Rover",
     context: "Cal Hacks · SpaceXAI Track",
     stack: ["SigLIP", "Logistic Regression", "Linux/ARM", "SpacetimeDB"],
@@ -148,6 +165,9 @@ export const projects: Project[] = [
     },
   },
 ];
+
+/** Interests, as listed on the resume. */
+export const interests = ["Assistive BCIs", "Propulsion systems", "Bionic limbs & robotics", "Photography"];
 
 export const education = {
   school: "University of California, Irvine",

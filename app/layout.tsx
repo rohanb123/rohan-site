@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import Starfield from "./components/Starfield";
 import "./globals.css";
 
 // Display: name and headings only.
@@ -33,7 +34,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-bg text-fg">{children}</body>
+      {/* `isolate` keeps the -z-10 starfield above the body background. */}
+      <body className="relative isolate flex min-h-full flex-col bg-bg text-fg">
+        <Starfield />
+        {children}
+      </body>
     </html>
   );
 }
