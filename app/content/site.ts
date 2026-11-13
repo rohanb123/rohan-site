@@ -13,14 +13,24 @@ export const site = {
   },
 };
 
-/** Home-page sections, in page order. Shared by the hero index nav and the tissue map. */
+/**
+ * Home-page sections, in page order. Shared by the hero index, the sticky header, the section labels
+ * and the tissue map. `color` is each section's identity color from the data palette: it is the
+ * section's cluster in the hero map and marks its index number everywhere else.
+ */
 export const sections = [
-  { index: "01", title: "About", id: "about" },
-  { index: "02", title: "Work", id: "work" },
-  { index: "03", title: "Projects", id: "projects" },
-  { index: "04", title: "Education", id: "education" },
-  { index: "05", title: "Contact", id: "contact" },
+  { index: "01", title: "About", id: "about", color: "--data-4" },
+  { index: "02", title: "Work", id: "work", color: "--data-2" },
+  { index: "03", title: "Projects", id: "projects", color: "--data-5" },
+  { index: "04", title: "Education", id: "education", color: "--data-8" },
+  { index: "05", title: "Contact", id: "contact", color: "--data-1" },
 ] as const;
+
+/** Inline style that exposes a section's color as `--section`, for classes like `text-(--section)`. */
+export function sectionColor(id: string) {
+  const s = sections.find((x) => x.id === id);
+  return { "--section": s ? `var(${s.color})` : "var(--accent)" } as React.CSSProperties;
+}
 
 export function isNeeded(text: string) {
   return text.startsWith("[NEEDED");

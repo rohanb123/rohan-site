@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { contact } from "../content/resume";
-import { SECTION_INDEX_ID, sections } from "../content/site";
+import { SECTION_INDEX_ID, sectionColor, sections } from "../content/site";
 import SocialIcon from "./SocialIcon";
 
 /**
@@ -70,27 +70,23 @@ export default function Header() {
           }`}
         >
           {/* Narrow screens: just the current section, linking back to the top */}
-          <a href="#top" className="flex gap-3 py-2 text-fg-muted transition-colors duration-200 hover:text-fg sm:hidden">
-            <span className="text-accent">{current?.index ?? "00"}</span>
+          <a href="#top" style={current ? sectionColor(current.id) : undefined} className="flex gap-3 py-2 text-fg-muted transition-colors duration-200 hover:text-fg sm:hidden">
+            <span className="text-(--section)">{current?.index ?? "00"}</span>
             {current?.title ?? "Index"}
           </a>
           <ol className="hidden gap-8 sm:flex">
             {sections.map((s) => {
               const on = s.id === active;
               return (
-                <li key={s.id}>
+                <li key={s.id} style={sectionColor(s.id)}>
                   <a
                     href={`#${s.id}`}
                     aria-current={on ? "location" : undefined}
-                    className={`group inline-flex gap-3 py-2 transition-colors duration-200 hover:text-fg ${
-                      on ? "text-fg" : "text-fg-muted"
+                    className={`inline-flex gap-3 border-b py-2 transition-colors duration-200 hover:text-fg ${
+                      on ? "border-(--section) text-fg" : "border-transparent text-fg-muted"
                     }`}
                   >
-                    <span
-                      className={`transition-colors duration-200 group-hover:text-accent ${
-                        on ? "text-accent" : "text-fg-subtle"
-                      }`}
-                    >
+                    <span className="text-(--section)">
                       {s.index}
                     </span>
                     {s.title}

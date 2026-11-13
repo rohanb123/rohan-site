@@ -14,8 +14,8 @@ export default function Projects() {
           >
             {/* Meta column */}
             <p className="flex gap-3 font-mono text-[11px] uppercase leading-6 tracking-[0.14em] text-fg-subtle md:flex-col md:gap-0">
-              {/* Year in the secondary accent: the one touch of color per project */}
-              <span className="text-accent-2">{p.year}</span>
+              {/* Year in the Projects section color */}
+              <span className="text-data-5">{p.year}</span>
               <span>{p.context}</span>
             </p>
 

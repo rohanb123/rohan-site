@@ -1,4 +1,4 @@
-import { SECTION_INDEX_ID, sections, site } from "../content/site";
+import { SECTION_INDEX_ID, sectionColor, sections, site } from "../content/site";
 import Copy from "./Copy";
 import TissueMap from "./TissueMap";
 
@@ -51,12 +51,12 @@ export default function Hero() {
       >
         <ol className="grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-[11px] uppercase tracking-[0.16em] sm:flex sm:gap-10">
           {sections.map((s) => (
-            <li key={s.id}>
+            <li key={s.id} style={sectionColor(s.id)}>
               <a
                 href={`#${s.id}`}
                 className="group inline-flex gap-3 py-1 text-fg-muted transition-colors duration-200 hover:text-fg"
               >
-                <span className="text-fg-subtle transition-colors duration-200 group-hover:text-accent">
+                <span className="text-(--section)">
                   {s.index}
                 </span>
                 {s.title}
