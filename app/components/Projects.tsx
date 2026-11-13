@@ -21,7 +21,7 @@ export default function Projects() {
 
             {/* Content column */}
             <div>
-              <h3 className="font-display text-3xl leading-tight text-fg-heading sm:text-4xl">{p.name}</h3>
+              <h3 className="font-display text-2xl leading-tight text-fg-heading sm:text-3xl">{p.name}</h3>
               <p className="mt-3 max-w-measure leading-relaxed text-fg-muted">{p.summary}</p>
               <p className="mt-5 font-mono text-[11px] uppercase leading-6 tracking-[0.12em] text-fg-subtle">
                 {p.stack.join(" · ")}

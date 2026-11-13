@@ -57,7 +57,7 @@ export const work: Job[] = [
     role: "Director of Technology, Consultant",
     dates: "Sep 2026 – Present",
     location: "Irvine, CA",
-    summary: "Working with SanDisk, Mastercard and BeReal.",
+    summary: "Building for SanDisk, Mastercard, BeReal and more.",
     points: [],
   },
   {
@@ -182,9 +182,6 @@ export const education = {
   awards: [
     "2× Samsung Solve for Tomorrow State Finalist ($5,000)",
     "2025 Perplexity Case Competition Finalist",
-  ],
-  involvement: [
-    "Anthropic Claude Builder Club",
   ],
 };
 
