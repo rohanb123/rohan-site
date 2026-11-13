@@ -16,17 +16,17 @@ export default function About() {
 
         <dl className="grid max-w-3xl gap-x-12 gap-y-10 sm:grid-cols-2">
           <div>
-            <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-fg-subtle">Currently</dt>
-            {current.map((j) => (
-              <dd key={j.org} className="mt-4">
+            <dt className="font-mono text-[11px] uppercase leading-6 tracking-[0.14em] text-fg-subtle">Currently</dt>
+            {current.map((j, i) => (
+              <dd key={j.org} className={i ? "mt-5" : "mt-3"}>
                 <span className="block font-display text-2xl leading-tight text-fg-heading">{j.org}</span>
                 <span className="mt-1 block text-[15px] text-fg-muted">{j.role}</span>
               </dd>
             ))}
           </div>
           <div>
-            <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-fg-subtle">Interests</dt>
-            <dd className="mt-4">
+            <dt className="font-mono text-[11px] uppercase leading-6 tracking-[0.14em] text-fg-subtle">Interests</dt>
+            <dd className="mt-3">
               <ul className="space-y-2 font-display text-2xl leading-tight text-fg-heading">
                 {interests.map((i) => (
                   <li key={i}>{i}</li>

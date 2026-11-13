@@ -18,12 +18,10 @@ export default function Education() {
 
         {/* Content column: the title lines up with the org and project names above */}
         <div>
-          {/* Same pattern as a Work row: serif name, then the role (here the degree) in sans */}
-          <h3 className="font-display text-2xl leading-tight text-fg-heading sm:text-3xl">
-            {education.school}
-            <span className="font-sans text-base text-fg-muted"> · <span className="whitespace-nowrap">{education.degree}</span></span>
-          </h3>
-          <p className="mt-2 font-mono text-[11px] uppercase leading-6 tracking-[0.14em] text-fg-subtle">
+          <h3 className="font-display text-2xl leading-tight text-fg-heading sm:text-3xl">{education.school}</h3>
+          {/* Same style as a role under an org name (About, Work) */}
+          <p className="mt-1 text-[15px] text-fg-muted">{education.degree}</p>
+          <p className="mt-3 font-mono text-[11px] uppercase leading-6 tracking-[0.14em] text-fg-subtle">
             {education.focus.join(" · ")}
             {/* GPA joins the line on wider screens; on phones it gets its own line instead of a dangling "·" */}
             <span className="block sm:inline">

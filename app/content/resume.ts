@@ -181,6 +181,7 @@ export const education = {
   awards: [
     "2× Samsung Solve for Tomorrow State Finalist ($5,000)",
     "2025 Perplexity Case Competition Finalist",
+    "Eagle Scout",
   ],
 };
 
