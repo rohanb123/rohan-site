@@ -8,7 +8,10 @@ export default function Photography() {
     <section aria-labelledby="photography" className="mx-auto w-full max-w-6xl px-gutter pt-section">
       <SectionLabel index="05" title="Photography" id="photography" />
       <div className="grid gap-x-12 gap-y-6 md:grid-cols-[13rem_1fr]">
-        <p className="font-mono text-[11px] uppercase leading-6 tracking-[0.14em] text-fg-subtle">Selected frames</p>
+        <p className="font-mono text-[11px] uppercase leading-6 tracking-[0.14em] text-fg-subtle">
+          A few favorites
+          <span className="block text-fg-muted">Full gallery soon</span>
+        </p>
         <ul className="grid grid-cols-3 gap-2 sm:gap-3">
           {showcase.map((p) => (
             <li key={p.id} className="overflow-hidden bg-bg-raised">
@@ -17,7 +20,8 @@ export default function Photography() {
                 alt={p.alt}
                 placeholder="blur"
                 sizes="(max-width: 768px) 33vw, 260px"
-                className="aspect-[4/5] w-full object-cover"
+                // Zoomed from the right edge just enough to crop out the bottom-left watermark.
+                className="aspect-[4/5] w-full origin-right scale-110 object-cover"
               />
             </li>
           ))}

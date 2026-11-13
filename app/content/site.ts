@@ -8,7 +8,7 @@ export const site = {
   whatIBuild: "I have experience in AI, ML, embedded systems, backend and systems engineering.",
   /** Hidden while empty. One line on what you're building right now. */
   currentlyBuilding: "",
-  location: "Irvine, CA",
+  location: "San Francisco, CA",
 };
 
 /**
