@@ -40,8 +40,8 @@ function color(id: string) {
 const LAYOUT: Record<string, Omit<ClusterDef, "id" | "label">> = {
   work: { cx: 0.3, cy: 0.3, count: 720, color: color("work") },
   projects: { cx: 0.71, cy: 0.28, count: 680, color: color("projects") },
-  photography: { cx: 0.52, cy: 0.54, count: 420, color: color("photography") },
-  education: { cx: 0.28, cy: 0.74, count: 420, color: color("education") },
+  photography: { cx: 0.28, cy: 0.74, count: 420, color: color("photography") },
+  education: { cx: 0.52, cy: 0.54, count: 420, color: color("education") },
   contact: { cx: 0.73, cy: 0.74, count: 340, color: color("contact") },
 };
 // Minor cell types mixed into every cluster, as in real tissue. Not section colors, so they don't compete.
