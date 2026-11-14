@@ -184,7 +184,7 @@ export const education = {
 };
 
 export const contact: { label: string; value: string; href: string; icon?: "github" | "linkedin" }[] = [
-  { label: "Email", value: "rohan17bharti@gmail.com", href: "mailto:rohan17bharti@gmail.com" },
+  { label: "Email", value: "rbharti@uci.edu", href: "mailto:rbharti@uci.edu" },
   { label: "GitHub", value: "github.com/rohanb123", href: "https://github.com/rohanb123", icon: "github" },
   { label: "LinkedIn", value: "linkedin.com/in/robharti", href: "https://www.linkedin.com/in/robharti/", icon: "linkedin" },
 ];
