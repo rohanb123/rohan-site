@@ -29,14 +29,24 @@ export const metadata: Metadata = {
     "Rohan Bharti: software engineer and CS student at UC Irvine. Previously a software developer intern on IBM watsonx; research engineer at the Xu Lab mapping neural circuits.",
 };
 
+/**
+ * First view: on a fresh load at the top of the page, everything below the hero stays hidden until the
+ * visitor scrolls, clicks or presses a key. Runs before first paint so nothing flashes; without JS,
+ * or when the page opens on a #hash or mid-scroll, the content is simply visible.
+ */
+const FIRST_VIEW_SCRIPT = `(function(){var d=document.documentElement;if(scrollY>0||location.hash)return;d.dataset.intro="";var ev=["scroll","wheel","touchmove","keydown","pointerdown"];function r(){delete d.dataset.intro;ev.forEach(function(e){removeEventListener(e,r,true)})}ev.forEach(function(e){addEventListener(e,r,{capture:true,passive:true})})})()`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      // FIRST_VIEW_SCRIPT sets data-intro before hydration
+      suppressHydrationWarning
       className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
     >
       {/* `isolate` keeps the -z-10 starfield above the body background. */}
       <body className="relative isolate flex min-h-full flex-col bg-bg text-fg">
+        <script dangerouslySetInnerHTML={{ __html: FIRST_VIEW_SCRIPT }} />
         <Starfield />
         <Header />
         {children}

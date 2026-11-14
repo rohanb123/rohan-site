@@ -3,7 +3,7 @@ import SectionLabel from "./SectionLabel";
 
 export default function Contact() {
   return (
-    <footer aria-labelledby="contact" className="mx-auto w-full max-w-6xl px-gutter pt-section pb-16">
+    <footer data-below-fold aria-labelledby="contact" className="mx-auto w-full max-w-6xl px-gutter pt-section pb-16">
       <SectionLabel id="contact" />
       <ul>
         {contact.map((c) => (

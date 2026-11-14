@@ -10,10 +10,13 @@ export default function Home() {
     <>
       <main className="flex-1">
         <Hero />
-        <WorkLog />
-        <Projects />
-        <Education />
-        <Photography />
+        {/* Held back on first load (see FIRST_VIEW_SCRIPT in layout) until the visitor scrolls or clicks */}
+        <div data-below-fold>
+          <WorkLog />
+          <Projects />
+          <Education />
+          <Photography />
+        </div>
       </main>
       <Contact />
     </>

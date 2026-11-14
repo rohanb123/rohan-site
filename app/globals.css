@@ -148,6 +148,14 @@ body {
   pointer-events: none;
 }
 
+/* First view: below-the-fold content waits for the first scroll or click (FIRST_VIEW_SCRIPT in layout) */
+[data-below-fold] {
+  transition: opacity 600ms var(--ease-out);
+}
+html[data-intro] [data-below-fold] {
+  opacity: 0;
+}
+
 /* Hero entrance — the only ambient motion outside of interactions */
 @keyframes hero-rise {
   from {
