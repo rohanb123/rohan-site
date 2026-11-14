@@ -10,7 +10,7 @@ export const site = {
   currentlyBuilding: "",
   /** Hidden while empty. Availability line under whatIBuild. */
   openTo: "Open to internships, part-time, or full-time roles, any term.",
-  location: "San Francisco, CA",
+  locations: ["San Francisco, CA", "Irvine, CA"],
 };
 
 /**

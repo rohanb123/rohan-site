@@ -11,7 +11,9 @@ export default function About() {
       <div className="grid gap-x-12 gap-y-10 md:grid-cols-[13rem_1fr]">
         <dl className="font-mono text-[0.6875rem] uppercase leading-6 tracking-[0.14em]">
           <dt className="text-fg-subtle">Based in</dt>
-          <dd className="text-fg-muted">{site.location}</dd>
+          {site.locations.map((l) => (
+            <dd key={l} className="text-fg-muted">{l}</dd>
+          ))}
         </dl>
 
         <dl className="grid max-w-3xl gap-x-12 gap-y-10 sm:grid-cols-2">
