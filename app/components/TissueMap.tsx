@@ -8,10 +8,10 @@ import { SECTION_INDEX_ID, sections } from "../content/site";
  * Each colored cluster is a site section; hover highlights it and its connections, click scrolls to it.
  * The hero's section index is the map's legend: hovering or focusing a link there lights its cluster,
  * and hovering a cluster lights its link (via a `data-lit` attribute). No labels are drawn on the canvas.
- * After the intro the map drifts slowly, like live tissue under a microscope: each cell wobbles a pixel
- * or two and each cluster sways and breathes. With a mouse, clusters lean toward the pointer at
- * different depths and cells part around it. It is the page's one ambient motion; it runs at 30fps, pauses
- * off-screen, and is off for reduced motion and on phones.
+ * While the mouse moves over the page the map comes alive like tissue under a microscope: cells wobble,
+ * clusters sway and breathe, lean toward the pointer at different depths, and cells part around it.
+ * A few seconds after the mouse stops it settles still (WCAG 2.2.2). Paused off-screen; off for reduced
+ * motion and on phones.
  * Synthetic data only. aria-hidden: the section index nav is the accessible navigation.
  */
 
@@ -62,6 +62,7 @@ const DRIFT_PX = 2;
 const BREATHE = 0.04;
 const CLUSTER_SWAY_PX = 6;
 const DRIFT_FPS = 30;
+const IDLE_MS = 1500; // drift fades out this long after the mouse stops
 // Cursor: clusters lean toward the pointer with parallax (each at its own depth), and cells right
 // under the pointer part around it. Mouse only.
 const LEAN_PX = 8;
@@ -218,7 +219,10 @@ export default function TissueMap() {
     let lastFrame = 0;
     let lastDraw = 0;
     let onScreen = true;
-    const drifting = () => !staticMode() && onScreen && !document.hidden;
+    // Drift runs only around interaction (WCAG 2.2.2: nothing moves on its own for more than 5s).
+    // `activity` rises while the mouse moves over the page and fades out IDLE_MS after it stops.
+    let activity = 0;
+    const canMove = () => !staticMode() && onScreen && !document.hidden;
 
     // Square plot area centered in the canvas, with a little room so enlarged cells never clip.
     const plot = () => {
@@ -248,9 +252,9 @@ export default function TissueMap() {
       clusters.forEach((_, ci) => {
         const k = ci * 1.7;
         const d = DEPTHS[ci % DEPTHS.length];
-        sway[ci].x = CLUSTER_SWAY_PX * Math.sin(t * 0.3 + k) + lean.x * d;
-        sway[ci].y = CLUSTER_SWAY_PX * Math.cos(t * 0.24 + k * 1.3) + lean.y * d;
-        sway[ci].s = 1 + BREATHE * Math.sin(t * 0.6 + k);
+        sway[ci].x = activity * CLUSTER_SWAY_PX * Math.sin(t * 0.3 + k) + lean.x * d;
+        sway[ci].y = activity * CLUSTER_SWAY_PX * Math.cos(t * 0.24 + k * 1.3) + lean.y * d;
+        sway[ci].s = 1 + activity * BREATHE * Math.sin(t * 0.6 + k);
       });
     }
     let time = 0;
@@ -260,8 +264,8 @@ export default function TissueMap() {
     function cellPos(c: Cell, t: number, ox: number, oy: number, size: number) {
       let nx = c.sx + (c.x - c.sx) * t;
       let ny = c.sy + (c.y - c.sy) * t;
-      let dx = DRIFT_PX * Math.sin(time * c.fq * 1.4 + c.ph);
-      let dy = DRIFT_PX * Math.cos(time * c.fq * 1.1 + c.ph * 1.3);
+      let dx = activity * DRIFT_PX * Math.sin(time * c.fq * 1.4 + c.ph);
+      let dy = activity * DRIFT_PX * Math.cos(time * c.fq * 1.1 + c.ph * 1.3);
       if (c.cluster >= 0) {
         const m = centroids[c.cluster];
         const sw = sway[c.cluster];
@@ -389,15 +393,19 @@ export default function TissueMap() {
       part += (partTarget - part) * k;
       const cursorBusy = now - pointer.moved < 800 || Math.abs(leanX - lean.x) + Math.abs(leanY - lean.y) > 0.2 || Math.abs(partTarget - part) > 0.02;
 
+      const activeTarget = live && canMove() && pointer.active && now - pointer.moved < IDLE_MS ? 1 : 0;
+      activity += (activeTarget - activity) * (1 - Math.exp(-dt / (activeTarget ? 500 : 600)));
+      if (activity < 0.005 && !activeTarget) activity = 0;
+      if (activity > 0) time += dt / 1000; // drift clock only runs while moving, so it resumes smoothly
+
       // Drift alone only needs 30fps; intro, hover easing and cursor response draw every frame.
       const driftOnly = introDone && !settling && !cursorBusy;
       if (!driftOnly || now - lastDraw >= 1000 / DRIFT_FPS - 2) {
-        if (drifting()) time = now / 1000;
         setDrift(time);
         draw(progress);
         lastDraw = now;
       }
-      if (!introDone || settling || drifting() || (live && cursorBusy)) raf = requestAnimationFrame(frame);
+      if (!introDone || settling || activity > 0 || (live && cursorBusy)) raf = requestAnimationFrame(frame);
       else {
         raf = 0;
         lastFrame = 0;

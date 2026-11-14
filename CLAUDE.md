@@ -39,9 +39,10 @@ The site should feel dark, spacey and high-end, and must never distract from the
 ## Motion
 - Motion only in the hero and in response to interaction (hover, focus, pointer). No scroll-jacking,
   no ambient animation elsewhere.
-- The one ambient loop is the hero tissue map's slow drift (cells wobble, clusters sway and breathe), chosen
-  to read as live tissue, plus its cursor response (clusters lean toward the pointer with parallax; cells
-  part around it). Keep it calm, ≤30fps at idle, paused off-screen and in hidden tabs, off for reduced motion.
+- The hero tissue map comes alive only around interaction: while the mouse moves, cells wobble, clusters
+  sway, breathe and lean toward the pointer with parallax, and cells part around it. It settles still a few
+  seconds after the mouse stops (WCAG 2.2.2: nothing moves on its own for more than 5s). ≤30fps when only
+  drifting, paused off-screen and in hidden tabs, off for reduced motion and on phones.
 - Always respect `prefers-reduced-motion`: animations collapse to a static final state.
 - The starfield renders a static frame on reduced motion and on mobile/coarse pointers.
 
@@ -75,7 +76,7 @@ Layout & components
 - Left-align body text; use asymmetry and a clear grid.
 
 Motion
-- Motion only in the hero and meaningful interactions. No fade-in on every element, no infinite decorative loops (the tissue-map drift is the one deliberate exception).
+- Motion only in the hero and meaningful interactions. No fade-in on every element, no infinite decorative loops.
 - Hover/click states must communicate state (focus, pressed, loading). Respect prefers-reduced-motion.
 
 Copy & content

@@ -69,7 +69,7 @@ export default function Hero() {
         aria-label="Section index"
         className="hero-rise border-t border-line pt-5"
       >
-        <ol className="grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-label uppercase tracking-[0.16em] sm:flex sm:gap-10">
+        <ol className="grid grid-cols-[auto_auto] justify-between gap-x-4 gap-y-3 font-mono text-label uppercase tracking-[0.1em] min-[400px]:tracking-[0.16em] sm:flex sm:justify-start sm:gap-10">
           {sections.map((s) => (
             <li key={s.id} style={sectionColor(s.id)}>
               {/* data-section: the tissue map listens here, and sets data-lit when its cluster is hovered */}
@@ -78,7 +78,7 @@ export default function Hero() {
                 data-section={s.id}
                 className="group inline-flex gap-3 py-1 text-fg-muted transition-colors duration-200 hover:text-fg focus-visible:text-fg data-lit:text-fg"
               >
-                <span className="text-fg-subtle transition-colors duration-200 group-hover:text-(--section) group-focus-visible:text-(--section) group-data-lit:text-(--section)">
+                <span aria-hidden="true" className="text-fg-subtle transition-colors duration-200 group-hover:text-(--section) group-focus-visible:text-(--section) group-data-lit:text-(--section)">
                   {s.index}
                 </span>
                 {s.title}

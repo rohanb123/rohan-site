@@ -88,7 +88,7 @@ export const work: Job[] = [
     role: "Software Engineer Intern",
     dates: "Jun 2023 – Oct 2023",
     location: "San Francisco, CA",
-    summary: "Predictive machine maintenance: traced 60% of breakdowns across 5M+ sensor readings.",
+    summary: "Predictive machine maintenance: traced 60% of breakdowns in 5M+ readings.",
     points: [
       "Deployed a Node.js pipeline on Azure Data Explorer ingesting 5M+ sensor readings from embedded devices.",
       "Clustered machine-state data into 4 operational states, linking transitions to 60% of hardware breakdowns.",

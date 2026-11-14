@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import logo from "../../assets/logo.png";
 import { contact } from "../content/resume";
 import { SECTION_INDEX_ID, sectionColor, sections } from "../content/site";
 import SocialIcon from "./SocialIcon";
@@ -69,9 +71,14 @@ export default function Header() {
             docked ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
+          <div className="flex items-center gap-5 sm:gap-8">
+          {/* The site mark (same as the favicon): back to 00 / About */}
+          <a href="#top" aria-label="Back to top" title="Back to top" className="-my-2 shrink-0 py-2 opacity-85 transition-opacity duration-200 hover:opacity-100">
+            <Image src={logo} alt="" className="size-7" priority={false} />
+          </a>
           {/* Narrow screens: just the current section, linking back to the top */}
           <a href="#top" style={current ? sectionColor(current.id) : undefined} className="flex gap-3 py-2 text-fg-muted transition-colors duration-200 hover:text-fg sm:hidden">
-            <span className="text-(--section)">{current?.index ?? "00"}</span>
+            <span aria-hidden="true" className="text-(--section)">{current?.index ?? "00"}</span>
             {current?.title ?? "About"}
           </a>
           <ol className="hidden gap-8 sm:flex">
@@ -87,6 +94,7 @@ export default function Header() {
                     }`}
                   >
                     <span
+                      aria-hidden="true"
                       className={`transition-colors duration-200 group-hover:text-(--section) ${
                         on ? "text-(--section)" : "text-fg-subtle"
                       }`}
@@ -99,6 +107,7 @@ export default function Header() {
               );
             })}
           </ol>
+          </div>
         </nav>
 
         <ul aria-label="Profiles" className="-mr-2 flex shrink-0 items-center gap-1">
