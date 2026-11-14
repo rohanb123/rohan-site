@@ -25,7 +25,16 @@ export default function Hero() {
             {site.whatIBuild}
           </p>
           {site.openTo && (
-            <p className="mt-1 max-w-measure leading-relaxed text-fg">{site.openTo}</p>
+            // Static coral marker: a real, current status, not decoration (no pulse)
+            <p className="mt-5 flex max-w-measure items-baseline gap-3 leading-relaxed text-fg">
+              <span aria-hidden className="size-[0.4375rem] shrink-0 -translate-y-px bg-accent" />
+              <span>
+                {site.openTo}{" "}
+                <a href="#contact" className="whitespace-nowrap text-accent underline-offset-4 hover:underline focus-visible:underline">
+                  Get in touch →
+                </a>
+              </span>
+            </p>
           )}
           {/* Hidden until there's a line to show, so it leaves no gap */}
           {site.currentlyBuilding && (
