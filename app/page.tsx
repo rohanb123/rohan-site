@@ -1,4 +1,3 @@
-import About from "./components/About";
 import Contact from "./components/Contact";
 import Education from "./components/Education";
 import Hero from "./components/Hero";
@@ -11,7 +10,6 @@ export default function Home() {
     <>
       <main className="flex-1">
         <Hero />
-        <About />
         <WorkLog />
         <Projects />
         <Education />

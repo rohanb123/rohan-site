@@ -9,9 +9,11 @@ export default function Hero() {
         {/* One entrance for the whole text block, not a fade per element */}
         <div className="hero-rise">
           {/* Structure layer: a thin rule with a small mono label */}
-          <div className="mb-10 flex items-center gap-4 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-fg-subtle">
-            <span>00 / Index</span>
+          {/* On phones the location drops to its own line under the rule */}
+          <div className="mb-10 flex flex-wrap items-center gap-x-4 gap-y-3 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-fg-subtle">
+            <span className="whitespace-nowrap">00 / About</span>
             <span className="h-px flex-1 bg-line" />
+            <span className="basis-full sm:basis-auto">Based in {site.location}</span>
           </div>
 
           {/* Content layer */}

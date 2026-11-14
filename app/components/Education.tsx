@@ -4,9 +4,9 @@ import SectionLabel from "./SectionLabel";
 export default function Education() {
   return (
     <section aria-labelledby="education" className="mx-auto w-full max-w-6xl px-gutter pt-section">
-      <SectionLabel index="04" title="Education" id="education" />
+      <SectionLabel id="education" />
       <div className="grid gap-x-12 gap-y-8 md:grid-cols-[13rem_1fr]">
-        {/* Left column: awards, like Interests in About. On phones it follows the school. */}
+        {/* Left column: awards. On phones it follows the school. */}
         <div className="order-last md:order-none">
           <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-fg-subtle">Awards</p>
           <ul className="mt-3 space-y-2 text-[0.9375rem] leading-snug text-fg-muted">
@@ -19,7 +19,7 @@ export default function Education() {
         {/* Content column: the title lines up with the org and project names above */}
         <div>
           <h3 className="font-display text-2xl leading-tight text-fg-heading sm:text-3xl">{education.school}</h3>
-          {/* Same style as a role under an org name (About, Work) */}
+          {/* Same style as a role under an org name (Work) */}
           <p className="mt-1 text-[0.9375rem] text-fg-muted">{education.degree}</p>
           <p className="mt-3 font-mono text-[0.6875rem] uppercase leading-6 tracking-[0.14em] text-fg-subtle">
             {education.focus.join(" · ")}

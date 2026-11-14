@@ -4,7 +4,7 @@ import SectionLabel from "./SectionLabel";
 export default function Projects() {
   return (
     <section aria-labelledby="projects" className="mx-auto w-full max-w-6xl px-gutter pt-section">
-      <SectionLabel index="03" title="Projects" id="projects" />
+      <SectionLabel id="projects" />
 
       <ol>
         {projects.map((p) => (

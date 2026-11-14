@@ -10,7 +10,7 @@ export const site = {
   currentlyBuilding: "",
   /** Hidden while empty. Availability line under whatIBuild. */
   openTo: "Open to internships, part-time, or full-time roles, any term.",
-  locations: ["San Francisco, CA", "Irvine, CA"],
+  location: "San Francisco / Irvine",
 };
 
 /**
@@ -19,12 +19,11 @@ export const site = {
  * section's cluster in the hero map and marks its index number everywhere else.
  */
 export const sections = [
-  { index: "01", title: "About", id: "about", color: "--data-3" },
-  { index: "02", title: "Work", id: "work", color: "--data-2" },
-  { index: "03", title: "Projects", id: "projects", color: "--data-5" },
-  { index: "04", title: "Education", id: "education", color: "--data-8" },
-  { index: "05", title: "Photography", id: "photography", color: "--data-4" },
-  { index: "06", title: "Contact", id: "contact", color: "--data-1" },
+  { index: "01", title: "Work", id: "work", color: "--data-2" },
+  { index: "02", title: "Projects", id: "projects", color: "--data-5" },
+  { index: "03", title: "Education", id: "education", color: "--data-8" },
+  { index: "04", title: "Photography", id: "photography", color: "--data-4" },
+  { index: "05", title: "Contact", id: "contact", color: "--data-1" },
 ] as const;
 
 /** Inline style that exposes a section's color as `--section`, for classes like `text-(--section)`. */

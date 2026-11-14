@@ -72,7 +72,7 @@ export default function Header() {
           {/* Narrow screens: just the current section, linking back to the top */}
           <a href="#top" style={current ? sectionColor(current.id) : undefined} className="flex gap-3 py-2 text-fg-muted transition-colors duration-200 hover:text-fg sm:hidden">
             <span className="text-(--section)">{current?.index ?? "00"}</span>
-            {current?.title ?? "Index"}
+            {current?.title ?? "About"}
           </a>
           <ol className="hidden gap-8 sm:flex">
             {sections.map((s) => {

@@ -5,7 +5,7 @@ import SectionLabel from "./SectionLabel";
 export default function WorkLog() {
   return (
     <section aria-labelledby="work" className="mx-auto w-full max-w-6xl px-gutter pt-section">
-      <SectionLabel index="02" title="Work" id="work" />
+      <SectionLabel id="work" />
       <ol>
         {work.map((job) => (
           <li
