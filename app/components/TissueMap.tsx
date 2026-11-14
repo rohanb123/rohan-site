@@ -8,6 +8,9 @@ import { SECTION_INDEX_ID, sections } from "../content/site";
  * Each colored cluster is a site section; hover highlights it and its connections, click scrolls to it.
  * The hero's section index is the map's legend: hovering or focusing a link there lights its cluster,
  * and hovering a cluster lights its link (via a `data-lit` attribute). No labels are drawn on the canvas.
+ * After the intro the map drifts slowly, like live tissue under a microscope: each cell wobbles a pixel
+ * or two and each cluster breathes. It is the page's one ambient motion; it runs at 30fps, pauses
+ * off-screen, and is off for reduced motion and on phones.
  * Synthetic data only. aria-hidden: the section index nav is the accessible navigation.
  */
 
@@ -31,6 +34,8 @@ type Cell = {
   color: number; // index into palette
   r: number;
   delay: number; // intro stagger, 0..1
+  ph: number; // drift phase, radians
+  fq: number; // drift speed multiplier
 };
 
 const MAP_SECTIONS = ["work", "projects", "education", "photography", "contact"];
@@ -51,6 +56,11 @@ const INTRO_MS = 2400;
 const HOVER_MS = 220;
 const HIT_RADIUS = 16; // px
 const KNN_PER_CELL = 2;
+// Drift (see the header comment). Cell wobble in px; cluster breathing as a fraction of its size.
+const DRIFT_PX = 1.4;
+const BREATHE = 0.018;
+const CLUSTER_SWAY_PX = 2.5;
+const DRIFT_FPS = 30;
 
 // Deterministic RNG so the map looks the same on every visit.
 function mulberry32(seed: number) {
@@ -70,6 +80,8 @@ function gaussian(rand: () => number) {
 
 function buildTissue(clusters: ClusterDef[], paletteSize: number, minorStart: number) {
   const rand = mulberry32(17);
+  // Separate stream for drift, so adding it didn't move any cell in the layout.
+  const driftRand = mulberry32(91);
   const cells: Cell[] = [];
 
   const push = (x: number, y: number, cluster: number, color: number) => {
@@ -85,6 +97,8 @@ function buildTissue(clusters: ClusterDef[], paletteSize: number, minorStart: nu
       color,
       r: 0.9 + rand() * 0.8,
       delay: rand() * 0.35,
+      ph: driftRand() * Math.PI * 2,
+      fq: 0.6 + driftRand() * 0.8,
     });
   };
 
@@ -168,6 +182,9 @@ export default function TissueMap() {
 
     const cells = buildTissue(clusters, palette.length, clusters.length);
     const links = buildLinks(cells, clusters.length);
+    // Cells grouped by palette index (+1, so background is group 0): one fillStyle per group.
+    const byColor: Cell[][] = Array.from({ length: palette.length + 1 }, () => []);
+    for (const c of cells) byColor[c.color + 1].push(c);
     const centroids = clusters.map((_, ci) => {
       const mine = cells.filter((c) => c.cluster === ci);
       return {
@@ -191,6 +208,9 @@ export default function TissueMap() {
     const focus = clusters.map(() => 0);
     let anyFocus = 0;
     let lastFrame = 0;
+    let lastDraw = 0;
+    let onScreen = true;
+    const drifting = () => !staticMode() && onScreen && !document.hidden;
 
     // Square plot area centered in the canvas, with a little room so enlarged cells never clip.
     const plot = () => {
@@ -209,6 +229,41 @@ export default function TissueMap() {
       draw(introDone ? 1 : 0);
     }
 
+    // Drift offsets at time t (seconds): each cluster sways and breathes around its centroid.
+    const sway = clusters.map(() => ({ x: 0, y: 0, s: 1 }));
+    function setDrift(t: number) {
+      clusters.forEach((_, ci) => {
+        const k = ci * 1.7;
+        sway[ci].x = CLUSTER_SWAY_PX * Math.sin(t * 0.21 + k);
+        sway[ci].y = CLUSTER_SWAY_PX * Math.cos(t * 0.17 + k * 1.3);
+        sway[ci].s = 1 + BREATHE * Math.sin(t * 0.45 + k);
+      });
+    }
+    let time = 0;
+
+    /** Screen position of a cell at intro progress t (0..1), including drift. Writes into `pos` (no allocation per cell). */
+    const pos = { x: 0, y: 0 };
+    function cellPos(c: Cell, t: number, ox: number, oy: number, size: number) {
+      let nx = c.sx + (c.x - c.sx) * t;
+      let ny = c.sy + (c.y - c.sy) * t;
+      let dx = DRIFT_PX * Math.sin(time * c.fq + c.ph);
+      let dy = DRIFT_PX * Math.cos(time * c.fq * 0.8 + c.ph * 1.3);
+      if (c.cluster >= 0) {
+        const m = centroids[c.cluster];
+        const sw = sway[c.cluster];
+        nx = m.x + (nx - m.x) * sw.s;
+        ny = m.y + (ny - m.y) * sw.s;
+        dx += sw.x;
+        dy += sw.y;
+      } else {
+        dx *= 0.6;
+        dy *= 0.6;
+      }
+      pos.x = ox + nx * size + dx;
+      pos.y = oy + ny * size + dy;
+      return pos;
+    }
+
     function draw(progress: number) {
       const { ox, oy, size } = plot();
       ctx!.clearRect(0, 0, w, h);
@@ -222,22 +277,27 @@ export default function TissueMap() {
         ctx!.globalAlpha = 0.28 * f;
         ctx!.beginPath();
         for (const [i, j] of links[ci]) {
-          ctx!.moveTo(ox + cells[i].x * size, oy + cells[i].y * size);
-          ctx!.lineTo(ox + cells[j].x * size, oy + cells[j].y * size);
+          cellPos(cells[i], 1, ox, oy, size);
+          ctx!.moveTo(pos.x, pos.y);
+          cellPos(cells[j], 1, ox, oy, size);
+          ctx!.lineTo(pos.x, pos.y);
         }
         ctx!.stroke();
 
         ctx!.globalAlpha = 0.45 * f;
         ctx!.lineWidth = 1;
         ctx!.setLineDash([2, 4]);
-        const a = centroids[ci];
-        centroids.forEach((b, cj) => {
+        // Centroids in px, following each cluster's sway.
+        const at = (k: number) => ({ x: ox + centroids[k].x * size + sway[k].x, y: oy + centroids[k].y * size + sway[k].y });
+        const a = at(ci);
+        centroids.forEach((_, cj) => {
           if (cj === ci) return;
+          const b = at(cj);
           const mx = (a.x + b.x) / 2 + (b.y - a.y) * 0.18;
           const my = (a.y + b.y) / 2 - (b.x - a.x) * 0.18;
           ctx!.beginPath();
-          ctx!.moveTo(ox + a.x * size, oy + a.y * size);
-          ctx!.quadraticCurveTo(ox + mx * size, oy + my * size, ox + b.x * size, oy + b.y * size);
+          ctx!.moveTo(a.x, a.y);
+          ctx!.quadraticCurveTo(mx, my, b.x, b.y);
           ctx!.stroke();
         });
         ctx!.setLineDash([]);
@@ -246,11 +306,9 @@ export default function TissueMap() {
       // Cells, grouped by color to limit fillStyle switches.
       for (let p = -1; p < palette.length; p++) {
         ctx!.fillStyle = p === -1 ? background : palette[p];
-        for (const c of cells) {
-          if (c.color !== p) continue;
-          const t = easeOut(Math.min(1, Math.max(0, (progress - c.delay) / (1 - c.delay))));
-          const x = ox + (c.sx + (c.x - c.sx) * t) * size;
-          const y = oy + (c.sy + (c.y - c.sy) * t) * size;
+        for (const c of byColor[p + 1]) {
+          const t = progress >= 1 ? 1 : easeOut(Math.min(1, Math.max(0, (progress - c.delay) / (1 - c.delay))));
+          const { x, y } = cellPos(c, t, ox, oy, size);
           const f = c.cluster >= 0 ? focus[c.cluster] : 0;
           const base = c.cluster === -1 ? 0.22 : 0.72;
           const alpha = (base + (0.95 - base) * f) * (1 - 0.7 * anyFocus * (1 - f)) * t;
@@ -285,8 +343,15 @@ export default function TissueMap() {
       });
       anyFocus = Math.max(...focus);
 
-      draw(progress);
-      if (!introDone || settling) raf = requestAnimationFrame(frame);
+      // Drift alone only needs 30fps; intro and hover easing draw every frame.
+      const driftOnly = introDone && !settling;
+      if (!driftOnly || now - lastDraw >= 1000 / DRIFT_FPS - 2) {
+        if (drifting()) time = now / 1000;
+        setDrift(time);
+        draw(progress);
+        lastDraw = now;
+      }
+      if (!introDone || settling || drifting()) raf = requestAnimationFrame(frame);
       else {
         raf = 0;
         lastFrame = 0;
@@ -371,6 +436,14 @@ export default function TissueMap() {
 
     const ro = new ResizeObserver(resize);
     ro.observe(wrap);
+    // Pause the drift while the map is off-screen or the tab is hidden.
+    const io = new IntersectionObserver(([e]) => {
+      onScreen = e.isIntersecting;
+      kick();
+    });
+    io.observe(wrap);
+    const onVisibility = () => kick();
+    document.addEventListener("visibilitychange", onVisibility);
     resize();
     if (!introDone) kick();
 
@@ -381,6 +454,8 @@ export default function TissueMap() {
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
       canvas.removeEventListener("click", onClick as EventListener);
