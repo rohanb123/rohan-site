@@ -10,7 +10,7 @@ export default function Hero() {
         <div className="hero-rise">
           {/* Structure layer: a thin rule with a small mono label */}
           {/* On phones the location drops to its own line under the rule */}
-          <div className="mb-10 flex flex-wrap items-center gap-x-4 gap-y-3 font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-fg-subtle">
+          <div className="mb-10 flex flex-wrap items-center gap-x-4 gap-y-3 font-mono text-label uppercase tracking-[0.2em] text-fg-subtle">
             <span className="whitespace-nowrap">00 / About</span>
             <span className="h-px flex-1 bg-line" />
             <span className="basis-full sm:basis-auto">Based in {site.location}</span>
@@ -21,7 +21,13 @@ export default function Hero() {
             {site.name}
           </h1>
           <p className="mt-5 max-w-measure text-lg leading-relaxed text-fg-muted sm:text-xl">
-            {site.tagline}
+            {/* Each half stays whole, so a narrow screen breaks the line at the "|" */}
+            {site.tagline.split(" | ").map((part, i) => (
+              <span key={part}>
+                {i > 0 && " | "}
+                <span className="whitespace-nowrap">{part}</span>
+              </span>
+            ))}
           </p>
           <p className="mt-3 max-w-measure leading-relaxed text-fg">
             {site.whatIBuild}
@@ -41,7 +47,7 @@ export default function Hero() {
           {/* Hidden until there's a line to show, so it leaves no gap */}
           {site.currentlyBuilding && (
             <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-accent-2">
+              <span className="font-mono text-meta uppercase tracking-[0.16em] text-accent-2">
                 Currently building
               </span>
               <span className="text-fg-muted">
@@ -63,7 +69,7 @@ export default function Hero() {
         aria-label="Section index"
         className="hero-rise border-t border-line pt-5"
       >
-        <ol className="grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-[0.6875rem] uppercase tracking-[0.16em] sm:flex sm:gap-10">
+        <ol className="grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-label uppercase tracking-[0.16em] sm:flex sm:gap-10">
           {sections.map((s) => (
             <li key={s.id} style={sectionColor(s.id)}>
               {/* data-section: the tissue map listens here, and sets data-lit when its cluster is hovered */}

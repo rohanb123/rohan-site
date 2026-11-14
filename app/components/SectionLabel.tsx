@@ -6,7 +6,7 @@ export default function SectionLabel({ id }: { id: (typeof sections)[number]["id
   return (
     <h2
       id={id}
-      className="mb-12 flex items-center gap-4 font-mono text-[0.6875rem] font-normal uppercase tracking-[0.2em] text-fg-subtle"
+      className="mb-12 flex items-center gap-4 font-mono text-label font-normal uppercase tracking-[0.2em] text-fg-subtle"
     >
       <span>
         {s.index} / {s.title}

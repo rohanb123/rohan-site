@@ -68,6 +68,9 @@
 }
 
 @theme inline {
+  /* Mono label sizes. label: navigation and section headers; meta: dates, places, stacks, small labels. */
+  --text-label: 0.8125rem;
+  --text-meta: 0.75rem;
   --color-bg: var(--bg);
   --color-bg-raised: var(--bg-raised);
   --color-fg: var(--fg);

@@ -64,10 +64,10 @@ const CLUSTER_SWAY_PX = 6;
 const DRIFT_FPS = 30;
 // Cursor: clusters lean toward the pointer with parallax (each at its own depth), and cells right
 // under the pointer part around it. Mouse only.
-const LEAN_PX = 12;
+const LEAN_PX = 8;
 const DEPTHS = [1, 0.55, 1.35, 0.8, 1.15]; // per cluster, so the lean reads as depth; background uses 0.35
-const PART_RADIUS = 70; // px
-const PART_PX = 9;
+const PART_RADIUS = 60; // px
+const PART_PX = 6;
 const CURSOR_EASE_MS = 260;
 
 // Deterministic RNG so the map looks the same on every visit.

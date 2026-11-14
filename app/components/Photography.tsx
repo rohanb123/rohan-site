@@ -8,7 +8,7 @@ export default function Photography() {
     <section aria-labelledby="photography" className="mx-auto w-full max-w-6xl px-gutter pt-section">
       <SectionLabel id="photography" />
       <div className="grid gap-x-12 gap-y-6 md:grid-cols-[13rem_1fr]">
-        <p className="font-mono text-[0.6875rem] uppercase leading-6 tracking-[0.14em] text-fg-subtle">
+        <p className="font-mono text-meta uppercase leading-6 tracking-[0.14em] text-fg-subtle">
           A few favorites
           <span className="block text-fg-muted">Full gallery soon</span>
         </p>

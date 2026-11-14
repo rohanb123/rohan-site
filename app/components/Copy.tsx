@@ -7,7 +7,7 @@ import { isNeeded } from "../content/site";
 export default function Copy({ text }: { text: string }) {
   if (!isNeeded(text)) return <>{text}</>;
   return (
-    <span className="inline-block border border-dashed border-accent-2/60 px-2 py-0.5 font-mono text-[0.75rem] leading-relaxed text-accent-2">
+    <span className="inline-block border border-dashed border-accent-2/60 px-2 py-0.5 font-mono text-meta leading-relaxed text-accent-2">
       {text}
     </span>
   );

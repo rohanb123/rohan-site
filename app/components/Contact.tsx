@@ -13,7 +13,7 @@ export default function Contact() {
               {...(c.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className="group grid grid-cols-[6rem_1fr_auto] items-baseline gap-4 py-5 md:grid-cols-[13rem_1fr_auto] md:gap-12"
             >
-              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-fg-subtle">{c.label}</span>
+              <span className="font-mono text-meta uppercase tracking-[0.14em] text-fg-subtle">{c.label}</span>
               <span className="truncate text-fg-muted transition-colors duration-200 group-hover:text-fg">
                 {c.value}
               </span>
