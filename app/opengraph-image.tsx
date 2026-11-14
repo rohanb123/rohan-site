@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { site } from "./content/site";
 
-export const alt = "Rohan Bharti: Ex-IBM watsonx SDE, CS at UC Irvine";
+export const alt = "Rohan Bharti: Ex-IBM watsonx SDE Intern, CS at UC Irvine";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

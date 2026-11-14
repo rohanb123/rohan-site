@@ -30,11 +30,13 @@ export const metadata: Metadata = {
 };
 
 /**
- * First view: on a fresh load at the top of the page, everything below the hero stays hidden until the
- * visitor scrolls, clicks or presses a key. Runs before first paint so nothing flashes; without JS,
- * or when the page opens on a #hash or mid-scroll, the content is simply visible.
+ * First view: a load or refresh always starts at the top, and everything below the hero stays hidden
+ * until the visitor scrolls, clicks or presses a key. A refresh drops any #hash left by the section
+ * links; a shared #link still opens on its section, with everything visible. Smooth scrolling turns
+ * on at the first interaction, so the browser's own load-time jumps are never animated.
+ * Runs before first paint so nothing flashes. Without JS, everything is simply visible.
  */
-const FIRST_VIEW_SCRIPT = `(function(){var d=document.documentElement;if(scrollY>0||location.hash)return;d.dataset.intro="";var ev=["scroll","wheel","touchmove","keydown","pointerdown"];function r(){delete d.dataset.intro;ev.forEach(function(e){removeEventListener(e,r,true)})}ev.forEach(function(e){addEventListener(e,r,{capture:true,passive:true})})})()`;
+const FIRST_VIEW_SCRIPT = `(function(){var d=document.documentElement,h=history;h.scrollRestoration="manual";var n=performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"&&location.hash)h.replaceState(h.state,"",location.pathname+location.search);if(!location.hash)d.dataset.intro="";var ev=["wheel","touchmove","keydown","pointerdown","scroll"];function r(){delete d.dataset.intro;d.dataset.smooth="";ev.forEach(function(e){removeEventListener(e,r,true)})}ev.forEach(function(e){addEventListener(e,r,{capture:true,passive:true})})})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

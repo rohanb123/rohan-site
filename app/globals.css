@@ -115,8 +115,9 @@ html {
   }
 }
 
+/* Only after the first interaction (FIRST_VIEW_SCRIPT), so a reload never glides */
 @media (prefers-reduced-motion: no-preference) {
-  html {
+  html[data-smooth] {
     scroll-behavior: smooth;
   }
 }
