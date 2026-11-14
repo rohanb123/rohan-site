@@ -31,7 +31,7 @@ export default function Hero() {
               <span>
                 {site.openTo}{" "}
                 <a href="#contact" className="whitespace-nowrap text-accent underline-offset-4 hover:underline focus-visible:underline">
-                  Get in touch →
+                  Get in touch ↗
                 </a>
               </span>
             </p>
