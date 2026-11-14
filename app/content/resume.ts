@@ -32,7 +32,7 @@ export const work: Job[] = [
     role: "Software Developer Intern",
     dates: "Jun 2026 – Sep 2026",
     location: "San Jose, CA",
-    summary: "Built an agentic ETL pipeline that raised ingestion throughput 5×.",
+    summary: "Built an MCP-powered agentic ETL pipeline that pulls data into watsonx 5× faster.",
     points: [
       "Increased ingestion throughput 5× by building an MCP-integrated agentic ETL pipeline with LLM batching.",
       "Cut LLM output 40% and per-call cost with a tiktoken budget, 3-tier field stripping and empty-response retries.",
@@ -45,7 +45,7 @@ export const work: Job[] = [
     role: "Research Engineer",
     dates: "Mar 2026 – Present",
     location: "Irvine, CA",
-    summary: "Imaging pipeline and cell classification across 2M+ brain cells.",
+    summary: "Neural circuit mapping and cell classification across 2M+ brain cells.",
     points: [
       "Classified 2M+ brain cells (MapMyCell, UMAP) and found 72% of 15.9K circuit-connected neurons were excitatory.",
       "Automated a 15-step conda and Linux imaging pipeline across 40K+ fields of view, cutting processing time by 35%.",
@@ -65,7 +65,7 @@ export const work: Job[] = [
     role: "Software Consultant",
     dates: "Jan 2026 – Mar 2026",
     location: "Irvine, CA",
-    summary: "Customer warehouse and segmentation across 30 SoCal sites.",
+    summary: "Segmented ~1.4M customers across 30 SoCal cafés with PostgreSQL and k-means.",
     points: [
       "Built a PostgreSQL warehouse and k-means segments for ~830K Gen Z and ~600K Millennial customers across 30 SoCal sites.",
       "Sized a $7.8B café market (12.7% CAGR) in Plotly dashboards, ranking drivers (81% pricing, 71% taste).",
@@ -76,7 +76,7 @@ export const work: Job[] = [
     role: "Machine Learning Engineer",
     dates: "Oct 2025 – Mar 2026",
     location: "Irvine, CA",
-    summary: "Meal-scanning vision model; precision and recall from 63% to 95%.",
+    summary: "Trained a meal-scanning YOLOv8 model, taking precision and recall from 63% to 95%.",
     points: [
       "Built a cognitively accessible diet tracker that scans meals with YOLOv8 (300 classes) served via FastAPI.",
       "Curated 28K+ images with HSV, scale and mosaic augmentation; ran ablations guided by confusion-matrix errors.",
@@ -88,7 +88,7 @@ export const work: Job[] = [
     role: "Software Engineer Intern",
     dates: "Jun 2023 – Oct 2023",
     location: "San Francisco, CA",
-    summary: "Sensor pipeline ingesting 5M+ readings from embedded devices.",
+    summary: "Predictive machine maintenance that traced 60% of breakdowns across 5M+ sensor readings.",
     points: [
       "Deployed a Node.js pipeline on Azure Data Explorer ingesting 5M+ sensor readings from embedded devices.",
       "Clustered machine-state data into 4 operational states, linking transitions to 60% of hardware breakdowns.",
