@@ -9,7 +9,8 @@ import { SECTION_INDEX_ID, sections } from "../content/site";
  * The hero's section index is the map's legend: hovering or focusing a link there lights its cluster,
  * and hovering a cluster lights its link (via a `data-lit` attribute). No labels are drawn on the canvas.
  * After the intro the map drifts slowly, like live tissue under a microscope: each cell wobbles a pixel
- * or two and each cluster breathes. It is the page's one ambient motion; it runs at 30fps, pauses
+ * or two and each cluster sways and breathes. With a mouse, clusters lean toward the pointer at
+ * different depths and cells part around it. It is the page's one ambient motion; it runs at 30fps, pauses
  * off-screen, and is off for reduced motion and on phones.
  * Synthetic data only. aria-hidden: the section index nav is the accessible navigation.
  */
@@ -57,10 +58,17 @@ const HOVER_MS = 220;
 const HIT_RADIUS = 16; // px
 const KNN_PER_CELL = 2;
 // Drift (see the header comment). Cell wobble in px; cluster breathing as a fraction of its size.
-const DRIFT_PX = 1.4;
-const BREATHE = 0.018;
-const CLUSTER_SWAY_PX = 2.5;
+const DRIFT_PX = 2;
+const BREATHE = 0.04;
+const CLUSTER_SWAY_PX = 6;
 const DRIFT_FPS = 30;
+// Cursor: clusters lean toward the pointer with parallax (each at its own depth), and cells right
+// under the pointer part around it. Mouse only.
+const LEAN_PX = 12;
+const DEPTHS = [1, 0.55, 1.35, 0.8, 1.15]; // per cluster, so the lean reads as depth; background uses 0.35
+const PART_RADIUS = 70; // px
+const PART_PX = 9;
+const CURSOR_EASE_MS = 260;
 
 // Deterministic RNG so the map looks the same on every visit.
 function mulberry32(seed: number) {
@@ -229,14 +237,20 @@ export default function TissueMap() {
       draw(introDone ? 1 : 0);
     }
 
+    // Cursor state, in canvas px. `lean` and `part` ease toward their targets each frame.
+    const pointer = { x: 0, y: 0, lx: 0, ly: 0, active: false, moved: 0 }; // x/y: client; lx/ly: canvas
+    const lean = { x: 0, y: 0 };
+    let part = 0; // 0..1: how strongly cells part around the pointer
+
     // Drift offsets at time t (seconds): each cluster sways and breathes around its centroid.
     const sway = clusters.map(() => ({ x: 0, y: 0, s: 1 }));
     function setDrift(t: number) {
       clusters.forEach((_, ci) => {
         const k = ci * 1.7;
-        sway[ci].x = CLUSTER_SWAY_PX * Math.sin(t * 0.21 + k);
-        sway[ci].y = CLUSTER_SWAY_PX * Math.cos(t * 0.17 + k * 1.3);
-        sway[ci].s = 1 + BREATHE * Math.sin(t * 0.45 + k);
+        const d = DEPTHS[ci % DEPTHS.length];
+        sway[ci].x = CLUSTER_SWAY_PX * Math.sin(t * 0.3 + k) + lean.x * d;
+        sway[ci].y = CLUSTER_SWAY_PX * Math.cos(t * 0.24 + k * 1.3) + lean.y * d;
+        sway[ci].s = 1 + BREATHE * Math.sin(t * 0.6 + k);
       });
     }
     let time = 0;
@@ -246,8 +260,8 @@ export default function TissueMap() {
     function cellPos(c: Cell, t: number, ox: number, oy: number, size: number) {
       let nx = c.sx + (c.x - c.sx) * t;
       let ny = c.sy + (c.y - c.sy) * t;
-      let dx = DRIFT_PX * Math.sin(time * c.fq + c.ph);
-      let dy = DRIFT_PX * Math.cos(time * c.fq * 0.8 + c.ph * 1.3);
+      let dx = DRIFT_PX * Math.sin(time * c.fq * 1.4 + c.ph);
+      let dy = DRIFT_PX * Math.cos(time * c.fq * 1.1 + c.ph * 1.3);
       if (c.cluster >= 0) {
         const m = centroids[c.cluster];
         const sw = sway[c.cluster];
@@ -256,11 +270,22 @@ export default function TissueMap() {
         dx += sw.x;
         dy += sw.y;
       } else {
-        dx *= 0.6;
-        dy *= 0.6;
+        dx = dx * 0.6 + lean.x * 0.35;
+        dy = dy * 0.6 + lean.y * 0.35;
       }
       pos.x = ox + nx * size + dx;
       pos.y = oy + ny * size + dy;
+      if (part > 0.01) {
+        const vx = pos.x - pointer.lx;
+        const vy = pos.y - pointer.ly;
+        const d2 = vx * vx + vy * vy;
+        if (d2 < PART_RADIUS * PART_RADIUS && d2 > 0.01) {
+          const d = Math.sqrt(d2);
+          const push = PART_PX * part * (1 - d / PART_RADIUS) ** 2;
+          pos.x += (vx / d) * push;
+          pos.y += (vy / d) * push;
+        }
+      }
       return pos;
     }
 
@@ -343,15 +368,36 @@ export default function TissueMap() {
       });
       anyFocus = Math.max(...focus);
 
-      // Drift alone only needs 30fps; intro and hover easing draw every frame.
-      const driftOnly = introDone && !settling;
+      // Cursor: lean toward the pointer (relative to the map's center), part cells under it.
+      const k = 1 - Math.exp(-dt / CURSOR_EASE_MS);
+      const live = !staticMode();
+      let leanX = 0;
+      let leanY = 0;
+      let partTarget = 0;
+      if (live && pointer.active) {
+        const rect = canvas!.getBoundingClientRect();
+        const px = pointer.x - rect.left;
+        const py = pointer.y - rect.top;
+        pointer.lx = px;
+        pointer.ly = py;
+        leanX = Math.max(-1, Math.min(1, (px - w / 2) / (w * 0.75))) * LEAN_PX;
+        leanY = Math.max(-1, Math.min(1, (py - h / 2) / (h * 0.75))) * LEAN_PX;
+        partTarget = px >= 0 && py >= 0 && px <= w && py <= h ? 1 : 0;
+      }
+      lean.x += (leanX - lean.x) * k;
+      lean.y += (leanY - lean.y) * k;
+      part += (partTarget - part) * k;
+      const cursorBusy = now - pointer.moved < 800 || Math.abs(leanX - lean.x) + Math.abs(leanY - lean.y) > 0.2 || Math.abs(partTarget - part) > 0.02;
+
+      // Drift alone only needs 30fps; intro, hover easing and cursor response draw every frame.
+      const driftOnly = introDone && !settling && !cursorBusy;
       if (!driftOnly || now - lastDraw >= 1000 / DRIFT_FPS - 2) {
         if (drifting()) time = now / 1000;
         setDrift(time);
         draw(progress);
         lastDraw = now;
       }
-      if (!introDone || settling || drifting()) raf = requestAnimationFrame(frame);
+      if (!introDone || settling || drifting() || (live && cursorBusy)) raf = requestAnimationFrame(frame);
       else {
         raf = 0;
         lastFrame = 0;
@@ -447,6 +493,22 @@ export default function TissueMap() {
     resize();
     if (!introDone) kick();
 
+    const onWindowMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      pointer.active = true;
+      pointer.moved = performance.now();
+      if (onScreen) kick();
+    };
+    const onWindowLeave = () => {
+      pointer.active = false;
+      pointer.moved = performance.now();
+      kick();
+    };
+    window.addEventListener("pointermove", onWindowMove, { passive: true });
+    document.documentElement.addEventListener("pointerleave", onWindowLeave);
+
     canvas.addEventListener("pointermove", onMove);
     canvas.addEventListener("pointerleave", onLeave);
     canvas.addEventListener("click", onClick as EventListener);
@@ -456,6 +518,8 @@ export default function TissueMap() {
       ro.disconnect();
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pointermove", onWindowMove);
+      document.documentElement.removeEventListener("pointerleave", onWindowLeave);
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
       canvas.removeEventListener("click", onClick as EventListener);
