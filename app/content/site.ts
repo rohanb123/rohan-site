@@ -8,8 +8,8 @@ export const site = {
   whatIBuild: "Experience in AI, ML, embedded systems, backend and systems engineering.",
   /** Hidden while empty. One line on what you're building right now. */
   currentlyBuilding: "",
-  /** Hidden while empty. Labelled "Open to" in the hero. */
-  openTo: "Internships, part-time, or full-time roles, any term.",
+  /** Hidden while empty. Availability line under whatIBuild. */
+  openTo: "Open to internships, part-time, or full-time roles, any term.",
   location: "San Francisco, CA",
 };
 
