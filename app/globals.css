@@ -52,8 +52,9 @@
   --star-k: #ffc78a;
   --star-m: #ffa766;
 
-  /* Derived from the primary accent. Glow tokens are defined but unused: no glow on the site. */
+  /* Derived from the primary accent. Glow is used in one place only: the header mark on hover/focus (.site-mark). */
   --accent-soft: color-mix(in oklab, var(--accent) 16%, transparent);
+  --glow-xs: 0 0 2px color-mix(in oklab, var(--accent) 90%, transparent);
   --glow-sm: 0 0 8px color-mix(in oklab, var(--accent) 55%, transparent);
   --glow-md: 0 0 24px color-mix(in oklab, var(--accent) 25%, transparent);
 
@@ -158,6 +159,34 @@ body {
 }
 html[data-intro] [data-below-fold] {
   opacity: 0;
+}
+
+/* Header site mark: on hover or focus it lifts a touch, turns coral and catches a soft glow, like a star
+   brightening. drop-shadow (not box-shadow) so the glow follows the mark's shape. */
+.site-mark-glyph {
+  background-color: var(--fg);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  transition:
+    background-color 300ms var(--ease-out),
+    transform 300ms var(--ease-out);
+}
+/* The glow sits on the link, because a mask would clip a filter on the glyph itself */
+.site-mark {
+  transition: filter 300ms var(--ease-out);
+}
+.site-mark:hover,
+.site-mark:focus-visible {
+  filter: drop-shadow(var(--glow-xs)) drop-shadow(var(--glow-sm)) drop-shadow(var(--glow-md));
+}
+.site-mark:hover .site-mark-glyph,
+.site-mark:focus-visible .site-mark-glyph {
+  background-color: var(--accent);
+  transform: translateY(-2px);
 }
 
 /* Hero entrance — the only ambient motion outside of interactions */

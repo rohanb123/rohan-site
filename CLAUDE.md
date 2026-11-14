@@ -25,7 +25,7 @@ The site should feel dark, spacey and high-end, and must never distract from the
     Each home section has one identity color (`sections[].color` in `app/content/site.ts`): its tissue-map cluster,
     the hover/active color of its index number (hero index, sticky header), and small metadata marks inside it
     (e.g. project years). At rest, index numbers stay `--color-fg-subtle`. Links stay on the primary accent.
-- No teal or cyan, anywhere. No neon, no glow.
+- No teal or cyan, anywhere. No neon, no glow, except the soft coral glow on the header site mark's hover/focus (`.site-mark`), which Rohan asked for.
 - Titles (orgs, projects, school) use `--color-fg-heading`: off-white with ~22% of the secondary accent, so they stay warm, not pink.
   Body copy never takes an accent.
 - Each color is a one-line edit in `app/globals.css`. Derive tints with `color-mix()`; never introduce an undefined hue.
