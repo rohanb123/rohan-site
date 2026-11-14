@@ -3,13 +3,13 @@
 
 export const site = {
   name: "Rohan Bharti",
-  tagline: "Ex-IBM watsonx SDE Intern | CS @ UC Irvine",
+  tagline: "Ex-IBM watsonx SDE | CS @ UC Irvine",
   /** One line under the tagline. */
   whatIBuild: "Experience in AI, ML, embedded systems, backend and systems engineering.",
   /** Hidden while empty. One line on what you're building right now. */
   currentlyBuilding: "",
   /** Hidden while empty. Availability line under whatIBuild. */
-  openTo: "Open to internships, part-time, or full-time roles, any term.",
+  openTo: "Open to internships, part-time or full-time, any term.",
   location: "San Francisco / Irvine",
 };
 
