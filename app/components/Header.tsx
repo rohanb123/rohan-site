@@ -74,7 +74,9 @@ export default function Header() {
           {/* The site mark (same as the favicon): back to 00 / About */}
           <a href="#top" aria-label="Back to top" title="Back to top" className="site-mark -my-2 shrink-0 py-2 opacity-85 transition-opacity duration-200 hover:opacity-100 focus-visible:opacity-100">
             {/* The PNG is a mask, so the mark takes a CSS color and can turn coral on hover */}
-            <span aria-hidden="true" className="site-mark-glyph block size-7" style={{ maskImage: `url(${logo.src})`, WebkitMaskImage: `url(${logo.src})` }} />
+            <span aria-hidden="true" className="site-mark-glow block">
+              <span className="site-mark-glyph block size-7" style={{ maskImage: `url(${logo.src})`, WebkitMaskImage: `url(${logo.src})` }} />
+            </span>
           </a>
           {/* Narrow screens: just the current section, linking back to the top */}
           <a href="#top" style={current ? sectionColor(current.id) : undefined} className="flex gap-3 py-2 text-fg-muted transition-colors duration-200 hover:text-fg sm:hidden">

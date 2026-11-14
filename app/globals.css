@@ -56,6 +56,8 @@
   --accent-soft: color-mix(in oklab, var(--accent) 16%, transparent);
   --glow-xs: 0 0 2px color-mix(in oklab, var(--accent) 90%, transparent);
   --glow-sm: 0 0 8px color-mix(in oklab, var(--accent) 55%, transparent);
+  --glow-lg: 0 0 16px color-mix(in oklab, var(--accent) 70%, transparent);
+  --aura: color-mix(in oklab, var(--accent) 22%, transparent);
   --glow-md: 0 0 24px color-mix(in oklab, var(--accent) 25%, transparent);
 
   /* Spacing */
@@ -172,21 +174,47 @@ html[data-intro] [data-below-fold] {
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
   transition:
-    background-color 300ms var(--ease-out),
+    background-color 300ms var(--ease-out);
+}
+/* The glow sits on the link, because a mask would clip a filter on the glyph itself.
+   ::before is the aura: a soft coral halo that swells in behind the mark. */
+.site-mark {
+  position: relative;
+  isolation: isolate;
+}
+.site-mark::before {
+  content: "";
+  position: absolute;
+  inset: -0.5rem -0.75rem;
+  z-index: -1;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, var(--aura), transparent);
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity 400ms var(--ease-out),
+    transform 500ms var(--ease-out);
+  pointer-events: none;
+}
+.site-mark:hover::before,
+.site-mark:focus-visible::before {
+  opacity: 1;
+  transform: scale(1);
+}
+/* Like a star brightening: a white core, a coral glow hugging the strokes, the aura behind */
+.site-mark-glow {
+  transition:
+    filter 300ms var(--ease-out),
     transform 300ms var(--ease-out);
 }
-/* The glow sits on the link, because a mask would clip a filter on the glyph itself */
-.site-mark {
-  transition: filter 300ms var(--ease-out);
-}
-.site-mark:hover,
-.site-mark:focus-visible {
-  filter: drop-shadow(var(--glow-xs)) drop-shadow(var(--glow-sm)) drop-shadow(var(--glow-md));
+.site-mark:hover .site-mark-glow,
+.site-mark:focus-visible .site-mark-glow {
+  filter: drop-shadow(var(--glow-xs)) drop-shadow(var(--glow-sm)) drop-shadow(var(--glow-lg));
+  transform: translateY(-2px);
 }
 .site-mark:hover .site-mark-glyph,
 .site-mark:focus-visible .site-mark-glyph {
-  background-color: var(--accent);
-  transform: translateY(-2px);
+  background-color: var(--fg);
 }
 
 /* Hero entrance — the only ambient motion outside of interactions */
