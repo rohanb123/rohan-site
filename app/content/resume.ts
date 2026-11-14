@@ -136,7 +136,6 @@ export const projects: Project[] = [
     id: "gteam",
     name: "GTeam",
     year: "2026",
-    context: "Y Combinator",
     stack: [
       "Semantic Search",
       "Voyage AI",
