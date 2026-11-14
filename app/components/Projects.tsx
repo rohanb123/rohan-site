@@ -13,14 +13,20 @@ export default function Projects() {
       <ol className="grid gap-x-12 md:grid-cols-2">
         {projects.map((p) => (
           <li key={p.id} className="flex flex-col border-b border-line py-6 first:pt-0 md:nth-2:pt-0">
-            {/* Year in the Projects section color, then where it was built */}
-            <p className="font-mono text-meta uppercase tracking-[0.14em] text-fg-subtle">
-              <span className="text-data-5">{p.year}</span>
-              <span aria-hidden="true"> · </span>
-              <span>{p.context}</span>
-            </p>
-
-            <h3 className="mt-2 font-display text-2xl leading-tight text-fg-heading">{p.name}</h3>
+            {/* Name with the year (Projects section color) set right on the same line, so there is no
+                meta row left holding only a year */}
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+              <h3 className="font-display text-2xl leading-tight text-fg-heading">{p.name}</h3>
+              <p className="font-mono text-meta uppercase tracking-[0.14em] text-fg-subtle">
+                {p.context && (
+                  <>
+                    <span>{p.context}</span>
+                    <span aria-hidden="true"> · </span>
+                  </>
+                )}
+                <span className="text-data-5">{p.year}</span>
+              </p>
+            </div>
             <p className="mt-1 text-[0.9375rem] leading-relaxed text-fg-muted">{p.summary}</p>
 
             <p className="mt-3 font-mono text-meta uppercase leading-6 tracking-[0.12em] text-fg-subtle">

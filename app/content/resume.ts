@@ -16,7 +16,8 @@ export type Project = {
   id: string;
   name: string;
   year: string;
-  context: string;
+  /** Optional: where it was built. Shown beside the year. */
+  context?: string;
   stack: string[];
   summary: string;
   points: string[];
@@ -101,7 +102,6 @@ export const projects: Project[] = [
     id: "rover",
     name: "Autonomous Rover",
     year: "2026",
-    context: "Cal Hacks · SpaceXAI Track",
     stack: [
       "SigLIP",
       "Logistic Regression",
@@ -120,7 +120,6 @@ export const projects: Project[] = [
     id: "galaxy",
     name: "Galaxy Merger Prediction",
     year: "2024",
-    context: "Harvard",
     stack: [
       "Keras",
       "TensorFlow",
@@ -155,7 +154,6 @@ export const projects: Project[] = [
     id: "clearpath",
     name: "ClearPath",
     year: "2026",
-    context: "UC San Diego",
     stack: [
       "Python",
       "FastAPI",
