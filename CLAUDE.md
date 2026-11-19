@@ -8,20 +8,13 @@ Restrained, never sweet or cute, and it must never distract from the content.
 ## Direction
 - The atmosphere is Rohan's photography, not CSS effects. The hero is his towers photo (the sliver of sunset
   light between two buildings), full-bleed, slightly darkened, fading into the page at the bottom.
-- A small text switch at the hero's top right ("City / Mist / Bridge", `SceneSwitch.tsx`) swaps the photo:
-  mist (p18) or bridge (p16, watermark trimmed off the left edge). Those two are clean, small digital files that
-  look soft stretched across a wide screen, so from `lg` up they stand as an uncropped square-cornered print to the
-  right of the name (bottom on the tagline, never enlarged past real size) on the scene's dark base; on phones
-  they stay full-bleed, where a portrait photo is barely enlarged. Only City (grainy film) is full-bleed everywhere. Each scene brings its own palette sampled from its photo
-  (`:root[data-scene="…"]` in `globals.css`); the choice is saved per device and restored before first paint.
-  Towers is the default, and the one the OG image uses.
 - Lavender and sunset come from the photos: the palette is sampled from them, not invented.
 - Rejected on purpose (Rohan's feedback): pill buttons, colored dots before labels, bouncy/spring hovers,
   rounded raised cards, soft "plush" serifs (Fraunces), posterized CSS sunset bands, the starfield and the
   tissue map. Don't bring them back.
 
 ## Layers
-1. **Atmosphere.** The hero photo only (or the hero print, for the mist and bridge scenes on wide screens). No background effects elsewhere except a faint film grain
+1. **Atmosphere.** The hero photo only. No background effects elsewhere except a faint film grain
    (`body::after`, 6% overlay) that matches the grain in the photos.
 2. **Structure.** Small wide uppercase section labels (`--color-fg-subtle`) in a left column, and thin
    lavender-tinted rules (`--color-rule`). Every section uses the same two columns (`Section.tsx`,
@@ -37,9 +30,7 @@ Restrained, never sweet or cute, and it must never distract from the content.
   accent was removed at Rohan's request. Years and dates stay `--color-fg-subtle`.
 - The name gradient (`--name-1` … `--name-3`: peach glow, rose windows, lavender, sampled from the towers photo)
   is used on the last name in the hero and the OG image only (`.name-gradient`). It is the one gradient on the site.
-- Teal and cyan appear only inside Rohan's photographs, never as UI color, except the mist scene, whose palette
-  (slate base, glacier-blue accent, lichen/moss/glacier name) is sampled from that photo at Rohan's request.
-  The bridge scene swaps lavender for International Orange (lifted to #EC917C for AA) on an oxblood-black base. No neon, no glow.
+- Teal and cyan appear only inside Rohan's photographs, never as UI color. No neon, no glow.
 - Each color is a one-line edit in `app/globals.css`. Derive tints with `color-mix()`; never introduce an undefined hue.
 
 ## Type
@@ -68,7 +59,6 @@ Restrained, never sweet or cute, and it must never distract from the content.
 - Almost none. Hover changes color or underline only, 150ms. No springs, no lifts.
 - One entrance, in the hero only: the photo opens out from the strip of light between the towers (`.hero-open`,
   850ms) and the name settles in (`.hero-settle`). Text below the name is readable from the first frame.
-  The opening plays once per page load only; switching scenes afterwards is a plain 700ms crossfade.
 - One lowkey interaction: a band of peach light in the last name's gradient drifts with the pointer across the hero (damped: the full window width moves it about half the word, easing over 1.4s)
   (`HeroLight.tsx`, inline background-position), easing and then staying put. Fine pointers only.
 - Above the name: "Based in San Francisco / Irvine — 4:12 pm PT", the live Pacific time (`LocalTime.tsx`,
@@ -84,7 +74,7 @@ Restrained, never sweet or cute, and it must never distract from the content.
 
 ## Code
 - One component per file in `app/components/`.
-- Keep client components (`"use client"`) to what genuinely needs the browser: currently only `HeroLight`, `CopyEmail`, `LocalTime`, `MobileMenu` and `SceneSwitch`.
+- Keep client components (`"use client"`) to what genuinely needs the browser: currently only `HeroLight`, `CopyEmail`, `LocalTime` and `MobileMenu`.
 
 ## Anti-slop rules (avoid unchosen defaults)
 
