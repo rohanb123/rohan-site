@@ -8,7 +8,7 @@ Restrained, never sweet or cute, and it must never distract from the content.
 ## Direction
 - The atmosphere is Rohan's photography, not CSS effects. The hero is his towers photo (the sliver of sunset
   light between two buildings), full-bleed, slightly darkened, fading into the page at the bottom.
-- A small text switch at the hero's top right ("Towers / Mist / Bridge", `SceneSwitch.tsx`) swaps the photo:
+- A small text switch at the hero's top right ("City / Mist / Bridge", `SceneSwitch.tsx`) swaps the photo:
   mist (p18, framed on the mossy valley floor, not the clouded peak) or bridge (p16, the top of a Golden Gate
   tower, watermark cropped off). Each scene brings its own palette sampled from its photo
   (`:root[data-scene="…"]` in `globals.css`); the choice is saved per device and restored before first paint.
@@ -66,6 +66,7 @@ Restrained, never sweet or cute, and it must never distract from the content.
 - Almost none. Hover changes color or underline only, 150ms. No springs, no lifts.
 - One entrance, in the hero only: the photo opens out from the strip of light between the towers (`.hero-open`,
   850ms) and the name settles in (`.hero-settle`). Text below the name is readable from the first frame.
+  The opening plays once per page load only; switching scenes afterwards is a plain 700ms crossfade.
 - One lowkey interaction: a band of peach light in the last name's gradient drifts with the pointer across the hero (damped: the full window width moves it about half the word, easing over 1.4s)
   (`HeroLight.tsx`, inline background-position), easing and then staying put. Fine pointers only.
 - Above the name: "Based in San Francisco / Irvine — 4:12 pm PT", the live Pacific time (`LocalTime.tsx`,

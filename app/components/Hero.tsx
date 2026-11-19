@@ -12,7 +12,8 @@ import SocialIcon from "./SocialIcon";
 /**
  * Full-bleed hero on Rohan's towers photo: the sliver of sunset light falls toward the name. The photo runs
  * to the top edge under the see-through bar and fades into the page at the bottom (.hero-shade).
- * SceneSwitch swaps in the mist photo and its palette; both are rendered and CSS shows the chosen one.
+ * SceneSwitch swaps the photo and its palette: every scene photo is stacked here and CSS shows the chosen one
+ * (opening once on load, crossfading on a switch).
  * On load the photo opens out from the strip of light (.hero-open) and the name settles in (.hero-settle).
  */
 export default function Hero() {

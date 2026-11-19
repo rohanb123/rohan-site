@@ -24,7 +24,7 @@ export const showcase: Photo[] = [
 export const scenes = [
   {
     id: "towers",
-    label: "Towers",
+    label: "City",
     photo: showcase.find((p) => p.id === "port1-5")!,
     // Keeps the strip of light in frame
     position: "object-[42%_20%]",
@@ -41,10 +41,11 @@ export const scenes = [
   {
     id: "bridge",
     label: "Bridge",
-    // Cropped from the left edge to drop the watermark
-    photo: { id: "p16", src: bridge, alt: "A Golden Gate Bridge tower in fog, the deck crossing a green hill" },
-    // The top of the tower, where the main cables cross it
-    position: "object-[50%_8%]",
+    // A landscape crop of the original (which also drops the watermark): the tower on the right, the main cables
+    // sweeping down across the left behind the name
+    photo: { id: "p16", src: bridge, alt: "A Golden Gate Bridge tower in fog, its main cables sweeping down past it" },
+    // On a portrait phone screen, keep the tower in frame
+    position: "object-[72%_50%]",
     brightness: "brightness-[0.62]",
   },
 ] as const;

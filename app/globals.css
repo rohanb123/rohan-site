@@ -60,15 +60,24 @@
   --name-3: #d6e1e3;
 }
 
-/* Only the chosen scene's hero photo is shown. Showing one restarts .hero-open, so a switch opens the new photo
-   out from the middle, the same way the page loads. */
-[data-scene-photo]:not([data-scene-photo="towers"]),
-html[data-scene] [data-scene-photo="towers"] {
-  display: none;
+/* All the scene photos are stacked; only the chosen one is visible. The page-load opening (.hero-open) runs once,
+   on all of them at the same time. A later switch is a quiet crossfade, never a second opening. Hidden photos are
+   also visibility: hidden, so screen readers only meet the one on screen. */
+[data-scene-photo] {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 700ms ease,
+    visibility 0s 700ms;
 }
+html:not([data-scene]) [data-scene-photo="towers"],
 html[data-scene="mist"] [data-scene-photo="mist"],
 html[data-scene="bridge"] [data-scene-photo="bridge"] {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 700ms ease,
+    visibility 0s;
 }
 
 @theme inline {
