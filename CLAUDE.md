@@ -8,6 +8,10 @@ Restrained, never sweet or cute, and it must never distract from the content.
 ## Direction
 - The atmosphere is Rohan's photography, not CSS effects. The hero is his towers photo (the sliver of sunset
   light between two buildings), full-bleed, slightly darkened, fading into the page at the bottom.
+- A small text switch in the hero ("Photo  Towers / Mist", `SceneSwitch.tsx`) swaps in the mist photo (p18, a
+  clouded mountain over a mossy valley). Each scene brings its own palette sampled from its photo
+  (`:root[data-scene="mist"]` in `globals.css`); the choice is saved per device and restored before first paint.
+  Towers is the default, and the one the OG image uses.
 - Lavender and sunset come from the photos: the palette is sampled from them, not invented.
 - Rejected on purpose (Rohan's feedback): pill buttons, colored dots before labels, bouncy/spring hovers,
   rounded raised cards, soft "plush" serifs (Fraunces), posterized CSS sunset bands, the starfield and the
@@ -30,12 +34,13 @@ Restrained, never sweet or cute, and it must never distract from the content.
   accent was removed at Rohan's request. Years and dates stay `--color-fg-subtle`.
 - The name gradient (`--name-1` … `--name-3`: peach glow, rose windows, lavender, sampled from the towers photo)
   is used on the last name in the hero and the OG image only (`.name-gradient`). It is the one gradient on the site.
-- Teal and cyan appear only inside Rohan's photographs, never as UI color. No neon, no glow.
+- Teal and cyan appear only inside Rohan's photographs, never as UI color, except the mist scene, whose palette
+  (slate base, glacier-blue accent, lichen/moss/glacier name) is sampled from that photo at Rohan's request. No neon, no glow.
 - Each color is a one-line edit in `app/globals.css`. Derive tints with `color-mix()`; never introduce an undefined hue.
 
 ## Type
 - Archivo for display (`font-display`), pushed wide on its width axis (`wdth` 125): the name (light 300,
-  uppercase, huge), org/project/school names, section labels (small, uppercase, tracked). Chosen over serifs
+  uppercase, large but not dominant: the tagline under it is sized up to be read right after it), org/project/school names, section labels (small, uppercase, tracked). Chosen over serifs
   because it reads cooler and more deliberate; Rohan picked it over Bodoni.
 - Schibsted Grotesk for body (`font-sans`), weight 400. 500 only for small UI emphasis, never body text.
 - No mono labels.
@@ -74,7 +79,7 @@ Restrained, never sweet or cute, and it must never distract from the content.
 
 ## Code
 - One component per file in `app/components/`.
-- Keep client components (`"use client"`) to what genuinely needs the browser: currently only `HeroLight`, `CopyEmail`, `LocalTime` and `MobileMenu`.
+- Keep client components (`"use client"`) to what genuinely needs the browser: currently only `HeroLight`, `CopyEmail`, `LocalTime`, `MobileMenu` and `SceneSwitch`.
 
 ## Anti-slop rules (avoid unchosen defaults)
 

@@ -28,15 +28,16 @@ export const metadata: Metadata = {
  * until the visitor scrolls, clicks or presses a key. A refresh drops any #hash left by the section
  * links; a shared #link still opens on its section, with everything visible. Smooth scrolling turns
  * on at the first interaction, so the browser's own load-time jumps are never animated.
+ * It also restores the hero scene saved by SceneSwitch (data-scene), so the palette never flashes.
  * Runs before first paint so nothing flashes. Without JS, everything is simply visible.
  */
-const FIRST_VIEW_SCRIPT = `(function(){var d=document.documentElement,h=history;h.scrollRestoration="manual";var n=performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"&&location.hash)h.replaceState(h.state,"",location.pathname+location.search);if(!location.hash)d.dataset.intro="";var ev=["wheel","touchmove","keydown","pointerdown","scroll"];function r(){delete d.dataset.intro;d.dataset.smooth="";ev.forEach(function(e){removeEventListener(e,r,true)})}ev.forEach(function(e){addEventListener(e,r,{capture:true,passive:true})})})()`;
+const FIRST_VIEW_SCRIPT = `(function(){var d=document.documentElement,h=history;try{var s=localStorage.getItem("scene");if(s==="mist")d.dataset.scene=s}catch(e){}h.scrollRestoration="manual";var n=performance.getEntriesByType("navigation")[0];if(n&&n.type==="reload"&&location.hash)h.replaceState(h.state,"",location.pathname+location.search);if(!location.hash)d.dataset.intro="";var ev=["wheel","touchmove","keydown","pointerdown","scroll"];function r(){delete d.dataset.intro;d.dataset.smooth="";ev.forEach(function(e){removeEventListener(e,r,true)})}ev.forEach(function(e){addEventListener(e,r,{capture:true,passive:true})})})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      // FIRST_VIEW_SCRIPT sets data-intro before hydration
+      // FIRST_VIEW_SCRIPT sets data-intro and data-scene before hydration
       suppressHydrationWarning
       className={`${display.variable} ${sans.variable} h-full antialiased`}
     >

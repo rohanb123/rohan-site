@@ -33,6 +33,27 @@
   --bar-h: 4rem;
 }
 
+/* The mist scene (p18, SceneSwitch): the same roles re-sampled from the mountain photo. Shadow slate for the base,
+   fog for text, glacier blue for the accent; the name runs lichen ochre, moss, glacier. Every text color passes AA
+   (--fg-subtle 6:1, name stops >= 9.9:1). Set on <html> before first paint from the saved choice. */
+:root[data-scene="mist"] {
+  --bg: #0b1013;
+  --fg: #e4ecec;
+  --fg-muted: #a2b2b3;
+  --fg-subtle: #80939a;
+  --accent: #9ccde0;
+  --name-1: #dcb47e;
+  --name-2: #a9c49a;
+  --name-3: #9ccde0;
+}
+
+/* Only the chosen scene's hero photo is shown. Showing one restarts .hero-open, so a switch opens the new photo
+   out from the middle, the same way the page loads. */
+html:not([data-scene="mist"]) [data-scene-photo="mist"],
+html[data-scene="mist"] [data-scene-photo="towers"] {
+  display: none;
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-fg: var(--fg);
