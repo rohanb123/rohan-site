@@ -1,12 +1,13 @@
 import logo from "../../assets/logo.png";
 import { contact } from "../content/resume";
 import { sections } from "../content/site";
+import MobileMenu from "./MobileMenu";
 import SocialIcon from "./SocialIcon";
 
 /**
  * Fixed top bar: the site mark, the section links and the profile icons, so GitHub and LinkedIn are one click
  * away from the first screen. It floats over the hero photo and fills in as you scroll (.site-bar, pure CSS).
- * On phones only Contact stays beside the icons.
+ * On phones the section links fold into a "Menu" button (MobileMenu) beside the icons.
  */
 export default function Header() {
   const profiles = contact.filter((c) => c.icon);
@@ -22,10 +23,10 @@ export default function Header() {
       </a>
 
       <div className="flex items-center gap-4">
-        <nav aria-label="Sections">
+        <nav aria-label="Sections" className="max-sm:hidden">
           <ul className="flex gap-[clamp(1rem,2.5vw,2rem)] text-[0.9375rem]">
             {sections.map((s) => (
-              <li key={s.id} className={s.id === "contact" ? undefined : "max-sm:hidden"}>
+              <li key={s.id}>
                 <a
                   href={`#${s.id}`}
                   className="border-b border-transparent text-fg-muted transition-colors duration-150 hover:border-accent hover:text-fg"
@@ -36,6 +37,7 @@ export default function Header() {
             ))}
           </ul>
         </nav>
+        <MobileMenu />
         <span aria-hidden="true" className="mx-1 h-4 w-px bg-fg/25" />
         <ul aria-label="Profiles" className="-mr-1.5 flex items-center gap-1">
           {profiles.map((c) => (

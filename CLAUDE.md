@@ -45,7 +45,8 @@ Restrained, never sweet or cute, and it must never distract from the content.
 ## Layout
 - Header: fixed, see-through over the hero photo, filling in with `--color-bg` as you scroll (`.site-bar`, a CSS
   scroll-driven animation; solid where unsupported). Site mark (same art as the favicon) left; section links and
-  GitHub/LinkedIn icons right. On phones only Contact and the icons stay.
+  GitHub/LinkedIn icons right. On phones the section links fold into a plain "Menu" text button
+  (`MobileMenu.tsx`) that drops down a full-width list; no hamburger icon.
 - GitHub and LinkedIn must be reachable from the first screen: header icons and labeled links in the hero,
   plus the Contact section.
 - Work is a list (dates / org and role / one line). Projects is a 2x2 grid split by a thin cross of rules, newest
@@ -73,7 +74,7 @@ Restrained, never sweet or cute, and it must never distract from the content.
 
 ## Code
 - One component per file in `app/components/`.
-- Keep client components (`"use client"`) to what genuinely needs the browser: currently only `HeroLight`, `CopyEmail` and `LocalTime`.
+- Keep client components (`"use client"`) to what genuinely needs the browser: currently only `HeroLight`, `CopyEmail`, `LocalTime` and `MobileMenu`.
 
 ## Anti-slop rules (avoid unchosen defaults)
 
