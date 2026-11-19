@@ -101,4 +101,3 @@ Quality
 Process
 - Before finalizing a page, list which of the above you checked and which design decisions were deliberate. If a default slipped in, replace it and say so.
 - When I ask for a new section, propose 2 distinct directions before building, and vary away from the most common one.
-- Theme explorations live at `/theme-preview` (saved iterations at `/theme-preview/v2`, `/v3`), noindex.
