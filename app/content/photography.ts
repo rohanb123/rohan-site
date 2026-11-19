@@ -6,6 +6,7 @@ import type { StaticImageData } from "next/image";
 import lifeguard from "../../assets/photography/port1-3.jpg";
 import towers from "../../assets/photography/port1-5.jpg";
 import lotus from "../../assets/photography/port1.jpg";
+import bridge from "../../assets/photography/p16.jpg";
 import mist from "../../assets/photography/p18.jpg";
 
 export type Photo = { id: string; src: StaticImageData; alt: string };
@@ -33,9 +34,18 @@ export const scenes = [
     id: "mist",
     label: "Mist",
     photo: { id: "p18", src: mist, alt: "A mountain wrapped in low cloud above a green valley of mossy boulders" },
-    // The rock face and the valley; the white fog above would wash out the bar
-    position: "object-[50%_68%]",
-    brightness: "brightness-[0.6]",
+    // The valley floor: lichen-orange boulders, moss and the dark tree line under the mountain's foot
+    position: "object-[50%_100%]",
+    brightness: "brightness-[0.62]",
+  },
+  {
+    id: "bridge",
+    label: "Bridge",
+    // Cropped from the left edge to drop the watermark
+    photo: { id: "p16", src: bridge, alt: "A Golden Gate Bridge tower in fog, the deck crossing a green hill" },
+    // The top of the tower, where the main cables cross it
+    position: "object-[50%_8%]",
+    brightness: "brightness-[0.62]",
   },
 ] as const;
 

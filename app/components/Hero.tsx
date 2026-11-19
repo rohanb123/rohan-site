@@ -36,16 +36,19 @@ export default function Hero() {
       ))}
       <div aria-hidden="true" className="hero-shade absolute inset-0 -z-10" />
       <HeroLight targetId="top" />
+      {/* Top right, under the bar's profile icons, like a caption on the photo */}
+      <div className="absolute inset-x-0 top-[calc(var(--bar-h)+0.75rem)]">
+        <div className="mx-auto flex max-w-wide justify-end px-gutter">
+          <SceneSwitch />
+        </div>
+      </div>
 
       <div className="mx-auto w-full max-w-wide px-gutter">
         {/* Where Rohan is and what time it is there: small, in the same voice as the section labels */}
-        <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
-          <p className="font-display text-[0.8125rem] tracking-[0.08em] text-fg/85 uppercase">
-            Based in <span className="whitespace-nowrap">{site.location}</span>
-            <LocalTime />
-          </p>
-          <SceneSwitch />
-        </div>
+        <p className="mb-5 font-display text-[0.8125rem] tracking-[0.08em] text-fg/85 uppercase">
+          Based in <span className="whitespace-nowrap">{site.location}</span>
+          <LocalTime />
+        </p>
         <h1 className="hero-settle font-display text-[clamp(2.25rem,6.5vw,5.5rem)] leading-[0.92] font-light tracking-[-0.03em] uppercase">
           Rohan
           <br />

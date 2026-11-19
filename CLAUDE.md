@@ -8,9 +8,10 @@ Restrained, never sweet or cute, and it must never distract from the content.
 ## Direction
 - The atmosphere is Rohan's photography, not CSS effects. The hero is his towers photo (the sliver of sunset
   light between two buildings), full-bleed, slightly darkened, fading into the page at the bottom.
-- A small text switch in the hero ("Photo  Towers / Mist", `SceneSwitch.tsx`) swaps in the mist photo (p18, a
-  clouded mountain over a mossy valley). Each scene brings its own palette sampled from its photo
-  (`:root[data-scene="mist"]` in `globals.css`); the choice is saved per device and restored before first paint.
+- A small text switch at the hero's top right ("Towers / Mist / Bridge", `SceneSwitch.tsx`) swaps the photo:
+  mist (p18, framed on the mossy valley floor, not the clouded peak) or bridge (p16, the top of a Golden Gate
+  tower, watermark cropped off). Each scene brings its own palette sampled from its photo
+  (`:root[data-scene="…"]` in `globals.css`); the choice is saved per device and restored before first paint.
   Towers is the default, and the one the OG image uses.
 - Lavender and sunset come from the photos: the palette is sampled from them, not invented.
 - Rejected on purpose (Rohan's feedback): pill buttons, colored dots before labels, bouncy/spring hovers,
@@ -35,7 +36,8 @@ Restrained, never sweet or cute, and it must never distract from the content.
 - The name gradient (`--name-1` … `--name-3`: peach glow, rose windows, lavender, sampled from the towers photo)
   is used on the last name in the hero and the OG image only (`.name-gradient`). It is the one gradient on the site.
 - Teal and cyan appear only inside Rohan's photographs, never as UI color, except the mist scene, whose palette
-  (slate base, glacier-blue accent, lichen/moss/glacier name) is sampled from that photo at Rohan's request. No neon, no glow.
+  (slate base, glacier-blue accent, lichen/moss/glacier name) is sampled from that photo at Rohan's request.
+  The bridge scene swaps lavender for International Orange (lifted to #EC917C for AA) on an oxblood-black base. No neon, no glow.
 - Each color is a one-line edit in `app/globals.css`. Derive tints with `color-mix()`; never introduce an undefined hue.
 
 ## Type

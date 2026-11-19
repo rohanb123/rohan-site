@@ -47,11 +47,28 @@
   --name-3: #9ccde0;
 }
 
+/* The bridge scene (p16): oxblood-black from the shadow under the deck, fog for text, International Orange
+   (lifted to pass AA) for the accent; the name runs lit orange, tower red, fog. --fg-subtle 5.3:1, name >= 6.5:1. */
+:root[data-scene="bridge"] {
+  --bg: #120d0d;
+  --fg: #ece6e3;
+  --fg-muted: #b3a5a2;
+  --fg-subtle: #93827f;
+  --accent: #ec917c;
+  --name-1: #f2b49c;
+  --name-2: #e07a66;
+  --name-3: #d6e1e3;
+}
+
 /* Only the chosen scene's hero photo is shown. Showing one restarts .hero-open, so a switch opens the new photo
    out from the middle, the same way the page loads. */
-html:not([data-scene="mist"]) [data-scene-photo="mist"],
-html[data-scene="mist"] [data-scene-photo="towers"] {
+[data-scene-photo]:not([data-scene-photo="towers"]),
+html[data-scene] [data-scene-photo="towers"] {
   display: none;
+}
+html[data-scene="mist"] [data-scene-photo="mist"],
+html[data-scene="bridge"] [data-scene-photo="bridge"] {
+  display: block;
 }
 
 @theme inline {
@@ -226,7 +243,7 @@ body::after {
    sits on dark and the photo melts into the page */
 .hero-shade {
   background:
-    linear-gradient(to bottom, color-mix(in oklab, var(--bg) 55%, transparent), transparent 9rem),
+    linear-gradient(to bottom, color-mix(in oklab, var(--bg) 60%, transparent), transparent 13rem),
     linear-gradient(to top, var(--bg) 8%, color-mix(in oklab, var(--bg) 70%, transparent) 42%, transparent 75%);
 }
 

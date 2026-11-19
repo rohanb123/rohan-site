@@ -33,7 +33,6 @@ export default function SceneSwitch() {
   const current = useSyncExternalStore(subscribe, read, () => DEFAULT);
   return (
     <div role="group" aria-label="Hero photo" className="flex items-center gap-3 font-display text-[0.8125rem] tracking-[0.08em] uppercase">
-      <span className="text-fg-muted">Photo</span>
       {scenes.map((s, i) => (
         <span key={s.id} className="flex items-center gap-3">
           {i > 0 && <span aria-hidden="true" className="text-fg-subtle">/</span>}
