@@ -53,9 +53,16 @@ Restrained, never sweet or cute, and it must never distract from the content.
 - Square corners everywhere. Photos keep a 0 radius.
 
 ## Motion
-- Almost none. Hover changes color or underline only, 150ms. No springs, no lifts, no entrance animations.
+- Almost none. Hover changes color or underline only, 150ms. No springs, no lifts.
+- One entrance, in the hero only: the photo opens out from the strip of light between the towers (`.hero-open`,
+  850ms) and the name settles in (`.hero-settle`). Text below the name is readable from the first frame.
+- One lowkey interaction: a band of peach light in the last name's gradient follows the pointer across the hero
+  (`HeroLight.tsx`, inline background-position), easing and then staying put. Fine pointers only.
+- Above the name: "Based in San Francisco / Irvine — 4:12 pm PT", the live Pacific time (`LocalTime.tsx`,
+  client-only so the static page never shows a stale time).
+- Clicking the email copies it and shows "Copied" in its place (`CopyEmail.tsx`); modifier-clicks still open mail.
 - The header fill is tied to scroll position, not time.
-- Always respect `prefers-reduced-motion`.
+- Always respect `prefers-reduced-motion`: the entrance collapses to its final state and the cursor light is off.
 
 ## Tokens
 - All colors, fonts and spacing live as CSS variables in `app/globals.css` (`:root`), exposed to Tailwind via
@@ -64,7 +71,7 @@ Restrained, never sweet or cute, and it must never distract from the content.
 
 ## Code
 - One component per file in `app/components/`.
-- Keep client components (`"use client"`) to what genuinely needs the browser. The home page currently has none.
+- Keep client components (`"use client"`) to what genuinely needs the browser: currently only `HeroLight`, `CopyEmail` and `LocalTime`.
 
 ## Anti-slop rules (avoid unchosen defaults)
 
