@@ -56,7 +56,7 @@ Restrained, never sweet or cute, and it must never distract from the content.
 - Almost none. Hover changes color or underline only, 150ms. No springs, no lifts.
 - One entrance, in the hero only: the photo opens out from the strip of light between the towers (`.hero-open`,
   850ms) and the name settles in (`.hero-settle`). Text below the name is readable from the first frame.
-- One lowkey interaction: a band of peach light in the last name's gradient follows the pointer across the hero
+- One lowkey interaction: a band of peach light in the last name's gradient drifts with the pointer across the hero (damped: the full window width moves it about half the word, easing over 1.4s)
   (`HeroLight.tsx`, inline background-position), easing and then staying put. Fine pointers only.
 - Above the name: "Based in San Francisco / Irvine — 4:12 pm PT", the live Pacific time (`LocalTime.tsx`,
   client-only so the static page never shows a stale time).

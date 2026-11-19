@@ -141,7 +141,7 @@ body::after {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  transition: background-position 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-position 1400ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Load: the photo opens outward from the strip of light between the towers, then the name settles in.
