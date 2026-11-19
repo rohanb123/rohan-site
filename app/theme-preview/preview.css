@@ -1,0 +1,448 @@
+/* THROWAWAY theme preview, iteration 4. Builds on v3: the bar floats over the photo, the last name takes a
+   gradient sampled from the towers photo, Projects back to 2x2, no orange accent, socials up top. */
+
+:root:has(.tp) {
+  --bg: #0e0c11;
+  --fg: #ece4e3;
+  --fg-muted: #aaa0a8;
+  --fg-subtle: #8b8090; /* ~5.2:1 */
+  --accent: #b9a7e6; /* lavender: links, hover, the last name */
+  /* Sampled from the towers photo, used only on the last name: glow at the edge of the light, the rose
+     windows, then lavender. Kept light so every stop is high contrast on the dark hero. */
+  --name-1: #f3c2a2;
+  --name-2: #dca6b6;
+  --name-3: #b9a7e6;
+  --rule: color-mix(in oklab, var(--accent) 18%, transparent);
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --label-col: 11rem; /* section labels sit in this column; content starts after it */
+  background: var(--bg);
+}
+body:has(.tp) > :not(.tp) {
+  display: none;
+}
+
+.tp {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--tp-sans), sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  min-height: 100vh;
+}
+.tp :focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 4px;
+}
+.tp ::selection {
+  background: color-mix(in oklab, var(--accent) 35%, transparent);
+}
+.tp p,
+.tp h1,
+.tp h2,
+.tp h3,
+.tp dl,
+.tp dd {
+  margin: 0;
+}
+
+.tp::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.tp-wrap {
+  width: 100%;
+  max-width: 82rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- Type ---------- */
+.tp-name,
+.tp-h3,
+.tp-big-link,
+.tp-mark {
+  font-family: var(--tp-wide), sans-serif;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: -0.02em;
+}
+.tp-name {
+  font-weight: 300;
+  font-size: clamp(2.75rem, 10vw, 8.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+.tp-name-2 {
+  color: var(--name-3); /* fallback */
+  background: linear-gradient(100deg, var(--name-1) 5%, var(--name-2) 45%, var(--name-3) 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tp-h3 {
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+.tp-label {
+  font-family: var(--tp-wide), sans-serif;
+  font-variation-settings: "wdth" 125;
+  font-weight: 400;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+.tp-subtle {
+  color: var(--fg-subtle);
+  font-size: 0.9375rem;
+}
+.tp-muted {
+  color: var(--fg-muted);
+}
+.tp-sep::before {
+  content: "/";
+  margin-inline: 0.6em;
+  color: var(--fg-subtle);
+}
+.tp-num {
+  font-variant-numeric: tabular-nums;
+}
+.tp-line {
+  display: block;
+}
+
+.tp-link,
+.tp-big-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  text-decoration-color: color-mix(in oklab, var(--accent) 40%, transparent);
+  transition: text-decoration-color 150ms, color 150ms;
+}
+.tp-link:hover,
+.tp-big-link:hover {
+  text-decoration-color: currentColor;
+  color: var(--fg);
+}
+
+/* ---------- Bar ---------- */
+/* Fixed and see-through over the photo; fills in with the page color as you scroll past the hero */
+.tp-bar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 40;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+  padding-inline: var(--gutter);
+  background: var(--bg);
+}
+@supports (animation-timeline: scroll()) {
+  .tp-bar {
+    background: transparent;
+    animation: tp-bar-fill linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 70vh;
+  }
+}
+@keyframes tp-bar-fill {
+  to {
+    background: var(--bg);
+  }
+}
+html:has(.tp) {
+  scroll-padding-top: 4.5rem;
+}
+.tp-mark {
+  display: block;
+  padding: 0.25rem 0;
+  opacity: 0.9;
+  transition: opacity 150ms;
+}
+.tp-mark:hover {
+  opacity: 1;
+}
+.tp-mark-glyph {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  background-color: var(--fg);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+.tp-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.tp-bar-div {
+  width: 1px;
+  height: 1rem;
+  background: color-mix(in oklab, var(--fg) 25%, transparent);
+  margin-inline: 0.25rem;
+}
+.tp-icon {
+  display: grid;
+  place-items: center;
+  padding: 0.35rem;
+  color: var(--fg-muted);
+  transition: color 150ms;
+}
+.tp-icon:hover {
+  color: var(--fg);
+}
+.tp-bar nav {
+  display: flex;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  font-size: 0.9375rem;
+}
+.tp-navlink {
+  color: var(--fg-muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 150ms, border-color 150ms;
+}
+.tp-navlink:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+@media (max-width: 560px) {
+  .tp-navlink:not(:last-child) {
+    display: none;
+  }
+}
+
+/* ---------- Hero: full-bleed towers, darkened and fading into the page at the bottom ---------- */
+.tp-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  padding: 4rem 0 clamp(2.5rem, 6vh, 4rem);
+}
+.tp-hero-img {
+  z-index: -2;
+  object-fit: cover;
+  object-position: 42% 20%;
+  filter: brightness(0.74);
+}
+/* A light shade at the top so the bar reads over the photo; a fade at the bottom so the text sits on
+   dark and the photo melts into the page */
+.tp-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to bottom, color-mix(in oklab, var(--bg) 55%, transparent), transparent 9rem),
+    linear-gradient(to top, var(--bg) 8%, color-mix(in oklab, var(--bg) 70%, transparent) 42%, transparent 75%);
+}
+.tp-hero-links,
+.tp-others {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+}
+.tp-link-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.tp-credit {
+  position: absolute;
+  top: 4.75rem;
+  right: var(--gutter);
+  font-size: 0.8125rem;
+  color: color-mix(in oklab, var(--fg) 80%, transparent);
+}
+.tp-hero-row {
+  display: grid;
+  gap: 1.25rem 3rem;
+  margin-top: 2.5rem;
+  max-width: 62rem;
+}
+.tp-hero-row > div {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
+}
+@media (min-width: 768px) {
+  .tp-hero-row {
+    grid-template-columns: 1.2fr 1fr;
+  }
+}
+.tp-tagline {
+  font-size: 1.1875rem;
+}
+
+/* ---------- Sections: same two columns everywhere ---------- */
+.tp-section {
+  display: grid;
+  gap: 1.25rem;
+  padding-top: clamp(4.5rem, 10vh, 7rem);
+}
+@media (min-width: 900px) {
+  .tp-section {
+    grid-template-columns: var(--label-col) minmax(0, 1fr);
+    gap: 0;
+  }
+  .tp-label {
+    padding-top: 0.3rem;
+  }
+}
+.tp-section ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Work: a list of rows. Dates / org + role / one line. */
+.tp-work li {
+  display: grid;
+  gap: 0.35rem 2rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--rule);
+}
+.tp-work li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+@media (min-width: 900px) {
+  .tp-work li {
+    grid-template-columns: 10.5rem minmax(0, 17rem) minmax(0, 1fr);
+    align-items: baseline;
+  }
+}
+
+/* Projects: 2x2, quadrants split by a thin cross of rules */
+.tp-grid li {
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--rule);
+}
+.tp-grid li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+@media (min-width: 768px) {
+  .tp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .tp-grid li:nth-child(odd) {
+    padding-right: 2rem;
+    border-right: 1px solid var(--rule);
+  }
+  .tp-grid li:nth-child(even) {
+    padding-left: 2rem;
+  }
+  .tp-grid li:nth-child(-n + 2) {
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+.tp-grid-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+.tp-grid li .tp-h3 {
+  transition: color 150ms;
+}
+.tp-grid li:hover .tp-h3 {
+  color: var(--accent);
+}
+.tp-stack {
+  margin-top: 0.75rem;
+}
+
+/* School */
+.tp-school {
+  display: grid;
+  gap: 1.5rem 3rem;
+}
+@media (min-width: 900px) {
+  .tp-school {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+.tp-school dl {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  gap: 0.75rem 1rem;
+}
+
+/* Photos: square corners, unequal sizes */
+.tp-photos {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .tp-photos {
+    grid-template-columns: 1fr 1.3fr;
+  }
+}
+.tp-photos img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.tp-contact {
+  padding-bottom: 9rem;
+}
+.tp-big-link {
+  font-weight: 300;
+  font-size: clamp(1.5rem, 4.5vw, 3rem);
+  word-break: break-word;
+}
+.tp-others {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Preview switcher */
+.tp-switch {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 70;
+  display: flex;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  font-size: 0.8125rem;
+}
+.tp-switch a {
+  padding: 0.4rem 0.8rem;
+  color: var(--fg-muted);
+  text-decoration: none;
+}
+.tp-switch a[aria-current] {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp * {
+    transition: none !important;
+  }
+}

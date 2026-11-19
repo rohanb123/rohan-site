@@ -1,92 +1,73 @@
-import { SECTION_INDEX_ID, sectionColor, sections, site } from "../content/site";
+import Image from "next/image";
+import { showcase } from "../content/photography";
+import { contact } from "../content/resume";
+import { site } from "../content/site";
 import Copy from "./Copy";
-import TissueMap from "./TissueMap";
+import SocialIcon from "./SocialIcon";
 
+/**
+ * Full-bleed hero on Rohan's towers photo: the sliver of sunset light falls toward the name. The photo runs
+ * to the top edge under the see-through bar and fades into the page at the bottom (.hero-shade).
+ */
 export default function Hero() {
+  const towers = showcase.find((p) => p.id === "port1-5")!;
+  const email = contact.find((c) => c.label === "Email")!;
+  const profiles = contact.filter((c) => c.icon);
+
   return (
-    <section id="top" className="relative mx-auto flex min-h-[86svh] w-full max-w-6xl flex-col overflow-x-clip px-gutter pb-10">
-      <div className="flex flex-1 flex-col justify-center gap-10 pt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-center lg:gap-12">
-        {/* One entrance for the whole text block, not a fade per element */}
-        <div className="hero-rise">
-          {/* Structure layer: a thin rule with a small mono label */}
-          {/* On phones the location drops to its own line under the rule */}
-          <div className="mb-10 flex flex-wrap items-center gap-x-4 gap-y-3 font-mono text-label uppercase tracking-[0.2em] text-fg-subtle">
-            <span className="whitespace-nowrap">00 / About</span>
-            <span className="h-px flex-1 bg-line" />
-            <span className="basis-full sm:basis-auto">Based in {site.location}</span>
+    <section id="top" className="relative isolate flex min-h-svh items-end pt-bar pb-[clamp(2.5rem,6vh,4rem)]">
+      <Image
+        src={towers.src}
+        alt={towers.alt}
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        className="-z-20 object-cover object-[42%_20%] brightness-[0.74]"
+      />
+      <div aria-hidden="true" className="hero-shade absolute inset-0 -z-10" />
+
+      <div className="mx-auto w-full max-w-wide px-gutter">
+        <h1 className="font-display text-[clamp(2.75rem,10vw,8.5rem)] leading-[0.9] font-light tracking-[-0.035em] uppercase">
+          Rohan
+          <br />
+          <span className="name-gradient">Bharti</span>
+        </h1>
+
+        <div className="mt-10 grid max-w-[62rem] gap-x-12 gap-y-5 md:grid-cols-[1.2fr_1fr]">
+          <div className="grid content-start gap-1.5">
+            {/* Each half stays whole, so a narrow screen breaks the line at the comma */}
+            <p className="text-[1.1875rem]">
+              {site.tagline.split(" | ").map((part, i) => (
+                <span key={part}>
+                  {i > 0 && ", "}
+                  <span className="whitespace-nowrap">{part}</span>
+                </span>
+              ))}
+              .
+            </p>
+            <p className="text-fg-muted">{site.whatIBuild}</p>
+            {site.currentlyBuilding && (
+              <p className="text-fg-muted">
+                Currently building: <Copy text={site.currentlyBuilding} />
+              </p>
+            )}
           </div>
-
-          {/* Content layer */}
-          <h1 className="font-display text-6xl leading-[0.95] tracking-[-0.01em] text-fg sm:text-8xl lg:text-[6.25rem] xl:text-[7rem]">
-            {site.name}
-          </h1>
-          <p className="mt-5 max-w-measure text-lg leading-relaxed text-fg-muted sm:text-xl">
-            {/* Each half stays whole, so a narrow screen breaks the line at the "|" */}
-            {site.tagline.split(" | ").map((part, i) => (
-              <span key={part}>
-                {i > 0 && " | "}
-                <span className="whitespace-nowrap">{part}</span>
-              </span>
-            ))}
-          </p>
-          <p className="mt-3 max-w-measure leading-relaxed text-fg">
-            {site.whatIBuild}
-          </p>
-          {site.openTo && (
-            // Static coral marker: a real, current status, not decoration (no pulse)
-            <p className="mt-5 flex max-w-measure items-baseline gap-3 leading-relaxed text-fg">
-              <span aria-hidden className="size-[0.4375rem] shrink-0 -translate-y-px bg-accent" />
-              <span>
-                {site.openTo}{" "}
-                <a href="#contact" className="whitespace-nowrap text-accent underline-offset-4 hover:underline focus-visible:underline">
-                  Get in touch ↗
+          <div className="grid content-start gap-1.5">
+            {site.openTo && <p className="text-fg-muted">{site.openTo}</p>}
+            <p className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <a href={email.href} className="text-link">{email.value}</a>
+              {profiles.map((c) => (
+                <a key={c.label} href={c.href} target="_blank" rel="noopener noreferrer" className="text-link inline-flex items-center gap-2">
+                  <SocialIcon name={c.icon!} />
+                  {c.label}
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
-              </span>
+              ))}
             </p>
-          )}
-          {/* Hidden until there's a line to show, so it leaves no gap */}
-          {site.currentlyBuilding && (
-            <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span className="font-mono text-meta uppercase tracking-[0.16em] text-accent-2">
-                Currently building
-              </span>
-              <span className="text-fg-muted">
-                <Copy text={site.currentlyBuilding} />
-              </span>
-            </p>
-          )}
-        </div>
-
-        {/* Signature visual: synthetic tissue map, one cluster per section (has its own intro) */}
-        <div className="aspect-square w-full max-w-[30rem] self-center lg:max-w-none">
-          <TissueMap />
+          </div>
         </div>
       </div>
-
-      {/* The index itself: real navigation that also signals there is more below */}
-      <nav
-        id={SECTION_INDEX_ID}
-        aria-label="Section index"
-        className="hero-rise border-t border-line pt-5"
-      >
-        <ol className="grid grid-cols-[auto_auto] justify-between gap-x-4 gap-y-3 font-mono text-label uppercase tracking-[0.1em] min-[400px]:tracking-[0.16em] sm:flex sm:justify-start sm:gap-10">
-          {sections.map((s) => (
-            <li key={s.id} style={sectionColor(s.id)}>
-              {/* data-section: the tissue map listens here, and sets data-lit when its cluster is hovered */}
-              <a
-                href={`#${s.id}`}
-                data-section={s.id}
-                className="group inline-flex gap-3 py-1 text-fg-muted transition-colors duration-200 hover:text-fg focus-visible:text-fg data-lit:text-fg"
-              >
-                <span aria-hidden="true" className="text-fg-subtle transition-colors duration-200 group-hover:text-(--section) group-focus-visible:text-(--section) group-data-lit:text-(--section)">
-                  {s.index}
-                </span>
-                {s.title}
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
     </section>
   );
 }

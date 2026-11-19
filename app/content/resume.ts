@@ -171,7 +171,7 @@ export const education = {
   school: "University of California, Irvine",
   degree: "B.S. Computer Science",
   /** Concentrations */
-  focus: ["AI & Machine Learning", "Embedded Systems"],
+  focus: ["AI & Machine Learning", "Embedded"],
   gpa: "3.9",
   awards: [
     "2× Samsung Solve for Tomorrow State Finalist ($5,000)",

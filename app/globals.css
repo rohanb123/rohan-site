@@ -1,117 +1,60 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Design tokens — the single source of truth for color, type,
-   spacing and glow. See CLAUDE.md for the rules behind them.
+   Design tokens: the single source of truth for color, type and spacing.
+   See CLAUDE.md for the rules behind them.
    ------------------------------------------------------------------ */
 :root {
-  /* Primary accent: links, CTAs, active states, hover, key highlights. Coral red, 6.6:1 on --bg. */
-  --accent: #ff5b4f;
-  /* Secondary accent: secondary emphasis and the warmth in titles. Sodium-lamp amber, 9.8:1. */
-  --accent-2: #f0a35e;
+  /* Base: violet-black, the sky after the sun is gone. Not neutral black. */
+  --bg: #0e0c11;
 
-  /* Data palette: categorical marks only (tissue-map clusters), never body text.
-     Slightly desaturated; anchored on the red and amber, plus muted blues and one violet.
-     No teal or cyan. All >= 5:1 on --bg. */
-  --data-1: #e5685d; /* coral */
-  --data-2: #e0a05f; /* amber */
-  --data-3: #ccb86b; /* ochre */
-  --data-4: #94ad78; /* sage */
-  --data-5: #7ea4d6; /* sky blue */
-  --data-6: #5f80b8; /* steel blue */
-  --data-7: #9da9cc; /* periwinkle */
-  --data-8: #a68bd4; /* violet */
+  /* Content layer */
+  --fg: #ece4e3; /* warm off-white, never #fff */
+  --fg-muted: #aaa0a8;
+  --fg-subtle: #8b8090; /* 5.2:1 on --bg, the dimmest allowed text */
 
+  /* The one accent: lavender, from the sand and sky in Rohan's photos. Links, hover, focus. */
+  --accent: #b9a7e6;
 
-  /* Base */
-  --bg: #05060a;
-  --bg-raised: #0a0c12;
+  /* The name gradient, sampled from the towers photo: the glow at the edge of the light, the rose
+     windows, then lavender. Used on the last name in the hero only. Every stop is >= 9:1 on --bg. */
+  --name-1: #f3c2a2;
+  --name-2: #dca6b6;
+  --name-3: #b9a7e6;
 
-  /* Content layer (high contrast) */
-  --fg: #e8eaf0;
-  --fg-muted: #9aa0ad;
-  /* Titles (orgs, projects, school): off-white warmed by the secondary accent (not the red) */
-  --fg-heading: color-mix(in oklab, var(--accent-2) 22%, var(--fg));
-
-  /* Structure layer (low contrast) */
-  --fg-subtle: #7e8595; /* 5.5:1 on --bg, passes WCAG AA for small text */
-  --line: rgb(232 234 240 / 0.11);
-  --line-strong: rgb(232 234 240 / 0.14);
-
-  /* Atmosphere layer — nothing in the background exceeds this */
-  --atmosphere-max: 0.15;
-  /* A rare few near stars (~1%) may reach this, for depth */
-  --atmosphere-peak: 0.35;
-  /* Star colors by spectral class (real stellar temperatures, hot to cool).
-     Atmosphere only, always rendered at <= --atmosphere-max, so not a second accent. */
-  /* Saturation raised, lightness kept; opacity still capped by --atmosphere-max. */
-  --star-b: #8fa9ff;
-  --star-a: #b9caff;
-  --star-f: #eef0ff;
-  --star-g: #ffe9c7;
-  --star-k: #ffc78a;
-  --star-m: #ffa766;
-
-  /* Derived from the primary accent. Glow is used in one place only: the header mark on hover/focus (.site-mark). */
-  --accent-soft: color-mix(in oklab, var(--accent) 16%, transparent);
-  --glow-xs: 0 0 2px color-mix(in oklab, var(--accent) 90%, transparent);
-  --glow-sm: 0 0 8px color-mix(in oklab, var(--accent) 55%, transparent);
-  --glow-lg: 0 0 16px color-mix(in oklab, var(--accent) 70%, transparent);
-  --aura: color-mix(in oklab, var(--accent) 22%, transparent);
-  --glow-md: 0 0 24px color-mix(in oklab, var(--accent) 25%, transparent);
+  /* Structure: thin rules, tinted lavender rather than gray */
+  --rule: color-mix(in oklab, var(--accent) 18%, transparent);
 
   /* Spacing */
-  --space-gutter: clamp(1.25rem, 4vw, 3rem);
-  --space-section: clamp(6rem, 14vh, 10rem);
-  --measure: 40rem;
-
-  /* Motion */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur-hero: 1200ms;
+  --space-gutter: clamp(1rem, 4vw, 3rem);
+  --space-section: clamp(4.5rem, 10vh, 7rem);
+  --wide: 82rem;
+  --label-col: 11rem; /* section labels sit in this column; content starts after it */
+  --bar-h: 4rem;
 }
 
 @theme inline {
-  /* Mono label sizes. label: navigation and section headers; meta: dates, places, stacks, small labels. */
-  --text-label: 0.875rem;
-  --text-meta: 0.8125rem;
   --color-bg: var(--bg);
-  --color-bg-raised: var(--bg-raised);
   --color-fg: var(--fg);
   --color-fg-muted: var(--fg-muted);
-  --color-fg-heading: var(--fg-heading);
   --color-fg-subtle: var(--fg-subtle);
-  --color-line: var(--line);
-  --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
-  --color-accent-2: var(--accent-2);
-  --color-data-1: var(--data-1);
-  --color-data-2: var(--data-2);
-  --color-data-3: var(--data-3);
-  --color-data-4: var(--data-4);
-  --color-data-5: var(--data-5);
-  --color-data-6: var(--data-6);
-  --color-data-7: var(--data-7);
-  --color-data-8: var(--data-8);
+  --color-rule: var(--rule);
 
   --font-display: var(--font-display-face);
   --font-sans: var(--font-sans-face);
-  --font-mono: var(--font-mono-face);
 
   --spacing-gutter: var(--space-gutter);
   --spacing-section: var(--space-section);
-  --container-measure: var(--measure);
-
-  --shadow-glow-sm: var(--glow-sm);
-  --shadow-glow-md: var(--glow-md);
-
-  --ease-out-expo: var(--ease-out);
+  --spacing-bar: var(--bar-h);
+  --spacing-label: var(--label-col);
+  --container-wide: var(--wide);
 }
 
 html {
   color-scheme: dark;
   background: var(--bg);
-  scroll-padding-top: 5rem; /* clears the sticky header */
+  scroll-padding-top: calc(var(--bar-h) + 0.5rem); /* clears the fixed bar */
 }
 
 /* Everything is sized in rem, so this one value scales the whole site. Phones keep the 16px default. */
@@ -131,8 +74,22 @@ html {
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-sans-face), system-ui, sans-serif;
+  font-family: var(--font-sans-face), sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Faint film grain over the page, matching the grain in the photographs. Texture, not glow. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 :focus-visible {
@@ -141,30 +98,60 @@ body {
 }
 
 ::selection {
-  background: var(--accent-soft);
+  background: color-mix(in oklab, var(--accent) 35%, transparent);
   color: var(--fg);
 }
 
-/* Dim the starfield behind the tissue map so the two don't compete.
-   A soft patch of the base color, not a glow. */
-.tissue-map::before {
-  content: "";
-  position: absolute;
-  inset: -12%;
-  background: radial-gradient(closest-side, color-mix(in oklab, var(--bg) 88%, transparent) 60%, transparent);
-  pointer-events: none;
+/* Display type: Archivo pushed wide on its width axis */
+.font-display {
+  font-variation-settings: "wdth" 125;
 }
 
-/* First view: below-the-fold content waits for the first scroll or click (FIRST_VIEW_SCRIPT in layout) */
-[data-below-fold] {
-  transition: opacity 600ms var(--ease-out);
+/* Text links: lavender with a faint underline that firms up on hover */
+.text-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  text-decoration-color: color-mix(in oklab, var(--accent) 40%, transparent);
+  transition:
+    text-decoration-color 150ms,
+    color 150ms;
 }
-html[data-intro] [data-below-fold] {
-  opacity: 0;
+.text-link:hover {
+  color: var(--fg);
+  text-decoration-color: currentColor;
 }
 
-/* Header site mark: on hover or focus it lifts a touch, turns coral and catches a soft glow, like a star
-   brightening. drop-shadow (not box-shadow) so the glow follows the mark's shape. */
+/* The last name: the one gradient on the site (Rohan asked for it), colors from the towers photo */
+.name-gradient {
+  color: var(--name-3);
+  background: linear-gradient(100deg, var(--name-1) 5%, var(--name-2) 45%, var(--name-3) 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Top bar: see-through over the hero photo, filling in with the page color as you scroll past it.
+   Browsers without scroll-driven animations get the solid bar from the start. */
+.site-bar {
+  background: var(--bg);
+}
+@supports (animation-timeline: scroll()) {
+  .site-bar {
+    background: transparent;
+    animation: site-bar-fill linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 70vh;
+  }
+}
+@keyframes site-bar-fill {
+  to {
+    background: var(--bg);
+  }
+}
+
+/* The site mark (same art as the favicon). The PNG is a mask, so the mark takes a CSS color. */
 .site-mark-glyph {
   background-color: var(--fg);
   mask-size: contain;
@@ -173,66 +160,22 @@ html[data-intro] [data-below-fold] {
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  transition:
-    background-color 300ms var(--ease-out);
 }
-/* The glow sits on the link, because a mask would clip a filter on the glyph itself.
-   ::before is the aura: a soft coral halo that swells in behind the mark. */
-.site-mark {
-  position: relative;
-  isolation: isolate;
+
+/* Hero shade: light at the top so the bar reads over the photo; a fade at the bottom so the text
+   sits on dark and the photo melts into the page */
+.hero-shade {
+  background:
+    linear-gradient(to bottom, color-mix(in oklab, var(--bg) 55%, transparent), transparent 9rem),
+    linear-gradient(to top, var(--bg) 8%, color-mix(in oklab, var(--bg) 70%, transparent) 42%, transparent 75%);
 }
-.site-mark::before {
-  content: "";
-  position: absolute;
-  inset: -0.5rem -0.75rem;
-  z-index: -1;
-  border-radius: 9999px;
-  background: radial-gradient(closest-side, var(--aura), transparent);
+
+/* First view: below-the-fold content waits for the first scroll or click (FIRST_VIEW_SCRIPT in layout) */
+[data-below-fold] {
+  transition: opacity 600ms ease-out;
+}
+html[data-intro] [data-below-fold] {
   opacity: 0;
-  transform: scale(0.5);
-  transition:
-    opacity 400ms var(--ease-out),
-    transform 500ms var(--ease-out);
-  pointer-events: none;
-}
-.site-mark:hover::before,
-.site-mark:focus-visible::before {
-  opacity: 1;
-  transform: scale(1);
-}
-/* Like a star brightening: a white core, a coral glow hugging the strokes, the aura behind */
-.site-mark-glow {
-  transition:
-    filter 300ms var(--ease-out),
-    transform 300ms var(--ease-out);
-}
-.site-mark:hover .site-mark-glow,
-.site-mark:focus-visible .site-mark-glow {
-  filter: drop-shadow(var(--glow-xs)) drop-shadow(var(--glow-sm)) drop-shadow(var(--glow-lg));
-  transform: translateY(-2px);
-}
-.site-mark:hover .site-mark-glyph,
-.site-mark:focus-visible .site-mark-glyph {
-  background-color: var(--fg);
-}
-
-/* Hero entrance — the only ambient motion outside of interactions */
-@keyframes hero-rise {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-    filter: blur(4px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-}
-
-.hero-rise {
-  animation: hero-rise var(--dur-hero) var(--ease-out) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

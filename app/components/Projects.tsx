@@ -1,52 +1,33 @@
 import { projects } from "../content/resume";
-import SectionLabel from "./SectionLabel";
+import Section from "./Section";
 
-/**
- * Compact two-column catalog, sized like the Work timeline so the whole section fits one laptop screen.
- * Work is a date-led list of rows; Projects is a name-led grid, so the two never read as the same thing.
- */
+/** 2x2 catalog: quadrants split by a thin cross of rules, not cards. Newest first, like Work. */
 export default function Projects() {
+  // Stable sort, so same-year projects keep their order in resume.ts
+  const byYear = [...projects].sort((a, b) => Number(b.year) - Number(a.year));
+
   return (
-    <section aria-labelledby="projects" className="mx-auto w-full max-w-6xl px-gutter pt-section">
-      <SectionLabel id="projects" />
-
-      <ol className="grid gap-x-12 md:grid-cols-2">
-        {projects.map((p) => (
-          <li key={p.id} className="flex flex-col border-b border-line py-6 first:pt-0 md:nth-2:pt-0">
-            {/* Name with the year (Projects section color) set right on the same line, so there is no
-                meta row left holding only a year */}
-            <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-              <h3 className="font-display text-2xl leading-tight text-fg-heading">{p.name}</h3>
-              <p className="font-mono text-meta uppercase tracking-[0.14em] text-fg-subtle">
-                {p.context && (
-                  <>
-                    <span>{p.context}</span>
-                    <span aria-hidden="true"> · </span>
-                  </>
-                )}
-                <span className="text-data-5">{p.year}</span>
-              </p>
+    <Section id="projects">
+      <ol className="md:grid md:grid-cols-2">
+        {byYear.map((p) => (
+          <li
+            key={p.id}
+            className="group border-t border-rule py-7 first:border-t-0 first:pt-0 md:odd:border-r md:odd:pr-8 md:even:pl-8 md:nth-[-n+2]:border-t-0 md:nth-[-n+2]:pt-0"
+          >
+            <div className="mb-1.5 flex items-baseline justify-between gap-4">
+              <h3 className="font-display text-xl leading-tight tracking-[-0.02em] transition-colors duration-150 group-hover:text-accent">
+                {p.name}
+              </h3>
+              <span className="text-[0.9375rem] text-fg-subtle tabular-nums">{p.year}</span>
             </div>
-            <p className="mt-1 text-[0.9375rem] leading-relaxed text-fg-muted">{p.summary}</p>
-
-            <p className="mt-3 font-mono text-meta uppercase leading-6 tracking-[0.12em] text-fg-subtle">
-              {/* Each stack item stays on one line; wraps only fall between items */}
-              {p.stack.map((s, i) => (
-                <span key={s}>
-                  {i > 0 && <span aria-hidden="true"> · </span>}
-                  <span className="whitespace-nowrap">{s}</span>
-                </span>
-              ))}
+            <p className="text-fg-muted">{p.summary}</p>
+            <p className="mt-3 text-[0.9375rem] text-fg-subtle">
+              {p.stack.join(", ")}
               {p.url && (
                 <>
-                  <span aria-hidden="true"> · </span>
-                  <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent underline decoration-accent/40 underline-offset-4 transition-colors duration-200 hover:decoration-accent"
-                  >
-                    Link ↗<span className="sr-only"> to {p.name} (opens in a new tab)</span>
+                  {" / "}
+                  <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-link">
+                    Link<span className="sr-only"> to {p.name} (opens in a new tab)</span>
                   </a>
                 </>
               )}
@@ -54,6 +35,6 @@ export default function Projects() {
           </li>
         ))}
       </ol>
-    </section>
+    </Section>
   );
 }

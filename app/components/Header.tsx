@@ -1,119 +1,44 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import logo from "../../assets/logo.png";
 import { contact } from "../content/resume";
-import { SECTION_INDEX_ID, sectionColor, sections } from "../content/site";
+import { sections } from "../content/site";
 import SocialIcon from "./SocialIcon";
 
 /**
- * Fixed top bar. At the top of the page it shows only the profile icons, floating over the hero.
- * Past the hero's section index it gains a background and the section links, with the current one marked.
+ * Fixed top bar: the site mark, the section links and the profile icons, so GitHub and LinkedIn are one click
+ * away from the first screen. It floats over the hero photo and fills in as you scroll (.site-bar, pure CSS).
+ * On phones only Contact stays beside the icons.
  */
 export default function Header() {
-  const [docked, setDocked] = useState(false);
-  const [active, setActive] = useState<string | null>(null);
-
-  useEffect(() => {
-    const index = document.getElementById(SECTION_INDEX_ID);
-    if (!index) return;
-    // Docked once the index's bottom edge has passed under the top of the viewport.
-    const io = new IntersectionObserver(([e]) => setDocked(!e.isIntersecting && e.boundingClientRect.top < 0));
-    io.observe(index);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      // Current section = the last heading that has crossed below the header.
-      let current: string | null = null;
-      for (const s of sections) {
-        const el = document.getElementById(s.id);
-        if (el && el.getBoundingClientRect().top <= 120) current = s.id;
-      }
-      // At the very bottom, the last section is current even if its heading can't reach the top.
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
-        current = sections[sections.length - 1].id;
-      }
-      setActive(current);
-    };
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  const links = contact.filter((c) => c.icon);
-  const current = sections.find((s) => s.id === active);
-
+  const profiles = contact.filter((c) => c.icon);
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-20 border-b transition-[background-color,border-color] duration-300 ${
-        docked ? "border-line bg-bg/80 backdrop-blur-md" : "border-transparent"
-      }`}
-    >
-      <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-6 px-gutter">
-        {/* Section links: hidden (and out of the tab order) until the hero's own index has scrolled away */}
-        <nav
-          aria-label="Sections"
-          inert={!docked}
-          className={`min-w-0 font-mono text-label uppercase tracking-[0.16em] transition-opacity duration-300 ${
-            docked ? "opacity-100" : "pointer-events-none opacity-0"
-          }`}
-        >
-          <div className="flex items-center gap-5 sm:gap-8">
-          {/* The site mark (same as the favicon): back to 00 / About */}
-          <a href="#top" aria-label="Back to top" title="Back to top" className="site-mark -my-2 shrink-0 py-2 opacity-85 transition-opacity duration-200 hover:opacity-100 focus-visible:opacity-100">
-            {/* The PNG is a mask, so the mark takes a CSS color and can turn coral on hover */}
-            <span aria-hidden="true" className="site-mark-glow block">
-              <span className="site-mark-glyph block size-7" style={{ maskImage: `url(${logo.src})`, WebkitMaskImage: `url(${logo.src})` }} />
-            </span>
-          </a>
-          {/* Narrow screens: just the current section, linking back to the top */}
-          <a href="#top" style={current ? sectionColor(current.id) : undefined} className="flex gap-3 py-2 text-fg-muted transition-colors duration-200 hover:text-fg sm:hidden">
-            <span aria-hidden="true" className="text-(--section)">{current?.index ?? "00"}</span>
-            {current?.title ?? "About"}
-          </a>
-          <ol className="hidden gap-8 sm:flex">
-            {sections.map((s) => {
-              const on = s.id === active;
-              return (
-                <li key={s.id} style={sectionColor(s.id)}>
-                  <a
-                    href={`#${s.id}`}
-                    aria-current={on ? "location" : undefined}
-                    className={`group inline-flex gap-3 py-2 transition-colors duration-200 hover:text-fg ${
-                      on ? "text-fg" : "text-fg-muted"
-                    }`}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className={`transition-colors duration-200 group-hover:text-(--section) ${
-                        on ? "text-(--section)" : "text-fg-subtle"
-                      }`}
-                    >
-                      {s.index}
-                    </span>
-                    {s.title}
-                  </a>
-                </li>
-              );
-            })}
-          </ol>
-          </div>
-        </nav>
+    <header className="site-bar fixed inset-x-0 top-0 z-40 flex h-bar items-center justify-between px-gutter">
+      {/* Same mark as the favicon */}
+      <a href="#top" aria-label="Back to top" title="Back to top" className="-my-2 py-2 opacity-90 transition-opacity duration-150 hover:opacity-100">
+        <span
+          aria-hidden="true"
+          className="site-mark-glyph block size-7"
+          style={{ maskImage: `url(${logo.src})`, WebkitMaskImage: `url(${logo.src})` }}
+        />
+      </a>
 
-        <ul aria-label="Profiles" className="-mr-2 flex shrink-0 items-center gap-1">
-          {links.map((c) => (
+      <div className="flex items-center gap-4">
+        <nav aria-label="Sections">
+          <ul className="flex gap-[clamp(1rem,2.5vw,2rem)] text-[0.9375rem]">
+            {sections.map((s) => (
+              <li key={s.id} className={s.id === "contact" ? undefined : "max-sm:hidden"}>
+                <a
+                  href={`#${s.id}`}
+                  className="border-b border-transparent text-fg-muted transition-colors duration-150 hover:border-accent hover:text-fg"
+                >
+                  {s.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <span aria-hidden="true" className="mx-1 h-4 w-px bg-fg/25" />
+        <ul aria-label="Profiles" className="-mr-1.5 flex items-center gap-1">
+          {profiles.map((c) => (
             <li key={c.label}>
               <a
                 href={c.href}
@@ -121,7 +46,7 @@ export default function Header() {
                 rel="noopener noreferrer"
                 aria-label={`${c.label} (opens in a new tab)`}
                 title={c.label}
-                className="flex size-10 items-center justify-center text-fg-muted transition-colors duration-200 hover:text-accent"
+                className="flex size-9 items-center justify-center text-fg-muted transition-colors duration-150 hover:text-fg"
               >
                 <SocialIcon name={c.icon!} />
               </a>

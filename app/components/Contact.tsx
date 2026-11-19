@@ -1,32 +1,27 @@
 import { contact } from "../content/resume";
-import SectionLabel from "./SectionLabel";
+import Section from "./Section";
+import SocialIcon from "./SocialIcon";
 
 export default function Contact() {
+  const email = contact.find((c) => c.label === "Email")!;
+  const profiles = contact.filter((c) => c.icon);
   return (
-    <footer data-below-fold aria-labelledby="contact" className="mx-auto w-full max-w-6xl px-gutter pt-section pb-16">
-      <SectionLabel id="contact" />
-      <ul>
-        {contact.map((c) => (
-          <li key={c.label} className="border-b border-line">
-            <a
-              href={c.href}
-              {...(c.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="group grid grid-cols-[6rem_1fr_auto] items-baseline gap-4 py-5 md:grid-cols-[13rem_1fr_auto] md:gap-12"
-            >
-              <span className="font-mono text-meta uppercase tracking-[0.14em] text-fg-subtle">{c.label}</span>
-              <span className="truncate text-fg-muted transition-colors duration-200 group-hover:text-fg">
-                {c.value}
-              </span>
-              <span
-                aria-hidden="true"
-                className="font-mono text-xs text-fg-subtle transition-colors duration-200 group-hover:text-accent"
-              >
-                ↗
-              </span>
-            </a>
-          </li>
+    <Section id="contact" as="footer" className="pb-36">
+      <a
+        href={email.href}
+        className="text-link font-display text-[clamp(1.5rem,4.5vw,3rem)] font-light tracking-[-0.02em] break-words"
+      >
+        {email.value}
+      </a>
+      <p className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+        {profiles.map((c) => (
+          <a key={c.label} href={c.href} target="_blank" rel="noopener noreferrer" className="text-link inline-flex items-center gap-2">
+            <SocialIcon name={c.icon!} />
+            {c.label}
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
         ))}
-      </ul>
-    </footer>
+      </p>
+    </Section>
   );
 }

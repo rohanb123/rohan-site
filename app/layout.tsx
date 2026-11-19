@@ -1,25 +1,19 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Archivo, Schibsted_Grotesk } from "next/font/google";
 import Header from "./components/Header";
-import Starfield from "./components/Starfield";
 import "./globals.css";
 
-// Display: name and headings only.
-const display = Instrument_Serif({
+// Display: name, headings and section labels. Variable, so it can be pushed wide on its width axis (.font-display).
+const display = Archivo({
   variable: "--font-display-face",
-  weight: "400",
   subsets: ["latin"],
+  axes: ["wdth"],
 });
 
-// Body: 400 for running text, 500 reserved for UI emphasis.
-const sans = IBM_Plex_Sans({
+// Body: 400 for running text, 500 reserved for small UI emphasis.
+const sans = Schibsted_Grotesk({
   variable: "--font-sans-face",
   weight: ["400", "500"],
-  subsets: ["latin"],
-});
-
-const mono = JetBrains_Mono({
-  variable: "--font-mono-face",
   subsets: ["latin"],
 });
 
@@ -44,12 +38,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       // FIRST_VIEW_SCRIPT sets data-intro before hydration
       suppressHydrationWarning
-      className={`${display.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
+      className={`${display.variable} ${sans.variable} h-full antialiased`}
     >
-      {/* `isolate` keeps the -z-10 starfield above the body background. */}
-      <body className="relative isolate flex min-h-full flex-col bg-bg text-fg">
+      <body className="relative flex min-h-full flex-col bg-bg text-fg">
         <script dangerouslySetInnerHTML={{ __html: FIRST_VIEW_SCRIPT }} />
-        <Starfield />
         <Header />
         {children}
       </body>

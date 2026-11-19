@@ -18,7 +18,9 @@ export default function Home() {
           <Photography />
         </div>
       </main>
-      <Contact />
+      <div data-below-fold>
+        <Contact />
+      </div>
     </>
   );
 }

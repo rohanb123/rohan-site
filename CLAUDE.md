@@ -2,57 +2,69 @@
 
 # Design rules
 
-The site should feel dark, spacey and high-end, and must never distract from the content.
+The site should feel dark, warm and art-directed, like a record sleeve built around Rohan's own photographs.
+Restrained, never sweet or cute, and it must never distract from the content.
 
-## Three layers
-1. **Atmosphere (background).** The starfield. It should read as a star chart tied to the work, never generic blur or glow. Never brighter than ~15% luminance/opacity
-   (`--atmosphere-max`). The only exception: ~1% of near stars may reach `--atmosphere-peak` (0.35)
-   for depth. Stars are colored by real spectral class (`--star-b` … `--star-m`, blue-white to orange);
-   because they stay under the atmosphere cap they are not a second accent. It sits behind everything and is purely ambient.
-2. **Structure.** Low-contrast scaffolding: thin 1px lines (`--color-line`), small mono uppercase labels
-   (`--color-fg-subtle`). Organizes the page without asking for attention.
-3. **Content.** High-contrast off-white text (`--color-fg`), the accents and data colors. This is the only layer that
-   should draw the eye.
+## Direction
+- The atmosphere is Rohan's photography, not CSS effects. The hero is his towers photo (the sliver of sunset
+  light between two buildings), full-bleed, slightly darkened, fading into the page at the bottom.
+- Lavender and sunset come from the photos: the palette is sampled from them, not invented.
+- Rejected on purpose (Rohan's feedback): pill buttons, colored dots before labels, bouncy/spring hovers,
+  rounded raised cards, soft "plush" serifs (Fraunces), posterized CSS sunset bands, the starfield and the
+  tissue map. Don't bring them back.
+
+## Layers
+1. **Atmosphere.** The hero photo only. No background effects elsewhere except a faint film grain
+   (`body::after`, 6% overlay) that matches the grain in the photos.
+2. **Structure.** Small wide uppercase section labels (`--color-fg-subtle`) in a left column, and thin
+   lavender-tinted rules (`--color-rule`). Every section uses the same two columns (`Section.tsx`,
+   `--label-col`), so content always starts on the same line.
+3. **Content.** Off-white text (`--color-fg`), the lavender accent and the name gradient. The only layer
+   that should draw the eye.
 
 ## Color
-- Base is near-black with a slight blue cast: `#05060A` (`--color-bg`).
-- Text is off-white, never pure `#fff`.
-- All text must meet WCAG AA: 4.5:1 for small text. `--color-fg-subtle` is the dimmest allowed text color (5.5:1); never lower its opacity.
-- Primary accent + secondary accent + a defined data palette, each with a semantic role. No other colors.
-  - Primary accent `--color-accent` (coral red #FF5B4F): links, CTAs, active states, hover, key highlights.
-  - Secondary accent `--color-accent-2` (amber #F0A35E): secondary emphasis; also warms titles.
-  - Data palette `--data-1` … `--data-8`: categorical marks only, never body text.
-    Each home section has one identity color (`sections[].color` in `app/content/site.ts`): its tissue-map cluster,
-    the hover/active color of its index number (hero index, sticky header), and small metadata marks inside it
-    (e.g. project years). At rest, index numbers stay `--color-fg-subtle`. Links stay on the primary accent.
-- No teal or cyan, anywhere. No neon, no glow, except the soft coral glow on the header site mark's hover/focus (`.site-mark`), which Rohan asked for.
-- Titles (orgs, projects, school) use `--color-fg-heading`: off-white with ~22% of the secondary accent, so they stay warm, not pink.
-  Body copy never takes an accent.
+- Base is violet-black `#0E0C11` (`--color-bg`), not neutral black.
+- Text is warm off-white `#ECE4E3`, never pure `#fff`.
+- All text must meet WCAG AA: 4.5:1 for small text. `--color-fg-subtle` is the dimmest allowed text color (5.2:1).
+- One accent: lavender `--color-accent` (#B9A7E6) for links, hover, focus. No secondary accent; the orange
+  accent was removed at Rohan's request. Years and dates stay `--color-fg-subtle`.
+- The name gradient (`--name-1` … `--name-3`: peach glow, rose windows, lavender, sampled from the towers photo)
+  is used on the last name in the hero and the OG image only (`.name-gradient`). It is the one gradient on the site.
+- Teal and cyan appear only inside Rohan's photographs, never as UI color. No neon, no glow.
 - Each color is a one-line edit in `app/globals.css`. Derive tints with `color-mix()`; never introduce an undefined hue.
 
 ## Type
-- Instrument Serif for display: name and headings only (`font-display`), weight 400, large.
-  Chosen because it echoes the type of old celestial atlases, which matches the star-chart background.
-- IBM Plex Sans for body (`font-sans`), weight 400. 500 only for small UI emphasis, never body text.
-- JetBrains Mono for labels and metadata (`font-mono`), small and tracked out.
+- Archivo for display (`font-display`), pushed wide on its width axis (`wdth` 125): the name (light 300,
+  uppercase, huge), org/project/school names, section labels (small, uppercase, tracked). Chosen over serifs
+  because it reads cooler and more deliberate; Rohan picked it over Bodoni.
+- Schibsted Grotesk for body (`font-sans`), weight 400. 500 only for small UI emphasis, never body text.
+- No mono labels.
+- The OG image uses a static Archivo Expanded Light instance (`assets/fonts/Archivo-Expanded-Light.ttf`),
+  because Satori can't use variable axes.
+
+## Layout
+- Header: fixed, see-through over the hero photo, filling in with `--color-bg` as you scroll (`.site-bar`, a CSS
+  scroll-driven animation; solid where unsupported). Site mark (same art as the favicon) left; section links and
+  GitHub/LinkedIn icons right. On phones only Contact and the icons stay.
+- GitHub and LinkedIn must be reachable from the first screen: header icons and labeled links in the hero,
+  plus the Contact section.
+- Work is a list (dates / org and role / one line). Projects is a 2x2 grid split by a thin cross of rules, newest
+  first. Both are newest first.
+- Square corners everywhere. Photos keep a 0 radius.
 
 ## Motion
-- Motion only in the hero and in response to interaction (hover, focus, pointer). No scroll-jacking,
-  no ambient animation elsewhere.
-- The hero tissue map comes alive only around interaction: while the mouse moves, cells wobble, clusters
-  sway, breathe and lean toward the pointer with parallax, and cells part around it. It settles still a few
-  seconds after the mouse stops (WCAG 2.2.2: nothing moves on its own for more than 5s). ≤30fps when only
-  drifting, paused off-screen and in hidden tabs, off for reduced motion and on phones.
-- Always respect `prefers-reduced-motion`: animations collapse to a static final state.
-- The starfield renders a static frame on reduced motion and on mobile/coarse pointers.
+- Almost none. Hover changes color or underline only, 150ms. No springs, no lifts, no entrance animations.
+- The header fill is tied to scroll position, not time.
+- Always respect `prefers-reduced-motion`.
 
 ## Tokens
-- All colors, fonts, spacing and glow values live as CSS variables in `app/globals.css` (`:root`),
-  and are exposed to Tailwind via `@theme inline`. Don't hardcode hex values or magic spacing in components.
+- All colors, fonts and spacing live as CSS variables in `app/globals.css` (`:root`), exposed to Tailwind via
+  `@theme inline`. Don't hardcode hex values or magic spacing in components (the OG image mirrors tokens because
+  Satori can't read CSS variables).
 
 ## Code
 - One component per file in `app/components/`.
-- Keep client components (`"use client"`) to what genuinely needs the browser (e.g. the canvas).
+- Keep client components (`"use client"`) to what genuinely needs the browser. The home page currently has none.
 
 ## Anti-slop rules (avoid unchosen defaults)
 
@@ -63,20 +75,20 @@ Typography
 - Use a deliberately chosen display + body pairing with strong contrast in size/weight. Body weight 400; no semibold body text.
 
 Color & background
-- No purple/indigo/violet-blue gradients. No gradient-clipped text. No aurora or mesh-blob backgrounds.
-- Primary + secondary accent and a data palette, each a token with a semantic name (not gradient-start/end). No teal/cyan. No neon glow unless I request it.
-- Background atmosphere must be tied to my work (star chart, atlas, telemetry), never generic blur or glow.
+- No purple/indigo/violet-blue gradients. No gradient-clipped text, except the last name (`.name-gradient`), which I asked for.
+- One accent and a semantic token for each color (not gradient-start/end). No teal/cyan in the UI. No neon glow.
+- Background atmosphere must be tied to my work (my own photography), never generic blur or glow.
 
 Layout & components
 - No "centered hero + three equal feature cards" skeleton. No four-card icon grids.
-- Vary radius by role (e.g. 0 for media, small for inputs, larger only for pills). No rounded-2xl shadow-lg on everything.
-- No colored left-border cards. No nested cards. No glassmorphism except at most one floating element (nav).
-- No emoji as icons. One icon set, or none; label icons with text.
-- No pill badges above headlines. No pulsing "Live/New" dots unless it reflects real status.
+- No pill buttons, no rounded-2xl shadow-lg cards. Square corners by default.
+- No colored left-border cards. No nested cards. No glassmorphism.
+- No emoji as icons. One icon set (the GitHub/LinkedIn marks in `SocialIcon.tsx`); label icons with text or an aria-label.
+- No pill badges above headlines. No colored dots before nav items. No pulsing "Live/New" dots unless it reflects real status.
 - Left-align body text; use asymmetry and a clear grid.
 
 Motion
-- Motion only in the hero and meaningful interactions. No fade-in on every element, no infinite decorative loops.
+- No fade-in on every element, no infinite decorative loops, no bouncy hovers.
 - Hover/click states must communicate state (focus, pressed, loading). Respect prefers-reduced-motion.
 
 Copy & content
@@ -89,3 +101,4 @@ Quality
 Process
 - Before finalizing a page, list which of the above you checked and which design decisions were deliberate. If a default slipped in, replace it and say so.
 - When I ask for a new section, propose 2 distinct directions before building, and vary away from the most common one.
+- Theme explorations live at `/theme-preview` (saved iterations at `/theme-preview/v2`, `/v3`), noindex.

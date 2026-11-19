@@ -1,31 +1,19 @@
 import Image from "next/image";
 import { showcase } from "../content/photography";
-import SectionLabel from "./SectionLabel";
+import Section from "./Section";
 
-/** Three selected frames. Media gets a square (0) radius. */
+/** The two frames not used in the hero, at unequal sizes. Square corners: media keeps a 0 radius. */
 export default function Photography() {
+  const frames = showcase.filter((p) => p.id !== "port1-5");
   return (
-    <section aria-labelledby="photography" className="mx-auto w-full max-w-6xl px-gutter pt-section">
-      <SectionLabel id="photography" />
-      <div className="grid gap-x-12 gap-y-6 md:grid-cols-[13rem_1fr]">
-        <p className="font-mono text-meta uppercase leading-6 tracking-[0.14em] text-fg-subtle">
-          A few favorites
-          <span className="block text-fg-muted">Full gallery soon</span>
-        </p>
-        <ul className="grid grid-cols-3 gap-2 sm:gap-3">
-          {showcase.map((p) => (
-            <li key={p.id} className="overflow-hidden bg-bg-raised">
-              <Image
-                src={p.src}
-                alt={p.alt}
-                placeholder="blur"
-                sizes="(max-width: 768px) 33vw, 260px"
-                className="aspect-[4/5] w-full object-cover"
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
+    <Section id="photography">
+      <ul className="grid items-start gap-6 md:grid-cols-[1fr_1.3fr]">
+        {frames.map((p) => (
+          <li key={p.id}>
+            <Image src={p.src} alt={p.alt} placeholder="blur" sizes="(min-width: 768px) 40vw, 100vw" className="block h-auto w-full" />
+          </li>
+        ))}
+      </ul>
+    </Section>
   );
 }

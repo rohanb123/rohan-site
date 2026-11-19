@@ -1,33 +1,28 @@
 import { work } from "../content/resume";
-import SectionLabel from "./SectionLabel";
+import Section from "./Section";
 
-/** Compact timeline: one line per role. */
+/** Work as a list of rows: dates / org and role / one line. */
 export default function WorkLog() {
   return (
-    <section aria-labelledby="work" className="mx-auto w-full max-w-6xl px-gutter pt-section">
-      <SectionLabel id="work" />
+    <Section id="work">
       <ol>
         {work.map((job) => (
           <li
             key={job.org}
-            className="grid gap-x-12 gap-y-1 border-b border-line py-6 first:pt-0 md:grid-cols-[13rem_1fr_auto] md:items-baseline"
+            className="grid gap-x-8 gap-y-1.5 border-t border-rule py-5 first:border-t-0 first:pt-0 min-[900px]:grid-cols-[10.5rem_minmax(0,17rem)_minmax(0,1fr)] min-[900px]:items-baseline"
           >
-            <p className="font-mono text-meta uppercase tracking-[0.14em] text-fg-subtle">{job.dates}</p>
-
+            <p className="text-[0.9375rem] text-fg-subtle">{job.dates}</p>
             <div>
-              <h3 className="font-display text-2xl leading-tight text-fg-heading">
-                {job.org}
-                <span className="font-sans text-base text-fg-muted"> · {job.role}</span>
-              </h3>
-              <p className="mt-1 max-w-measure text-[0.9375rem] leading-relaxed text-fg-muted">{job.summary}</p>
+              <h3 className="font-display text-xl leading-tight tracking-[-0.02em]">{job.org}</h3>
+              <p className="text-[0.9375rem] text-fg-subtle">
+                {job.role}
+                {job.team && <>, {job.team}</>}
+              </p>
             </div>
-
-            <p className="pt-2 font-mono text-meta uppercase tracking-[0.14em] text-fg-subtle md:pt-0 md:text-right">
-              {job.location}
-            </p>
+            <p className="text-fg-muted">{job.summary}</p>
           </li>
         ))}
       </ol>
-    </section>
+    </Section>
   );
 }
