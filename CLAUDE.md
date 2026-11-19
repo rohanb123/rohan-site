@@ -51,6 +51,8 @@ Restrained, never sweet or cute, and it must never distract from the content.
 - Work is a list (dates / org and role / one line). Projects is a 2x2 grid split by a thin cross of rules, newest
   first. Both are newest first.
 - Square corners everywhere. Photos keep a 0 radius.
+- Favicon: `app/icon.svg` follows the browser theme (near-black `--bg` in light mode, off-white `--fg` in dark).
+  `favicon.ico` stays as the fallback for browsers without SVG favicons (Safari), which can't adapt.
 
 ## Motion
 - Almost none. Hover changes color or underline only, 150ms. No springs, no lifts.
