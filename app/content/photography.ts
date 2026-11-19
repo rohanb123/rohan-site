@@ -20,6 +20,9 @@ export const showcase: Photo[] = [
 /**
  * Hero scenes. Each photo brings its own palette (`html[data-scene]` in globals.css); SceneSwitch flips between them.
  * The first is the default and the one the static page, the OG image and no-JS visitors get.
+ * `print` scenes are clean digital shots too small to stretch across a wide screen: from lg up they sit as an
+ * uncropped print on the dark base instead of full-bleed. On phones they stay full-bleed (`position`, `brightness`),
+ * where a portrait photo on a portrait screen is barely enlarged.
  */
 export const scenes = [
   {
@@ -29,6 +32,7 @@ export const scenes = [
     // Keeps the strip of light in frame
     position: "object-[42%_20%]",
     brightness: "brightness-[0.74]",
+    print: false,
   },
   {
     id: "mist",
@@ -37,16 +41,17 @@ export const scenes = [
     // The valley floor: lichen-orange boulders, moss and the dark tree line under the mountain's foot
     position: "object-[50%_100%]",
     brightness: "brightness-[0.62]",
+    print: true,
   },
   {
     id: "bridge",
     label: "Bridge",
-    // A landscape crop of the original (which also drops the watermark): the tower on the right, the main cables
-    // sweeping down across the left behind the name
-    photo: { id: "p16", src: bridge, alt: "A Golden Gate Bridge tower in fog, its main cables sweeping down past it" },
+    // Trimmed from the left edge to drop the watermark
+    photo: { id: "p16", src: bridge, alt: "A Golden Gate Bridge tower in fog, the deck crossing a green hill" },
     // On a portrait phone screen, keep the tower in frame
-    position: "object-[72%_50%]",
+    position: "object-[56%_50%]",
     brightness: "brightness-[0.62]",
+    print: true,
   },
 ] as const;
 

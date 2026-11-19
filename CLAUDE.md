@@ -9,8 +9,10 @@ Restrained, never sweet or cute, and it must never distract from the content.
 - The atmosphere is Rohan's photography, not CSS effects. The hero is his towers photo (the sliver of sunset
   light between two buildings), full-bleed, slightly darkened, fading into the page at the bottom.
 - A small text switch at the hero's top right ("City / Mist / Bridge", `SceneSwitch.tsx`) swaps the photo:
-  mist (p18, framed on the mossy valley floor, not the clouded peak) or bridge (p16, the top of a Golden Gate
-  tower, watermark cropped off). Each scene brings its own palette sampled from its photo
+  mist (p18) or bridge (p16, watermark trimmed off the left edge). Those two are clean, small digital files that
+  look soft stretched across a wide screen, so from `lg` up they stand as an uncropped square-cornered print to the
+  right of the name (bottom on the tagline, never enlarged past real size) on the scene's dark base; on phones
+  they stay full-bleed, where a portrait photo is barely enlarged. Only City (grainy film) is full-bleed everywhere. Each scene brings its own palette sampled from its photo
   (`:root[data-scene="…"]` in `globals.css`); the choice is saved per device and restored before first paint.
   Towers is the default, and the one the OG image uses.
 - Lavender and sunset come from the photos: the palette is sampled from them, not invented.
@@ -19,7 +21,7 @@ Restrained, never sweet or cute, and it must never distract from the content.
   tissue map. Don't bring them back.
 
 ## Layers
-1. **Atmosphere.** The hero photo only. No background effects elsewhere except a faint film grain
+1. **Atmosphere.** The hero photo only (or the hero print, for the mist and bridge scenes on wide screens). No background effects elsewhere except a faint film grain
    (`body::after`, 6% overlay) that matches the grain in the photos.
 2. **Structure.** Small wide uppercase section labels (`--color-fg-subtle`) in a left column, and thin
    lavender-tinted rules (`--color-rule`). Every section uses the same two columns (`Section.tsx`,
