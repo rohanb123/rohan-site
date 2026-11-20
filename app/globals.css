@@ -13,7 +13,7 @@
   --fg-muted: #aaa0a8;
   --fg-subtle: #8b8090; /* 5.2:1 on --bg, the dimmest allowed text */
 
-  /* The one accent: lavender, from the sand and sky in Rohan's photos. Links, hover, focus. */
+  /* The one accent: lavender, from the sand and sky in Rohan's photos. Rules, focus, selection, hover marks; never letters. */
   --accent: #b9a7e6;
 
   /* The paint in the last name (LiquidName), sampled from the sliver of sunset light in the towers photo:
@@ -111,19 +111,17 @@ body::after {
   font-variation-settings: "wdth" 125;
 }
 
-/* Text links: lavender with a faint underline that firms up on hover */
+/* Text links: off-white like the text around them, marked by a faint underline that firms up on hover.
+   No lavender on letters (Rohan's call); lavender stays in the rules, focus ring and selection. */
 .text-link {
-  color: var(--accent);
+  color: var(--fg);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
-  text-decoration-color: color-mix(in oklab, var(--accent) 40%, transparent);
-  transition:
-    text-decoration-color 150ms,
-    color 150ms;
+  text-decoration-color: color-mix(in oklab, var(--fg) 35%, transparent);
+  transition: text-decoration-color 150ms;
 }
 .text-link:hover {
-  color: var(--fg);
   text-decoration-color: currentColor;
 }
 

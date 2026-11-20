@@ -64,7 +64,7 @@ export default function MobileMenu() {
                 <a
                   href={`#${s.id}`}
                   onClick={() => setOpen(false)}
-                  className="block py-3.5 font-display text-lg tracking-[-0.01em] text-fg transition-colors duration-150 active:text-accent"
+                  className="block py-3.5 font-display text-lg tracking-[-0.01em] text-fg underline decoration-transparent decoration-1 underline-offset-[0.2em] transition-[text-decoration-color] duration-150 active:decoration-current"
                 >
                   {s.title}
                 </a>
