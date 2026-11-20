@@ -16,11 +16,15 @@
   /* The one accent: lavender, from the sand and sky in Rohan's photos. Links, hover, focus. */
   --accent: #b9a7e6;
 
-  /* The name gradient, sampled from the towers photo: the glow at the edge of the light, the rose
-     windows, then lavender. Used on the last name in the hero only. Every stop is >= 9:1 on --bg. */
-  --name-1: #f3c2a2;
-  --name-2: #dca6b6;
-  --name-3: #b9a7e6;
+  /* The paint in the last name (LiquidName), sampled from the sliver of sunset light in the towers photo:
+     ember, rust, orange, glow, gold and the white-hot core. One color family, like each stream in Rohan's
+     Liquify edits. Used in the last name only; never UI color. The darkest is 3.55:1 on --bg (large text: 3:1). */
+  --paint-ember: #b4452c;
+  --paint-rust: #d0582f;
+  --paint-orange: #e8743a;
+  --paint-glow: #f39a52;
+  --paint-gold: #ffc77e;
+  --paint-core: #fff1d6;
 
   /* Structure: thin rules, tinted lavender rather than gray */
   --rule: color-mix(in oklab, var(--accent) 18%, transparent);
@@ -123,25 +127,17 @@ body::after {
   text-decoration-color: currentColor;
 }
 
-/* The last name: the one gradient on the site (Rohan asked for it), colors from the towers photo.
-   A band of peach light (like the glow at the edge of the gap) sits on a lavender/rose gradient 2.5x the word's
-   width. At rest the light sits on the left; HeroLight moves it under the pointer (inline background-position). */
+/* The last name before its paint is drawn (and without JS): a plain gradient in the paint's tones.
+   Once LiquidName has drawn the paint over it, the word stays in place but turns transparent (.name-painted). */
 .name-gradient {
-  color: var(--name-3);
-  background: linear-gradient(
-    100deg,
-    var(--name-3) 0%,
-    var(--name-2) 30%,
-    var(--name-1) 50%,
-    var(--name-2) 70%,
-    var(--name-3) 92%
-  );
-  background-size: 250% 100%;
-  background-position: 83% 0;
+  color: var(--paint-orange);
+  background: linear-gradient(100deg, var(--paint-orange) 0%, var(--paint-glow) 45%, var(--paint-gold) 70%, var(--paint-orange) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  transition: background-position 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.name-painted {
+  background: none;
 }
 
 /* Load: the photo opens outward from the strip of light between the towers, then the name settles in.

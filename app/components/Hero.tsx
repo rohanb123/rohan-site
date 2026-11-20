@@ -1,16 +1,19 @@
 import Image from "next/image";
+import meltedTowers from "../../assets/photography/port1-5-melt.jpg";
 import { showcase } from "../content/photography";
 import { contact } from "../content/resume";
 import { site } from "../content/site";
 import Copy from "./Copy";
 import CopyEmail from "./CopyEmail";
-import HeroLight from "./HeroLight";
+import LiquidName from "./LiquidName";
 import LocalTime from "./LocalTime";
 import SocialIcon from "./SocialIcon";
 
 /**
  * Full-bleed hero on Rohan's towers photo: the sliver of sunset light falls toward the name. The photo runs
  * to the top edge under the see-through bar and fades into the page at the bottom (.hero-shade).
+ * The photo is the Liquify-melted copy of the towers (scripts/bake-melt.py): its lower part runs down into the
+ * page in streaks, and the sliver of light drips past the ledge. The last name is painted with liquid (LiquidName).
  * On load the photo opens out from the strip of light (.hero-open) and the name settles in (.hero-settle).
  */
 export default function Hero() {
@@ -21,8 +24,8 @@ export default function Hero() {
   return (
     <section id="top" className="relative isolate flex min-h-svh items-end pt-bar pb-[clamp(2.5rem,6vh,4rem)]">
       <Image
-        src={towers.src}
-        alt={towers.alt}
+        src={meltedTowers}
+        alt={`${towers.alt}, the lower half melting down in streaks`}
         fill
         priority
         placeholder="blur"
@@ -30,7 +33,6 @@ export default function Hero() {
         className="hero-open -z-20 object-cover object-[42%_20%] brightness-[0.74]"
       />
       <div aria-hidden="true" className="hero-shade absolute inset-0 -z-10" />
-      <HeroLight targetId="top" />
 
       <div className="mx-auto w-full max-w-wide px-gutter">
         {/* Where Rohan is and what time it is there: small, in the same voice as the section labels */}
@@ -41,7 +43,7 @@ export default function Hero() {
         <h1 className="hero-settle font-display text-[clamp(2.25rem,6.5vw,5.5rem)] leading-[0.92] font-light tracking-[-0.03em] uppercase">
           Rohan
           <br />
-          <span className="name-gradient">Bharti</span>
+          <LiquidName text="Bharti" />
         </h1>
 
         {/* The tagline gets its own full-width line, sized to be read right after the name.

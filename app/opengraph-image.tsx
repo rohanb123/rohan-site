@@ -11,12 +11,12 @@ export const contentType = "image/png";
 const C = {
   bg: "#0e0c11", // --bg
   fg: "#ece4e3", // --fg
-  name: ["#f3c2a2", "#dca6b6", "#b9a7e6"], // --name-1 … --name-3
+  paint: ["#e8743a", "#f39a52", "#ffc77e"], // --paint-orange, --paint-glow, --paint-gold (the hero's fallback gradient)
 };
 
 // Archivo at width 125, weight 300: the hero's display setting as a static instance (Satori has no variable axes).
 const display = await readFile(join(process.cwd(), "assets/fonts/Archivo-Expanded-Light.ttf"));
-const towers = await readFile(join(process.cwd(), "assets/photography/port1-5.jpg"));
+const towers = await readFile(join(process.cwd(), "assets/photography/port1-5-melt.jpg"));
 const towersSrc = `data:image/jpeg;base64,${towers.toString("base64")}`;
 
 export default async function Image() {
@@ -46,7 +46,7 @@ export default async function Image() {
               fontSize: 120,
               lineHeight: 0.92,
               letterSpacing: -4,
-              backgroundImage: `linear-gradient(100deg, ${C.name[0]} 5%, ${C.name[1]} 45%, ${C.name[2]} 85%)`,
+              backgroundImage: `linear-gradient(100deg, ${C.paint[0]} 5%, ${C.paint[1]} 45%, ${C.paint[2]} 75%, ${C.paint[0]} 100%)`,
               backgroundClip: "text",
               color: "transparent",
               alignSelf: "flex-start",
