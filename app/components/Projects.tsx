@@ -15,7 +15,7 @@ export default function Projects() {
             className="group border-t border-rule py-7 first:border-t-0 first:pt-0 md:odd:border-r md:odd:pr-8 md:even:pl-8 md:nth-[-n+2]:border-t-0 md:nth-[-n+2]:pt-0"
           >
             <div className="mb-1.5 flex items-baseline justify-between gap-4">
-              <h3 className="font-display text-xl leading-tight tracking-[-0.02em] underline decoration-transparent decoration-1 underline-offset-[0.2em] transition-[text-decoration-color] duration-150 group-hover:decoration-current">
+              <h3 className="font-display text-xl leading-tight tracking-[-0.02em] transition-colors duration-150 group-hover:text-link">
                 {p.name}
               </h3>
               <span className="text-[0.9375rem] text-fg-subtle tabular-nums">{p.year}</span>

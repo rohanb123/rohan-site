@@ -32,12 +32,12 @@ Restrained, never sweet or cute, and it must never distract from the content.
 - Text is warm off-white `#ECE4E3`, never pure `#fff`.
 - All text must meet WCAG AA: 4.5:1 for small text. `--color-fg-subtle` is the dimmest allowed text color (5.2:1).
 - One accent: lavender `--color-accent` (#B9A7E6) for the rules, focus ring, selection and hover marks (header
-  underline). Never on letters: lavender link text was removed at Rohan's request, so links are `--color-fg` with
-  a faint underline that firms up on hover. No secondary accent; the orange accent was removed at Rohan's request.
+  underline). Never on letters (removed at Rohan's request). Link text is `--color-link`, the name's
+  `--paint-orange` (6.5:1), so links match the painted last name; faint orange underline, firm on hover.
   Years and dates stay `--color-fg-subtle`.
 - The paint (`--paint-ember` … `--paint-core`: ember, rust, orange, glow, gold, white-hot core, sampled from the
   sliver of light in the towers photo) fills the last name only, in the hero (`LiquidName`) and the OG image. One
-  color family, like each stream in Rohan's edits. Orange lives inside the name and nowhere else. Every paint tone is >= 3:1 on `--bg` (the name is large text). `.name-gradient` is the plain
+  color family, like each stream in Rohan's edits. Orange lives in the name and the link text only. Every paint tone is >= 3:1 on `--bg` (the name is large text). `.name-gradient` is the plain
   gradient fallback in the same tones, shown before the paint is drawn and without JS.
 - Teal and cyan appear only inside Rohan's photographs, never as UI color. No neon, no glow.
 - Each color is a one-line edit in `app/globals.css`. Derive tints with `color-mix()`; never introduce an undefined hue.

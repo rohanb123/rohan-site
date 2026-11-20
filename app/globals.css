@@ -13,18 +13,21 @@
   --fg-muted: #aaa0a8;
   --fg-subtle: #8b8090; /* 5.2:1 on --bg, the dimmest allowed text */
 
-  /* The one accent: lavender, from the sand and sky in Rohan's photos. Rules, focus, selection, hover marks; never letters. */
+  /* The one accent: lavender, from the sand and sky in Rohan's photos. Rules, focus, selection, hover marks; never letters (links use --link). */
   --accent: #b9a7e6;
 
   /* The paint in the last name (LiquidName), sampled from the sliver of sunset light in the towers photo:
      ember, rust, orange, glow, gold and the white-hot core. One color family, like each stream in Rohan's
-     Liquify edits. Used in the last name only; never UI color. The darkest is 3.55:1 on --bg (large text: 3:1). */
+     Liquify edits. Fills the last name; --paint-orange is also the link text (--link). The darkest is 3.55:1 on --bg (large text: 3:1). */
   --paint-ember: #b4452c;
   --paint-rust: #d0582f;
   --paint-orange: #e8743a;
   --paint-glow: #f39a52;
   --paint-gold: #ffc77e;
   --paint-core: #fff1d6;
+
+  /* Link text: the name's main paint tone, so links match the painted last name (Rohan's call). 6.5:1 on --bg. */
+  --link: var(--paint-orange);
 
   /* Structure: thin rules, tinted lavender rather than gray */
   --rule: color-mix(in oklab, var(--accent) 18%, transparent);
@@ -43,6 +46,7 @@
   --color-fg-muted: var(--fg-muted);
   --color-fg-subtle: var(--fg-subtle);
   --color-accent: var(--accent);
+  --color-link: var(--link);
   --color-rule: var(--rule);
 
   --font-display: var(--font-display-face);
@@ -111,14 +115,13 @@ body::after {
   font-variation-settings: "wdth" 125;
 }
 
-/* Text links: off-white like the text around them, marked by a faint underline that firms up on hover.
-   No lavender on letters (Rohan's call); lavender stays in the rules, focus ring and selection. */
+/* Text links: the name's orange (--link), with a faint underline that firms up on hover */
 .text-link {
-  color: var(--fg);
+  color: var(--link);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
-  text-decoration-color: color-mix(in oklab, var(--fg) 35%, transparent);
+  text-decoration-color: color-mix(in oklab, var(--link) 40%, transparent);
   transition: text-decoration-color 150ms;
 }
 .text-link:hover {
