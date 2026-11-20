@@ -115,6 +115,7 @@ export const projects: Project[] = [
       "Delay-tolerant downlink: a persistent store-and-forward queue that drains its backlog on reconnect with no data loss.",
       "5 Hz telemetry pipeline (IMU, sonar, link health) with a sub-500 ms live dashboard and run replay.",
     ],
+    url: "https://github.com/rohanb123/autonomous-rover",
   },
   {
     id: "galaxy",
@@ -148,6 +149,7 @@ export const projects: Project[] = [
     points: [
       "Cut search noise with pgvector HNSW indexing and Zero Entropy ranking, plus Claude paper-to-project matching.",
     ],
+    url: "https://github.com/rohanb123/glab",
   },
   {
     id: "clearpath",
@@ -164,6 +166,7 @@ export const projects: Project[] = [
     summary:
       "A supply chain compliance platform: Trade.gov sanctions screening with parallel RAG and LLM checks.",
     points: [],
+    url: "https://github.com/rohanb123/clearpath",
   },
 ];
 
